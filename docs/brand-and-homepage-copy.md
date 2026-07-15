@@ -32,9 +32,9 @@ The blocks below are the exact launch copy.
 
 Wordmark: `Dharmic Data`
 
-Links: `Projects` · `Technical vlog` · `How we work`
+Links: `Home` · `Why us` · `Projects` · `Technical vlog`
 
-Button: `View the source`
+Button: `Try Shakti`
 
 ### First screen
 
@@ -44,11 +44,9 @@ Heading: `Build something useful and show how it works.`
 
 Body:
 
-`Dharmic Data publishes working demos and public data projects. We share the code and dated tests. We also explain what we learned so you can study the work and make your own project to help people.`
+`Dharmic Data is building an open AI ecosystem for social good. We publish working demos, source code, and dated tests so you can make useful technology for your community.`
 
-Primary button: `Try the featured project`
-
-Secondary button: `Watch how we built it`
+Primary button: `Try Shakti`
 
 Proof line: `Working demo · Open source · Dated evidence`
 

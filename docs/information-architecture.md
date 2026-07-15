@@ -7,7 +7,7 @@ The structure starts with the tasks a visitor came to do:
 1. Understand the purpose.
 2. Try a working project.
 3. Check the proof.
-4. learn how it was made.
+4. Learn how it was made.
 5. Build or extend it.
 
 ## Launch sitemap
@@ -44,12 +44,15 @@ The home page and vlog are the only primary sections at launch. The demo and Git
 
 The header uses these labels:
 
-1. `Projects` scrolls to the featured project.
-2. `Technical vlog` opens `/vlog/`.
-3. `How we work` scrolls to the publishing standard.
-4. `View the source` opens the Dharmic Data repository.
+1. `Home` opens `/`.
+2. `Why us` scrolls to the mission.
+3. `Projects` scrolls to the Shakti proof.
+4. `Technical vlog` opens `/vlog/`.
+5. `Try Shakti` opens the working public demo.
 
-The footer repeats `Projects`, `Technical vlog`, `GitHub`, and `About the name`. Every vlog entry links back to the home page, the vlog index, and the project it covers.
+The footer links to the Shakti source and the technical vlog. Every vlog entry links back to the home page, the vlog index, and the project it covers.
+
+Paid office hours are the only current paid path. The site shows that link only when a calendar URL is configured. Repository editions are a possible next product and are not for sale.
 
 ## Content model
 

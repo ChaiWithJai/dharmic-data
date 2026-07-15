@@ -1,0 +1,88 @@
+:root {
+  --dharmic-cream: #f4efe5;
+  --dharmic-ink: #151515;
+  --dharmic-yellow: #f2d55c;
+  --dharmic-coral: #e66b52;
+  --dharmic-green: #2f7b66;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--dharmic-cream); }
+.dharmic-skip { position: fixed; top: .5rem; left: .5rem; z-index: 99999; transform: translateY(-180%); padding: .8rem 1rem; background: #fff; color: #000; }
+.dharmic-skip:focus { transform: translateY(0); }
+.sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+:focus-visible { outline: 3px solid #1d4ed8 !important; outline-offset: 4px; }
+.navbar-brand { min-width: 10rem; }
+.nav-logo { width: 10rem !important; height: 3.1rem !important; object-fit: contain; object-position: left center; }
+.dropdown-menu, .menu-items.mob, .cart-wrapper, .cart-button { display: none !important; }
+.section.home-hero { background: var(--dharmic-cream); }
+.home-rive { background: url('/dharmic-assets/shakti-seva-mark.svg') center bottom 5rem / min(40vw, 30rem) auto no-repeat; }
+.home-rive canvas { display: none; }
+.hero-contents.home { position: relative; z-index: 2; }
+.hero-contents.home .hero-para { color: #4b403c !important; }
+.dharmic-primary-heading { display: contents; }
+.section.about { background: var(--dharmic-ink); }
+body [data-w-id] { opacity: 1 !important; }
+.section.ideas { margin-inline: 1rem; border-radius: 4.375rem; background: var(--dharmic-ink); color: white; }
+.section.ideas .solutions-text, .section.ideas .solution-para { color: white; }
+.section.ideas .solutions-text.ideas { color: var(--dharmic-ink) !important; }
+.section.ideas .idea-rive { background: url('/dharmic-assets/shakti-seva-mark.svg') center / min(36vw, 28rem) auto no-repeat; filter: grayscale(1) brightness(4); opacity: .28; }
+.section.ideas .idea-rive canvas { display: none; }
+.section.home-blog { margin-inline: 1rem; border-radius: 4.375rem; background: var(--dharmic-ink); }
+.section.home-blog .solutions-text, .section.home-blog .solution-para, .section.home-blog .blog-name { color: white !important; }
+.section.home-blog .solutions-text.dark-text { color: var(--dharmic-ink) !important; }
+.section.home-blog .collection-list-wrapper { display: block; max-width: 73.25rem; }
+.section.home-blog .collection-list.blog { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.section.home-blog .w-dyn-item { display: block !important; min-width: 0; }
+.section.home-blog .blog-item { display: block; min-height: clamp(18rem, 38vw, 31rem); border: 1px solid rgba(255,255,255,.16); background: #202020; }
+.section.home-blog .hover-block { position: absolute; inset: 0; width: 100%; height: 100%; }
+.section.home-blog .hover-block::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.78)); pointer-events: none; }
+.section.home-blog .blog-detail { z-index: 2; inset: auto 0 0 !important; display: block; padding: 4rem 1.5rem 1.5rem; background: linear-gradient(180deg, transparent, rgba(0,0,0,.88)); }
+.blog-image { width: 100%; height: 100%; object-fit: cover; object-position: top center; background: white; }
+.section.home-blog .blog-image:not(.hover) { opacity: 1 !important; transform: none !important; }
+.section.home-blog .blog-image.hover { display: none !important; }
+.section.faq { background: var(--dharmic-cream); }
+.section.blogs { background: var(--dharmic-yellow); }
+.blog-bg { background: var(--dharmic-cream); }
+.footer-bg { background: var(--dharmic-coral); }
+.footer-rive { background: url('/dharmic-assets/shakti-seva-mark.svg') center bottom / min(52vw, 34rem) auto no-repeat; opacity: .45; }
+.footer-rive canvas { display: none; }
+.dharmic-video { display: block; width: 100%; margin-block: 1.5rem 3rem; border-radius: 1.5rem; background: #000; color: #fff; }
+.dharmic-article h2 { margin-top: 3rem; }
+.dharmic-article a { color: #9f3528; text-decoration-thickness: .1em; }
+.dharmic-transcript { margin-block: 3rem; padding: 1.5rem; border: 1px solid rgba(0,0,0,.2); border-radius: 1rem; }
+.dharmic-transcript summary { min-height: 44px; cursor: pointer; font-weight: 700; }
+.dharmic-faq { margin-bottom: .75rem; padding: 1.5rem; border: 1px solid rgba(0,0,0,.2); border-radius: 1rem; background: #fff; }
+.dharmic-faq summary { min-height: 44px; cursor: pointer; font-size: 1.25rem; font-weight: 700; }
+.dharmic-faq p { margin: .75rem 0 0; max-width: 48rem; }
+.dharmic-calendar { display: inline-flex; margin-top: 1rem; }
+.dharmic-artifact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.dharmic-artifact-grid a { min-height: 8rem; display: flex; align-items: flex-end; padding: 1.5rem; border-radius: 1rem; background: white; color: #151515; font-size: 1.25rem; font-weight: 700; text-decoration: none; }
+.dharmic-vlog .section.faq { display: none; }
+.dharmic-vlog .section.blog-hero .hero-para { color: #4b403c !important; }
+.dharmic-vlog .solution-para.blog-2 { color: #fff !important; }
+.dharmic-episode .posted-text { color: #554b47 !important; }
+.footer .cta-para, .footer .copyright-text, .footer .webflow-link { color: #1b1716 !important; }
+.nav-link, .webflow-link, .footer-informations a { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; }
+.w-webflow-badge, .website-banner-wrapper, .cookies { display: none !important; }
+
+@media (max-width: 991px) {
+  .navbar .menu-wrapper[data-nav-menu-open] { padding: .75rem; border-bottom: 1px solid rgba(0,0,0,.12); background: var(--dharmic-cream); }
+  .navbar .menu-wrapper[data-nav-menu-open] .menu-items { display: flex !important; align-items: stretch; padding: .75rem; }
+  .navbar .menu-wrapper[data-nav-menu-open] .nav-link { display: block; min-height: 44px; padding: .85rem 1rem; border-radius: .75rem; background: white; color: var(--dharmic-ink) !important; text-align: left; }
+}
+
+@media (max-width: 767px) {
+  .navbar-brand { min-width: auto; }
+  .nav-logo { width: 8rem !important; }
+  .home-rive { background-size: min(62vw, 19rem); background-position: center bottom 2rem; }
+  .section.ideas, .section.home-blog { margin-inline: .35rem; border-radius: 2.25rem; }
+  .section.home-blog .collection-list.blog { grid-template-columns: 1fr; }
+  .section.home-blog .blog-item { min-height: 22rem; }
+  .dharmic-artifact-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

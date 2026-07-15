@@ -53,7 +53,7 @@ The first release includes:
 4. A reusable page shape for each vlog episode.
 5. A small statement about the name and the publishing standard.
 
-The first release does not include user accounts, a project submission system, a community forum, consulting offers, or claims about public impact that have not been measured.
+The first release does not include user accounts, a project submission system, a community forum, repository sales, or claims about public impact that have not been measured. Paid office hours are the only current paid path.
 
 ## Constraints
 

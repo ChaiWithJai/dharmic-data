@@ -1,84 +1,56 @@
 # Dharmic Data
 
-Dharmic Data publishes working software and engineering stories for social
-good. The site links each public claim to a demo, source file, dated test, or
-known limit.
+Dharmic Data publishes civic technology demos, source code, and test evidence. The goal is to help people study a working project and make something useful for their community.
 
-The first featured project is Shakti Seva Studio. Its hosted building lookup
-uses live New York City data and ordinary code. The separate local edition lets
-researchers study Hermes and local model tool use.
+The first project is [Shakti](https://shakti.dharmicdata.org). Shakti lets a person enter a New York City building address and inspect public housing records. The public result uses ordinary code and City data. It does not use AI.
 
-## Run the site
+## What is in this repo
 
-You need Node.js 24 or newer.
+The site has four routes:
 
-```bash
-npm ci
+- `/` explains the project and links to the working demo.
+- `/vlog` lists the technical build stories.
+- `/vlog/how-we-built-shakti` includes a one minute video, captions, a transcript, and source links.
+- `/404` returns people to the working demo.
+
+The site is static. Netlify can host it without a Python server, a model server, or API keys.
+
+## Try it
+
+1. Open [Shakti](https://shakti.dharmicdata.org).
+2. Search one New York City building address.
+3. Check the City building name, the BIN, and the source dates.
+4. Open the [Shakti source](https://github.com/ChaiWithJai/shakti-seva-studio) and find the source list.
+
+## Run this site
+
+```sh
+npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:4321`.
+Open `http://localhost:4321`.
 
-## Content structure
+## Check a release
 
-The launch site has one home page and a technical vlog.
-
-```text
-/
-/vlog/
-/vlog/{slug}/
-```
-
-Vlog entries live in `src/data/vlog.mjs`. Every entry includes questions,
-artifacts, a task to try, observed results, limits, the next experiment, and
-corrections.
-
-## Verify a release
-
-The release gate has three layers.
-
-### Acceptance and browser tests
-
-```bash
+```sh
 npm run build
-npm run test:acceptance
+npm run preview -- --port 4325
+npm run verify:dharmic
 ```
 
-This checks the home page and vlog at 390, 1024, and 1440 pixels. It also checks
-reduced motion, accessible link names, target sizes, overflow, and browser
-errors.
+The check opens the built site at mobile and desktop widths. It also fails if old template sales pages, carts, social links, or placeholder values return.
 
-### Integration tests
+## Where AI fits
 
-```bash
-npm run build
-npm run test:integration
-```
+The public Shakti path does not use AI. The Shakti repo has an optional local research path for Hermes. That path can explain a treated data packet and record tool calls. A model cannot change the public source record or choose the public next step.
 
-This checks the public route tree, internal links, canonical metadata, Netlify
-headers, and removal of the old A+ site.
+## Paid work
 
-### Unit data tests
+Paid office hours are the only current paid path. The site shows a booking link only when `PUBLIC_CALENDAR_URL` is set.
 
-```bash
-npm run test:unit
-```
+Repository editions are not for sale. A supported repository edition is a possible next product. We will add it only after there is a clear license, support policy, checkout, and delivery process.
 
-This checks every vlog entry and its artifacts, results, limits, and correction
-record.
+## Public status
 
-## Deploy
-
-Netlify runs `npm run build` and publishes `dist`. The production site is
-[dharmicdata.org](https://dharmicdata.org).
-
-The site is static. It has no account, form, database, analytics script, or
-model call.
-
-## Contribute
-
-Start with one bounded change. Link every factual claim to its source or mark
-it as a plan. Run all three test layers before opening a pull request.
-
-Dharmic Data is independent. It does not represent a public agency or a faith
-community.
+Dharmic Data is an independent project. It is not a New York City service. The Shakti result links to the City sources that support it.
