@@ -16,8 +16,6 @@ body { background: var(--dharmic-cream); }
 .nav-logo { width: 10rem !important; height: 3.1rem !important; object-fit: contain; object-position: left center; }
 .dropdown-menu, .menu-items.mob, .cart-wrapper, .cart-button { display: none !important; }
 .section.home-hero { background: var(--dharmic-cream); }
-.home-rive { background: url('/dharmic-assets/shakti-seva-mark.svg') center bottom 5rem / min(40vw, 30rem) auto no-repeat; }
-.home-rive canvas { display: none; }
 .hero-contents.home { position: relative; z-index: 2; }
 .hero-contents.home .hero-para { color: #4b403c !important; }
 .dharmic-primary-heading { display: contents; }
@@ -26,8 +24,6 @@ body [data-w-id] { opacity: 1 !important; }
 .section.ideas { margin-inline: 1rem; border-radius: 4.375rem; background: var(--dharmic-ink); color: white; }
 .section.ideas .solutions-text, .section.ideas .solution-para { color: white; }
 .section.ideas .solutions-text.ideas { color: var(--dharmic-ink) !important; }
-.section.ideas .idea-rive { background: url('/dharmic-assets/shakti-seva-mark.svg') center / min(36vw, 28rem) auto no-repeat; filter: grayscale(1) brightness(4); opacity: .28; }
-.section.ideas .idea-rive canvas { display: none; }
 .section.home-blog { margin-inline: 1rem; border-radius: 4.375rem; background: var(--dharmic-ink); }
 .section.home-blog .solutions-text, .section.home-blog .solution-para, .section.home-blog .blog-name { color: white !important; }
 .section.home-blog .solutions-text.dark-text { color: var(--dharmic-ink) !important; }
@@ -45,8 +41,6 @@ body [data-w-id] { opacity: 1 !important; }
 .section.blogs { background: var(--dharmic-yellow); }
 .blog-bg { background: var(--dharmic-cream); }
 .footer-bg { background: var(--dharmic-coral); }
-.footer-rive { background: url('/dharmic-assets/shakti-seva-mark.svg') center bottom / min(52vw, 34rem) auto no-repeat; opacity: .45; }
-.footer-rive canvas { display: none; }
 .dharmic-video { display: block; width: 100%; margin-block: 1.5rem 3rem; border-radius: 1.5rem; background: #000; color: #fff; }
 .dharmic-article h2 { margin-top: 3rem; }
 .dharmic-article a { color: #9f3528; text-decoration-thickness: .1em; }
@@ -75,7 +69,6 @@ body [data-w-id] { opacity: 1 !important; }
 @media (max-width: 767px) {
   .navbar-brand { min-width: auto; }
   .nav-logo { width: 8rem !important; }
-  .home-rive { background-size: min(62vw, 19rem); background-position: center bottom 2rem; }
   .section.ideas, .section.home-blog { margin-inline: .35rem; border-radius: 2.25rem; }
   .section.home-blog .collection-list.blog { grid-template-columns: 1fr; }
   .section.home-blog .blog-item { min-height: 22rem; }

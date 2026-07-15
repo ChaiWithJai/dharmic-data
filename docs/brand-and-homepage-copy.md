@@ -2,7 +2,7 @@
 
 ## Brand idea
 
-Dharmic Data makes and documents software that serves people. We publish working projects and the evidence behind them. We also share what we learned so other people can make useful public technology.
+Dharmic Data is Jai Bhagat's AI guidance practice and public lab. Jai helps people choose a useful AI project, test it against their work, and decide what is worth building next. The public lab includes working projects and the evidence behind them.
 
 The name refers to service and responsibility. It does not claim authority over a faith or culture.
 
@@ -26,7 +26,7 @@ For a plan, use `planned` and name the next test. Do not present planned work as
 
 ## Homepage copy
 
-The blocks below are the exact launch copy.
+The blocks below are the current homepage copy for a new visitor arriving from social media.
 
 ### Header
 
@@ -38,17 +38,29 @@ Button: `Try Shakti`
 
 ### First screen
 
-Eyebrow: `Technology in service of people`
+Eyebrow: `AI guidance for useful projects`
 
-Heading: `Build something useful and show how it works.`
+Heading: `Find the AI project worth building.`
 
 Body:
 
-`Dharmic Data is building an open AI ecosystem for social good. We publish working demos, source code, and dated tests so you can make useful technology for your community.`
+`Hi, I'm Jai. I help you turn a messy workflow, folder, or idea into a small AI test you can actually run. I specialize in local AI, Codex, Claude Code, and use case development.`
 
-Primary button: `Try Shakti`
+Primary button: `Book AI guidance`
 
-Proof line: `Working demo · Open source · Dated evidence`
+Proof line: `Clear use case · 30 day test plan · Data boundaries`
+
+### Guidance offer
+
+Heading: `Make your AI plan useful and testable.`
+
+Body:
+
+`You leave with a clear use case, a tool and subscription choice, data boundaries, and a small test you can run over the next 30 days.`
+
+Steps: `Start with your workflow` · `Choose local or cloud` · `Set data boundaries` · `Build one small test` · `Trace model and tools` · `Leave with next steps`
+
+Primary button: `Book AI guidance · $125`
 
 ### Featured project
 
@@ -158,13 +170,13 @@ Body:
 
 ### Final invitation
 
-Heading: `Make the next useful project.`
+Heading: `Choose your next useful AI project.`
 
 Body:
 
-`Try the demo or open the repository. You can also follow the technical vlog. If the work helps you build a civic technology project or help someone in your community, tell us what you learned.`
+`Book a 60 minute working session and leave with a clear project, a 30 day test plan, a subscription recommendation, and clear data boundaries.`
 
-Primary button: `Try Shakti`
+Primary button: `Book AI guidance`
 
 Secondary button: `Open GitHub`
 
@@ -172,7 +184,7 @@ Text link: `Watch the technical vlog`
 
 ### Footer
 
-Statement: `Dharmic Data publishes working software and engineering stories for social good.`
+Statement: `Dharmic Data offers AI guidance and publishes working software with evidence you can inspect.`
 
 Links: `Projects` · `Technical vlog` · `GitHub` · `About the name`
 

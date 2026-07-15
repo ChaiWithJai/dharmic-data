@@ -77,6 +77,16 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   if (!title.includes(heading)) failures.push(`${path}: missing heading ${heading}`);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   if (overflow) failures.push(`${path}: horizontal overflow at ${width}px`);
+  if (path === '/' && width === 1440) {
+    const riveState = await page.locator('.home-rive, .idea-rive, .footer-rive.desk').evaluateAll((nodes) => nodes.map((node) => ({
+      url: node.getAttribute('data-rive-url'),
+      type: node.getAttribute('data-animation-type'),
+      canvasDisplay: getComputedStyle(node.querySelector('canvas')).display,
+    })));
+    if (riveState.length !== 3 || riveState.some((item) => !item.url || item.type !== 'rive' || item.canvasDisplay === 'none')) {
+      failures.push(`${path}: original Rive animations are not configured and visible: ${JSON.stringify(riveState)}`);
+    }
+  }
   if (path === '/' && width === 390) {
     const menu = page.getByRole('button', { name: /menu/i });
     await menu.click();
@@ -107,8 +117,8 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   await context.close();
 }
 
-await verify('/', 'Build Something Useful And Show How It Works', 1440, 1000, 'home-desktop.png');
-await verify('/', 'Build Something Useful And Show How It Works', 390, 844, 'home-mobile.png', 'reduce');
+await verify('/', 'Find The AI Project Worth Building', 1440, 1000, 'home-desktop.png');
+await verify('/', 'Find The AI Project Worth Building', 390, 844, 'home-mobile.png', 'reduce');
 await verify('/vlog', 'Build Stories', 1440, 1000, 'vlog-desktop.png');
 await verify('/vlog/how-we-built-shakti', 'How we built Shakti', 390, 844, 'episode-mobile.png');
 

@@ -1,6 +1,6 @@
 # Dharmic Data
 
-Dharmic Data publishes civic technology demos, source code, and test evidence. The goal is to help people study a working project and make something useful for their community.
+Dharmic Data is Jai Bhagat's AI guidance practice and public lab. Jai helps people choose a useful AI project, test it against their work, and decide what is worth building next. The lab publishes working projects and evidence that other people can inspect.
 
 The first project is [Shakti](https://shakti.dharmicdata.org). Shakti lets a person enter a New York City building address and inspect public housing records. The public result uses ordinary code and City data. It does not use AI.
 
@@ -45,9 +45,13 @@ The check opens the built site at mobile and desktop widths. It also fails if ol
 
 The public Shakti path does not use AI. The Shakti repo has an optional local research path for Hermes. That path can explain a treated data packet and record tool calls. A model cannot change the public source record or choose the public next step.
 
-## Paid work
+## Work with Jai
 
-Paid office hours are the only current paid path. The site shows a booking link only when `PUBLIC_CALENDAR_URL` is set.
+The [AI Guidance Counselor session](https://cal.com/chaiwithjai/ai-guidance-counselor) is 60 minutes and costs $125. Bring one workflow, folder, repository, or decision. You leave with a clear project, a 30 day test plan, a subscription recommendation, and clear data boundaries.
+
+The [Codex and Claude Code Personal Training session](https://cal.com/chaiwithjai/codex-claude-code-training) is 45 minutes and costs $85. You need an active paid ChatGPT or Claude subscription by the time of the session.
+
+The homepage uses the guidance session as its default booking link. Set `PUBLIC_CALENDAR_URL` if you need to point a preview or deployment at a different event.
 
 Repository editions are not for sale. A supported repository edition is a possible next product. We will add it only after there is a clear license, support policy, checkout, and delivery process.
 
