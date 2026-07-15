@@ -32,4 +32,6 @@ test('unit: the featured story keeps public code and local AI separate', () => {
   assert.match(text, /local path/);
   assert.match(text, /150 fixed records/);
   assert.equal(shakti.media.src, '/media/shakti-engineering-talk-preview.mp4');
+  assert.equal(shakti.media.captions, '/media/shakti-engineering-talk-captions.vtt');
+  assert.ok(shakti.media.transcript.length >= 5);
 });

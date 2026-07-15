@@ -38,6 +38,9 @@ test('integration: built pages keep truthful links and canonical metadata', () =
   assert.match(episode, /What this did not prove/);
   assert.match(episode, /Artifacts from this episode/);
   assert.match(episode, /shakti-engineering-talk-preview\.mp4/);
+  assert.match(episode, /kind="captions"/);
+  assert.match(episode, /shakti-engineering-talk-captions\.vtt/);
+  assert.match(episode, /Read the one-minute transcript/);
   assert.doesNotMatch(`${home}${episode}`, /A\+ Active|Join for \$197|REPLACE_/i);
 });
 

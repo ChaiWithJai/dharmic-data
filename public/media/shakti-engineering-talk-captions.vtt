@@ -1,0 +1,43 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+We engineered Shakti Seva Studio to answer a narrow civic technology question.
+
+00:00:05.000 --> 00:00:11.000
+Can a community advocate use local AI to explain public housing repair records without losing the evidence?
+
+00:00:11.000 --> 00:00:13.000
+A polished answer was not enough.
+
+00:00:13.000 --> 00:00:18.000
+We wanted a person to run one case on a laptop and inspect every step.
+
+00:00:18.000 --> 00:00:21.000
+The current prototype starts with a New York City building address.
+
+00:00:21.000 --> 00:00:24.000
+It keeps complaints and violations separate.
+
+00:00:24.000 --> 00:00:27.000
+It removes apartment information before a building search.
+
+00:00:27.000 --> 00:00:31.000
+It shows where each fact came from and which action the code selected.
+
+00:00:31.000 --> 00:00:38.000
+This talk explains the application layer, the AI layer, the proof, and what remains unknown.
+
+00:00:38.000 --> 00:00:42.000
+The application is a local Python service with three interfaces.
+
+00:00:42.000 --> 00:00:48.000
+A command line tool, a browser, and the Hermes terminal interface all use the same case record.
+
+00:00:48.000 --> 00:00:52.000
+FastAPI serves the browser on the loopback address.
+
+00:00:52.000 --> 00:00:58.000
+A same-origin WebSocket carries typed progress, case, trace, and error messages.
+
+00:00:58.000 --> 00:01:00.000
+The case service…

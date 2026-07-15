@@ -11,8 +11,18 @@ export const vlogEntries = [
     media: {
       src: '/media/shakti-engineering-talk-preview.mp4',
       poster: '/media/shakti-engineering-talk-poster.jpg',
+      captions: '/media/shakti-engineering-talk-captions.vtt',
       duration: '1 minute',
       description: 'The preview shows the five borough evaluation map, terminal traces, the Shakti result, the GitHub repository, and the application architecture.',
+      transcript: [
+        'We engineered Shakti Seva Studio to answer a narrow civic technology question.',
+        'Can a community advocate use local AI to explain public housing repair records without losing the evidence?',
+        'A polished answer was not enough. We wanted a person to run one case on a laptop and inspect every step.',
+        'The current prototype starts with a New York City building address. It keeps complaints and violations separate. It removes apartment information before a building search. It shows where each fact came from and which action the code selected.',
+        'This talk explains the application layer, the AI layer, the proof, and what remains unknown.',
+        'The application is a local Python service with three interfaces. A command line tool, a browser, and the Hermes terminal interface all use the same case record.',
+        'FastAPI serves the browser on the loopback address. A same-origin WebSocket carries typed progress, case, trace, and error messages. The case service…',
+      ],
     },
     questions: [
       'How can one building have two valid street addresses?',

@@ -25,9 +25,14 @@ const { entry } = Astro.props;
       {entry.media && <div class="episode-media">
         <video controls playsinline preload="metadata" poster={entry.media.poster} aria-describedby="media-description">
           <source src={entry.media.src} type="video/mp4" />
+          <track kind="captions" src={entry.media.captions} srclang="en" label="English" default />
           Your browser cannot play this video. Read the written episode below.
         </video>
         <p id="media-description"><strong>{entry.media.duration}.</strong> {entry.media.description}</p>
+        <details class="media-transcript">
+          <summary>Read the one-minute transcript</summary>
+          <div>{entry.media.transcript.map((paragraph) => <p>{paragraph}</p>)}</div>
+        </details>
       </div>}
     </section>
     <section class="episode-checklist" aria-labelledby="questions-title">
