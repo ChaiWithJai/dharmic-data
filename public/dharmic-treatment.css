@@ -61,6 +61,7 @@ body [data-w-id] { opacity: 1 !important; }
 .w-webflow-badge, .website-banner-wrapper, .cookies { display: none !important; }
 
 @media (max-width: 991px) {
+  .home-hero .hero-star, .home-hero .hero-icon { display: none !important; }
   .navbar .menu-wrapper[data-nav-menu-open] { padding: .75rem; border-bottom: 1px solid rgba(0,0,0,.12); background: var(--dharmic-cream); }
   .navbar .menu-wrapper[data-nav-menu-open] .menu-items { display: flex !important; align-items: stretch; padding: .75rem; }
   .navbar .menu-wrapper[data-nav-menu-open] .nav-link { display: block; min-height: 44px; padding: .85rem 1rem; border-radius: .75rem; background: white; color: var(--dharmic-ink) !important; text-align: left; }
