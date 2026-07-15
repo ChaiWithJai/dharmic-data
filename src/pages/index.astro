@@ -1,0 +1,146 @@
+---
+import DharmicLayout from '../layouts/DharmicLayout.astro';
+import { vlogEntries } from '../data/vlog.mjs';
+const latest = vlogEntries[0];
+---
+<DharmicLayout
+  title="Dharmic Data | Technology for social good"
+  description="Working civic technology, open build notes, and practical lessons for people who want to help their communities."
+>
+  <section class="hero section-shell" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow"><span></span> Technology in service of people</p>
+      <h1 id="hero-title">Build something useful and <em>show how it works.</em></h1>
+      <p class="hero-lede">Dharmic Data is building an open AI ecosystem for social good. We publish working demos and public data projects. We share the code and dated tests so you can study the work and make your own project to help people.</p>
+      <div class="button-row">
+        <a class="button button-primary" href="https://shakti.dharmicdata.org">Try the first project <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="/vlog/building-shakti-with-public-data">Read how we built it</a>
+      </div>
+      <p class="proof-line"><span>Working demo</span><span>Open source</span><span>Dated evidence</span></p>
+    </div>
+    <div class="hero-system" aria-label="A diagram connecting public data, working software, and community use">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <div class="system-core"><span>Public<br />good</span></div>
+      <div class="system-node node-data"><b>01</b><span>Public data</span></div>
+      <div class="system-node node-code"><b>02</b><span>Open code</span></div>
+      <div class="system-node node-story"><b>03</b><span>Build notes</span></div>
+      <div class="system-node node-people"><b>04</b><span>Community use</span></div>
+    </div>
+  </section>
+
+  <section class="belief-strip" aria-label="Our working principles">
+    <p>Show the source.</p><span aria-hidden="true">✦</span>
+    <p>Test the full path.</p><span aria-hidden="true">✦</span>
+    <p>Name the limits.</p><span aria-hidden="true">✦</span>
+    <p>Invite the next builder.</p>
+  </section>
+
+  <section id="projects" class="project-section section-shell" aria-labelledby="project-title">
+    <div class="section-heading">
+      <p class="eyebrow"><span></span> Project 001</p>
+      <h2 id="project-title">Start with one address.</h2>
+      <p>Shakti helps a New Yorker look up public complaints and violations for a building. It also explains when the address on a map does not match the address in City records.</p>
+    </div>
+    <article class="project-stage">
+      <div class="project-interface" aria-label="Example Shakti building result">
+        <div class="mock-browser-bar"><i></i><i></i><i></i><span>shakti.dharmicdata.org</span></div>
+        <div class="mock-content">
+          <p class="mock-label">Public building record</p>
+          <h3>140 Avenue C, Manhattan</h3>
+          <p class="mock-meta">HPD Building 6533 · ZIP 10009</p>
+          <div class="mock-notice">You searched 700 East 9 Street. NYC HPD lists this building as 140 Avenue C. The match uses NYC BIN 1004529.</div>
+          <div class="mock-result"><strong>Follow up with HPD</strong><span>Based on open public records</span></div>
+        </div>
+      </div>
+      <div class="project-details">
+        <p class="project-status"><span></span> Live now</p>
+        <h3>Shakti Seva Studio</h3>
+        <p>The public Shakti critical path uses fixed rules and live NYC data. It does not use AI. Researchers can run a separate local version to inspect how Hermes or another local model uses the same data.</p>
+        <dl class="project-facts">
+          <div><dt>Sources</dt><dd>NYC GeoSearch and NYC Open Data</dd></div>
+          <div><dt>Public AI</dt><dd>None</dd></div>
+          <div><dt>Proof</dt><dd>Source receipts and event traces</dd></div>
+        </dl>
+        <div class="button-row">
+          <a class="button button-primary" href="https://shakti.dharmicdata.org">Try Shakti <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://github.com/ChaiWithJai/shakti-seva-studio">View the code <span aria-hidden="true">↗</span></a>
+        </div>
+        <a class="artifact-link" href="https://github.com/ChaiWithJai/shakti-seva-studio/blob/main/docs/how-we-built-this.md">Read how the address match works <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+  </section>
+
+  <section class="proof-section section-shell" aria-labelledby="proof-title">
+    <div class="section-heading split">
+      <div><p class="eyebrow"><span></span> Dated evidence</p><h2 id="proof-title">See the proof before you trust the result.</h2></div>
+      <p>We tested 30 fixed building records in each borough. All 150 runs passed the privacy scan and trace check. We also tested one lived address through the deployed City record join. These tests do not prove that every address will match or that every public record is complete.</p>
+    </div>
+    <div class="proof-grid">
+      <article><span>150</span><h3>Building records</h3><p>Thirty records from each borough went through the same case flow.</p></article>
+      <article><span>4</span><h3>Joined Open Data datasets</h3><p>NYC GeoSearch matches the address. Four selected NYC Open Data datasets supply the building records.</p></article>
+      <article><span>0</span><h3>AI calls in the public result</h3><p>Ordinary code handles the address match, City joins, privacy treatment, counts, and next step.</p></article>
+    </div>
+    <a class="button button-secondary" href="https://github.com/ChaiWithJai/shakti-seva-studio/blob/main/docs/evaluation.md">Read the evaluation <span aria-hidden="true">↗</span></a>
+  </section>
+
+  <section id="method" class="method-section section-shell" aria-labelledby="method-title">
+    <div class="section-heading compact">
+      <p class="eyebrow light"><span></span> A repeatable practice</p>
+      <h2 id="method-title">Make the useful thing. Then show your work.</h2>
+    </div>
+    <ol class="method-grid">
+      <li><span>01</span><h3>Choose a public need</h3><p>Start with a question a resident, advocate, or researcher already asks.</p></li>
+      <li><span>02</span><h3>Use accountable data</h3><p>Keep the source, query, and limits close to every answer.</p></li>
+      <li><span>03</span><h3>Test outside the demo</h3><p>Try known cases and record what works, what fails, and what remains unknown.</p></li>
+      <li><span>04</span><h3>Teach the next person</h3><p>Publish the code and build notes so another person can adapt the work.</p></li>
+    </ol>
+  </section>
+
+  <section class="local-ai-section section-shell" aria-labelledby="local-ai-title">
+    <div><p class="eyebrow"><span></span> For local AI builders</p><h2 id="local-ai-title">Add a model only when it has a clear job.</h2></div>
+    <div><p>The hosted Shakti demo works without AI. The local research edition lets a builder add Hermes, inspect tool use, and test a local model against a treated case packet. The model cannot change the source records or choose the next step.</p><div class="button-row"><a class="button button-primary" href="https://github.com/ChaiWithJai/shakti-seva-studio/blob/main/docs/local-ai-extension.md">Read the local AI guide <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="https://github.com/ChaiWithJai/shakti-seva-studio">Download the project <span aria-hidden="true">↗</span></a></div></div>
+  </section>
+
+  <section class="learning-section section-shell" aria-labelledby="learning-title">
+    <div class="section-heading split">
+      <div><p class="eyebrow"><span></span> Learn in public</p><h2 id="learning-title">Tools for understanding the system.</h2></div>
+      <p>These projects explain the app around the model and the model itself. They are reference material, not product claims.</p>
+    </div>
+    <div class="learning-grid">
+      <a class="learning-card wildcard" href="https://yourwildcard.ai/">
+        <span class="card-number">01</span><div><p>Design reference</p><h3>Your Wildcard</h3><span>Explore local AI systems <b aria-hidden="true">↗</b></span></div>
+      </a>
+      <a class="learning-card inference" href="https://chaiwithjai.github.io/inference-the-hard-way/#01-tokenizer">
+        <span class="card-number">02</span><div><p>Visual course</p><h3>Inference the Hard Way</h3><span>Start with the tokenizer <b aria-hidden="true">↗</b></span></div>
+        <div class="token-art" aria-hidden="true"><i>How</i><i>does</i><i>text</i><i>move?</i></div>
+      </a>
+    </div>
+  </section>
+
+  <section id="about-name" class="name-section section-shell" aria-labelledby="name-title">
+    <p class="eyebrow"><span></span> About the name</p>
+    <h2 id="name-title">Why Dharmic Data?</h2>
+    <p>We use "dharmic" to describe work guided by service and responsibility. For this project, that means helping people inspect the software, the sources, and the limits. Dharmic Data is an independent project. It does not represent a public agency or a faith community.</p>
+  </section>
+
+  <section class="vlog-preview section-shell" aria-labelledby="vlog-title">
+    <div class="vlog-callout">
+      <p class="eyebrow light"><span></span> Latest technical vlog</p>
+      <h2 id="vlog-title">{latest.title}</h2>
+      <p>{latest.summary}</p>
+      <a class="button button-light" href={`/vlog/${latest.slug}`}>Read the build note <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="vlog-index">
+      <p>Inside the note</p>
+      <ol><li>Why the address was the hard part</li><li>How the public and local versions differ</li><li>What the deployed trace proved</li><li>Where contributors can help next</li></ol>
+    </div>
+  </section>
+
+  <section class="closing-section section-shell" aria-labelledby="closing-title">
+    <p class="eyebrow"><span></span> Your turn</p>
+    <h2 id="closing-title">Pick a question that could help someone.</h2>
+    <p>Use a project here, bring your own public data, or share what you learn. A small useful tool is a good place to begin.</p>
+    <div class="button-row centered"><a class="button button-primary" href="https://github.com/ChaiWithJai/dharmic-data">Open Dharmic Data on GitHub <span aria-hidden="true">↗</span></a><a class="button button-secondary" href="/vlog">Browse the build notes</a></div>
+  </section>
+</DharmicLayout>

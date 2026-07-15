@@ -1,0 +1,16 @@
+---
+import BrandMark from './BrandMark.astro';
+const path = Astro.url.pathname;
+---
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Dharmic Data home">
+    <BrandMark />
+    <span>Dharmic Data</span>
+  </a>
+  <nav aria-label="Main navigation">
+    <a href="/#projects">Projects</a>
+    <a class:list={{ active: path.startsWith('/vlog') }} href="/vlog">Technical vlog</a>
+    <a href="/#method">How we work</a>
+    <a class="nav-action" href="https://github.com/ChaiWithJai/dharmic-data" target="_blank" rel="noreferrer">View the source <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>

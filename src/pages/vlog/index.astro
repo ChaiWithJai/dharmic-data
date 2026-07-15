@@ -1,0 +1,25 @@
+---
+import DharmicLayout from '../../layouts/DharmicLayout.astro';
+import { vlogEntries } from '../../data/vlog.mjs';
+---
+<DharmicLayout title="Technical vlog | Dharmic Data" description="Build notes about civic technology, public data, and local AI experiments.">
+  <header class="page-hero section-shell">
+    <p class="eyebrow"><span></span> Technical vlog</p>
+    <h1>What we built,<br /> <em>and what we learned.</em></h1>
+    <p>These notes cover the engineering choices, tests, failures, and limits behind each Dharmic Data experiment.</p>
+  </header>
+  <section class="entry-list section-shell" aria-labelledby="notes-title">
+    <h2 id="notes-title" class="sr-only">All build notes</h2>
+    {vlogEntries.map((entry, index) => (
+      <article class="entry-row">
+        <div class="entry-number">{String(index + 1).padStart(2, '0')}</div>
+        <div class="entry-copy">
+          <p>{entry.label} · <time datetime={entry.date}>{new Date(`${entry.date}T12:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time></p>
+          <h3><a href={`/vlog/${entry.slug}`}>{entry.title}</a></h3>
+          <p>{entry.summary}</p>
+        </div>
+        <a class="round-link" href={`/vlog/${entry.slug}`} aria-label={`Read ${entry.title}`}><span aria-hidden="true">↗</span></a>
+      </article>
+    ))}
+  </section>
+</DharmicLayout>

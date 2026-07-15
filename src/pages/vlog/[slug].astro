@@ -1,0 +1,63 @@
+---
+import DharmicLayout from '../../layouts/DharmicLayout.astro';
+import { vlogEntries } from '../../data/vlog.mjs';
+
+export function getStaticPaths() {
+  return vlogEntries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+<DharmicLayout title={`${entry.title} | Dharmic Data`} description={entry.summary}>
+  <article class="article-shell section-shell">
+    <header class="article-header">
+      <a class="back-link" href="/vlog"><span aria-hidden="true">←</span> All build notes</a>
+      <p class="eyebrow"><span></span> {entry.label}</p>
+      <h1>{entry.title}</h1>
+      <p class="article-summary">{entry.summary}</p>
+      <div class="article-meta"><time datetime={entry.date}>{new Date(`${entry.date}T12:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time><span>{entry.readTime}</span></div>
+    </header>
+    <aside class="outcome-card"><span>Outcome</span><p>{entry.outcome}</p></aside>
+    <section class="episode-status" aria-labelledby="episode-status-title">
+      <p class="eyebrow"><span></span> Watch and read</p>
+      <h2 id="episode-status-title">{entry.media ? 'Watch the engineering talk preview.' : 'The build story is published in writing.'}</h2>
+      <p>{entry.mediaStatus}</p>
+      {entry.media && <div class="episode-media">
+        <video controls playsinline preload="metadata" poster={entry.media.poster} aria-describedby="media-description">
+          <source src={entry.media.src} type="video/mp4" />
+          Your browser cannot play this video. Read the written episode below.
+        </video>
+        <p id="media-description"><strong>{entry.media.duration}.</strong> {entry.media.description}</p>
+      </div>}
+    </section>
+    <section class="episode-checklist" aria-labelledby="questions-title">
+      <h2 id="questions-title">What you will learn</h2>
+      <ul>{entry.questions.map((question) => <li>{question}</li>)}</ul>
+    </section>
+    <div class="article-body">
+      {entry.sections.map((section, index) => (
+        <section aria-labelledby={`section-${index}`}>
+          <span class="section-index">{String(index + 1).padStart(2, '0')}</span>
+          <h2 id={`section-${index}`}>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.links && <div class="article-links">{section.links.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>)}</div>}
+        </section>
+      ))}
+    </div>
+    <section class="artifact-section" aria-labelledby="artifacts-title">
+      <h2 id="artifacts-title">Artifacts from this episode</h2>
+      <div class="artifact-grid">{entry.artifacts.map((artifact) => <a href={artifact.href}><span>{artifact.kind}</span><strong>{artifact.label}</strong><b aria-hidden="true">↗</b></a>)}</div>
+    </section>
+    <section class="try-section" aria-labelledby="try-title">
+      <h2 id="try-title">Try it yourself</h2>
+      <ol>{entry.tryIt.map((step) => <li>{step}</li>)}</ol>
+    </section>
+    <div class="evidence-pair">
+      <section aria-labelledby="results-title"><h2 id="results-title">What the test showed</h2><ul>{entry.results.map((result) => <li>{result}</li>)}</ul></section>
+      <section aria-labelledby="limits-title"><h2 id="limits-title">What this did not prove</h2><ul>{entry.limits.map((limit) => <li>{limit}</li>)}</ul></section>
+    </div>
+    <section class="next-experiment" aria-labelledby="next-title"><h2 id="next-title">What we will test next</h2><p>{entry.nextExperiment}</p></section>
+    <section class="corrections" aria-labelledby="corrections-title"><h2 id="corrections-title">Corrections</h2>{entry.corrections.map((correction) => <p>{correction}</p>)}</section>
+    <footer class="article-next"><p>Want to build from this work?</p><a class="button button-primary" href="https://github.com/ChaiWithJai/dharmic-data">Open the Dharmic Data source <span aria-hidden="true">↗</span></a></footer>
+  </article>
+</DharmicLayout>
