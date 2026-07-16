@@ -2,6 +2,112 @@
 const calendarUrl =
   import.meta.env.PUBLIC_CALENDAR_URL?.trim() ||
   "https://cal.com/chaiwithjai/ai-guidance-counselor";
+
+const testimonials = [
+  {
+    name: "Seema Kothari",
+    role: "Real estate",
+    result: "Built confidence using AI in client work",
+    image: "/dharmic-assets/testimonials/seema.webp",
+    video:
+      "https://stream.mux.com/61lcpxE00HMno8fXW00tbWviZuR0202ZgsFtkQgFrTLelI4/high.mp4",
+  },
+  {
+    name: "Nicholas Stebenne",
+    role: "Founder, Marketito",
+    result: "Found the next move after years of friction",
+    image: "/dharmic-assets/testimonials/nicholas.webp",
+    video:
+      "https://stream.mux.com/rW7nR6LezG82aqtSl7asKMnUOjLy8G4eKp3kRJFHrTw/high.mp4",
+  },
+  {
+    name: "Careen G",
+    role: "Founder, Synergized Strategies",
+    result: "Made her ideas easier to put into action",
+    image: "/dharmic-assets/testimonials/careen.webp",
+    video:
+      "https://stream.mux.com/Nbn1uhOpIOyLPjFSxZN4UntTk3LxOYce4o18F02rWoys/high.mp4",
+  },
+  {
+    name: "Toya",
+    role: "Future entrepreneur",
+    result: "Moved from scattered courses to a useful next step",
+    image: "/dharmic-assets/testimonials/toya.webp",
+    video:
+      "https://stream.mux.com/qENBDHzvsE8z4J54Es8WWNcR4DtXKarB7bmxpBw9Foc/high.mp4",
+  },
+  {
+    name: "Kathy Mills",
+    role: "Principal, kamil graphics",
+    result: "Turned AI curiosity into practical client tools",
+    image: "/dharmic-assets/testimonials/kathy.webp",
+    video:
+      "https://stream.mux.com/4yFelsj3AgymN01eHU6wc8Bjw00A9D02iPgAqC1wGnO6pQ/high.mp4",
+  },
+  {
+    name: "Parul Kumar",
+    role: "Co-founder, The Devi Circle",
+    result: "Clarified how AI can support community building",
+    image: "/dharmic-assets/testimonials/parul.webp",
+    video:
+      "https://stream.mux.com/BDRNoZRPqSUl6TQEFVjJm7Ze3UWu02AJTYBlBCPxvJ34/low.mp4",
+  },
+  {
+    name: "Ngozi Odita",
+    role: "Founder, AFRICANXT",
+    result: "Made the business case for AI more concrete",
+    image: "/dharmic-assets/testimonials/ngozi.webp",
+    video:
+      "https://stream.mux.com/cKYMVXrxmbju4pyrrTgkcnsCGFUNMNanqvHJ5Xq7WMo/high.mp4",
+  },
+  {
+    name: "Anne Flanagan",
+    role: "Owner, Anne Flanagan LLC",
+    result: "Rebuilt planning around her environment and strengths",
+    image: "/dharmic-assets/testimonials/anne.webp",
+    video:
+      "https://stream.mux.com/9AYE75hFzZQaEqDcNlUQEQ86AP81LgOyjnLaGbKV0188/high.mp4",
+  },
+  {
+    name: "Samina Quraishi",
+    role: "Doctor of Acupuncture",
+    result: "Saw what was possible for a health care practice",
+    image: "/dharmic-assets/testimonials/samina.webp",
+    video:
+      "https://stream.mux.com/Qn100ujVBOgVyBzLDD5w011upS9Q7awpwgXwjuKdzlElI/high.mp4",
+  },
+];
+
+const cases = [
+  {
+    name: "Seema",
+    result: "85% less time spent onboarding new hires",
+    title: "How a real estate leader reclaimed more than 15 hours a week",
+    image: "/dharmic-assets/cases/seema.webp",
+    href: "https://chaiwithjai.com/articles/seema-case-study.html",
+  },
+  {
+    name: "Nick",
+    result: "$6,500 in event risk uncovered",
+    title: "How Marketito found the vendor problem worth solving",
+    image: "/dharmic-assets/cases/nick.webp",
+    href: "https://chaiwithjai.com/articles/nick-case-study.html",
+  },
+  {
+    name: "Martine",
+    result: "Thousands saved on copywriting and design",
+    title: "From overwhelm to a complete AI-built business platform",
+    image: "/dharmic-assets/cases/martine.webp",
+    href: "https://chaiwithjai.com/articles/martine-case-study.html",
+  },
+  {
+    name: "Yves",
+    result: "More than $30,000 in traditional build cost avoided",
+    title: "From three months to a global-ready platform in 35 minutes",
+    image: "/dharmic-assets/cases/yves.webp",
+    href: "https://chaiwithjai.com/articles/yves-case-study.html",
+  },
+];
 ---
 
 <!doctype html>
@@ -127,7 +233,8 @@ const calendarUrl =
                   >
                     Book AI guidance
                   </div>
-                </div></a>
+                </div></a
+              >
             </div><div class="menu-button w-nav-button">
               <div
                 class="nav-lottie"
@@ -194,9 +301,10 @@ const calendarUrl =
                     data-w-id="a2d24a18-361b-0a07-2ec0-785044013ee6"
                     class="hero-para"
                   >
-                    Hi, I'm Jai. I help you turn a messy workflow, folder, or
-                    idea into a small AI test you can actually run. I specialize
-                    in local AI, Codex, Claude Code, and use case development.
+                    Hi, I'm Jai. I help you choose the first AI project that
+                    will make your work easier. We use your own work and limits
+                    to decide what to test. You leave knowing what the model can
+                    touch and what would count as a useful result.
                   </p>
                 </div><div data-w-id="6da00be6-c186-04e6-295a-e480e5576993">
                   <a
@@ -210,7 +318,8 @@ const calendarUrl =
                       >
                         Book AI guidance
                       </div>
-                    </div></a>
+                    </div></a
+                  >
                 </div>
               </div>
             </div>
@@ -243,23 +352,25 @@ const calendarUrl =
                     Why Dharmic Data
                   </p>
                 </div><h2 class="about-title desk">
-                  <span class="dharmic-blank">Dharmic Data</span> I help you choose
-                  a useful AI project, test it against your work, and decide what
-                  is worth building next.
+                  <span class="dharmic-blank">Dharmic Data</span> I spent more than
+                  ten years working across software and teaching. Now I help people
+                  choose one useful AI project, test it against their work, and decide
+                  what is worth doing next.
                 </h2><h2
                   data-w-id="8a8fde9e-fd8b-a495-b2b1-079b3ed476b5"
                   class="about-title mob"
                 >
-                  I help you choose a useful AI project, test it against your
-                  work, and decide what is worth building next.
+                  I spent more than ten years working across software and
+                  teaching. Now I help people choose one useful AI project, test
+                  it against their work, and decide what is worth doing next.
                 </h2><p
                   data-w-id="7767d6f8-ae6e-039c-f38b-29597d708e3e"
                   class="about-para"
                 >
-                  Bring one workflow, folder, repository, or decision. We will
-                  define a small experiment, choose local or cloud tools, set
-                  data boundaries, and write a 30 day test plan. Shakti is the
-                  public case study that shows the method.
+                  Bring one workflow or repository. We will define a small
+                  experiment and decide which tools fit it. You leave with clear
+                  data boundaries and a written 30 day test. Shakti shows the
+                  same method in public.
                 </p><div data-w-id="0cb2633f-244d-8c3a-59ca-4dd8e8937b75">
                   <a
                     data-wf--primary-button--variant="white"
@@ -272,7 +383,8 @@ const calendarUrl =
                       >
                         Try Shakti
                       </div>
-                    </div></a>
+                    </div></a
+                  >
                 </div><img
                   src="/assets/cdn/69577d21-695bac5e662b2637d0a2b9bb_Union-1-.webp"
                   loading="lazy"
@@ -414,7 +526,8 @@ const calendarUrl =
               >
                 <span
                   data-w-id="d1fef72e-ffe9-0e82-0335-a03831e5ad19"
-                  class="solutions-text">Useful And Testable</span>
+                  class="solutions-text">Useful And Testable</span
+                >
               </div><p
                 data-w-id="2aa23eaa-9fac-9d39-2e16-78c3d460c2d7"
                 class="solution-para"
@@ -563,7 +676,8 @@ const calendarUrl =
                         class="solution-img"
                       />
                     </div>
-                  </div></a>
+                  </div></a
+                >
               </div><div class="tabs-content w-tab-content">
                 <div data-w-tab="Tab 1" class="w-tab-pane w--tab-active">
                 </div><div data-w-tab="Tab 2" class="w-tab-pane"></div><div
@@ -749,7 +863,8 @@ const calendarUrl =
                         />
                       </div><div class="blog-detail">
                         <h3 class="blog-name">Live Shakti result</h3>
-                      </div></a>
+                      </div></a
+                    >
                   </div><div
                     data-w-id="d4a31bf9-e526-19a9-575a-112ac17dd66b"
                     role="listitem"
@@ -775,7 +890,8 @@ const calendarUrl =
                         />
                       </div><div class="blog-detail">
                         <h3 class="blog-name">Five borough evaluation</h3>
-                      </div></a>
+                      </div></a
+                    >
                   </div><div
                     data-w-id="d4a31bf9-e526-19a9-575a-112ac17dd66b"
                     role="listitem"
@@ -801,7 +917,8 @@ const calendarUrl =
                         />
                       </div><div class="blog-detail">
                         <h3 class="blog-name">Sources and trace</h3>
-                      </div></a>
+                      </div></a
+                    >
                   </div><div
                     data-w-id="d4a31bf9-e526-19a9-575a-112ac17dd66b"
                     role="listitem"
@@ -827,7 +944,8 @@ const calendarUrl =
                         />
                       </div><div class="blog-detail">
                         <h3 class="blog-name">Public runtime: no AI</h3>
-                      </div></a>
+                      </div></a
+                    >
                   </div>
                 </div>
               </div>
@@ -838,54 +956,60 @@ const calendarUrl =
           aria-labelledby="proof-heading"
           class="section faq"
         >
-          <h2 id="proof-heading" class="sr-only">Questions we answer</h2><div
-            class="container"
-          >
+          <h2 id="proof-heading" class="sr-only">
+            Hear from people like you
+          </h2><div class="container">
             <div class="wrapper faq">
               <div class="solutions-top faq">
                 <div class="cta-1 _01">
-                  <span class="solutions-text">Questions</span><span
-                    class="solutions-text digital">We Answer</span>
+                  <span class="solutions-text">Hear From</span><span
+                    class="solutions-text digital">People Like You</span
+                  >
                 </div><p class="solution-para faq">
-                  Start with a concrete use case. See the proof in Shakti, or
-                  book a working session for your own files and workflow.
+                  These nine video reviews come from Jai's teaching with QEDC in
+                  Queens. Each person brought different work, but they all
+                  needed a first step they could use.
                 </p>
-              </div><div class="faq-lists">
-                <details class="dharmic-faq">
-                  <summary>Does the public Shakti result use AI?</summary><p>
-                    No. Ordinary code handles the address match, City joins,
-                    privacy treatment, counts, and next step.
-                  </p>
-                </details><details class="dharmic-faq">
-                  <summary>What did the five borough test prove?</summary><p>
-                    Thirty fixed records from each borough passed the privacy
-                    scan and trace check. That does not prove every City address
-                    will match.
-                  </p>
-                </details><details class="dharmic-faq">
-                  <summary>Where does local AI fit?</summary><p>
-                    The local research edition can use Hermes to explain a
-                    treated packet and inspect tool calls. A model cannot change
-                    the source record or choose the public next step.
-                  </p>
-                </details><details class="dharmic-faq">
-                  <summary>What happens in an AI guidance session?</summary><p>
-                    Bring one workflow, folder, repository, or decision. We will
-                    choose a useful project, define a 30 day test, set data
-                    boundaries, and decide whether local AI, a hosted
-                    subscription, or an API fits the job.
-                  </p>
-                </details><details class="dharmic-faq">
-                  <summary>Which plan should I buy?</summary><p>
-                    $20 is enough for light exploration. $100 supports steadier
-                    project work. I recommend $200 for the first three months of
-                    intensive work across your own files and biggest workflows
-                    because higher limits reduce interruptions while you learn
-                    what is worth repeating. API usage is billed separately.
-                  </p>
-                </details><a
+              </div><div
+                class="dharmic-testimonial-rail"
+                aria-label="Video reviews"
+              >
+                {
+                  testimonials.map((item) => (
+                    <a
+                      class="dharmic-testimonial-card"
+                      href={item.video}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span class="dharmic-testimonial-image">
+                        <img
+                          src={item.image}
+                          loading="lazy"
+                          width="480"
+                          height="640"
+                          alt={`Video review from ${item.name}`}
+                        />
+                        <span class="dharmic-play" aria-hidden="true">
+                          ▶
+                        </span>
+                      </span>
+                      <span class="dharmic-testimonial-copy">
+                        <strong>{item.result}</strong>
+                        <span>{item.name}</span>
+                        <small>{item.role}</small>
+                      </span>
+                    </a>
+                  ))
+                }
+              </div><div class="dharmic-proof-action">
+                <p>
+                  Nine published video reviews. No names or outcomes were added
+                  for this page.
+                </p><a
                   class="primary-button dharmic-calendar"
-                  href={calendarUrl}>Book AI guidance · $125</a>
+                  href={calendarUrl}>Book AI guidance · $125</a
+                >
               </div>
             </div>
           </div>
@@ -898,131 +1022,55 @@ const calendarUrl =
                     data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d91"
                     class="cta-1 _01"
                   >
-                    <span class="solutions-text">Technical</span><span
-                      class="solutions-text">&amp;</span
-                    ><span class="solutions-text digital">Build</span><span
-                      class="solutions-text">Stories</span>
+                    <span class="solutions-text">What People</span><span
+                      class="solutions-text digital">Built Next</span
+                    >
                   </div><p
                     data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9a"
                     class="solution-para blogs"
                   >
-                    Jai walks through the terminal, code, traces, and dated
-                    results behind each experiment.
+                    These case studies show what people worked on with Jai and
+                    what they reported after the work changed.
                   </p>
                 </div><h2
                   data-w-id="8c8a20e4-5cfd-da20-a147-35f1fa492aa2"
                   class="related-blogs"
                 >
-                  Latest from the vlog
-                </h2><div class="blog-list-wrapper w-dyn-list">
-                  <div role="list" class="blog-list w-dyn-items">
-                    <div
-                      data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9e"
-                      role="listitem"
-                      class="w-dyn-item"
-                    >
+                  Selected case studies
+                </h2><div class="dharmic-case-grid">
+                  {
+                    cases.map((item) => (
                       <a
-                        data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9f"
-                        href="/vlog/how-we-built-shakti"
-                        class="insight-item w-inline-block"
-                        ><div class="overflow insight">
-                          <img
-                            src="/assets/cdn/69579f06-695e3e9fb1040be4bbd28a16_Blog-Image-1.webp"
-                            loading="lazy"
-                            alt="Insight Image"
-                            sizes="100vw"
-                            srcset="/assets/cdn/69579f06-695e3e9fb1040be4bbd28a16_Blog-Image-1-p-500.webp 500w, /assets/cdn/69579f06-695e3e9fb1040be4bbd28a16_Blog-Image-1-p-800.webp 800w, /assets/cdn/69579f06-695e3e9fb1040be4bbd28a16_Blog-Image-1-p-1080.webp 1080w, /assets/cdn/69579f06-695e3e9fb1040be4bbd28a16_Blog-Image-1.webp 1160w"
-                            class="insight-image"
-                          />
-                        </div><div class="insight-detail">
-                          <h3 class="insight-name">
-                            How we built Shakti without putting AI in the
-                            critical path
-                          </h3><p class="insight-para">
-                            Follow one address through City data, a source
-                            trace, and the separate local model path.
-                          </p>
-                        </div></a>
-                    </div><div
-                      data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9e"
-                      role="listitem"
-                      class="w-dyn-item"
-                    >
-                      <a
-                        data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9f"
-                        href="/vlog/how-we-built-shakti"
-                        class="insight-item w-inline-block"
-                        ><div class="overflow insight">
-                          <img
-                            src="/assets/cdn/69579f06-695e40f235b1cf8a899e927e_Blog-Image-2.webp"
-                            loading="lazy"
-                            alt="Insight Image"
-                            sizes="100vw"
-                            srcset="/assets/cdn/69579f06-695e40f235b1cf8a899e927e_Blog-Image-2-p-500.webp 500w, /assets/cdn/69579f06-695e40f235b1cf8a899e927e_Blog-Image-2-p-800.webp 800w, /assets/cdn/69579f06-695e40f235b1cf8a899e927e_Blog-Image-2-p-1080.webp 1080w, /assets/cdn/69579f06-695e40f235b1cf8a899e927e_Blog-Image-2.webp 1160w"
-                            class="insight-image"
-                          />
-                        </div><div class="insight-detail">
-                          <h3 class="insight-name">
-                            Chapter: address, HPD, and the NYC BIN
-                          </h3><p class="insight-para">
-                            Learn why one building can have several public names
-                            and one shared City identifier.
-                          </p>
-                        </div></a>
-                    </div><div
-                      data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9e"
-                      role="listitem"
-                      class="w-dyn-item"
-                    >
-                      <a
-                        data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9f"
-                        href="/vlog/how-we-built-shakti"
-                        class="insight-item w-inline-block"
-                        ><div class="overflow insight">
-                          <img
-                            src="/assets/cdn/69579f06-695e42a312f86a6d0f39fba0_Blog-Image-3.webp"
-                            loading="lazy"
-                            alt="Insight Image"
-                            sizes="100vw"
-                            srcset="/assets/cdn/69579f06-695e42a312f86a6d0f39fba0_Blog-Image-3-p-500.webp 500w, /assets/cdn/69579f06-695e42a312f86a6d0f39fba0_Blog-Image-3-p-800.webp 800w, /assets/cdn/69579f06-695e42a312f86a6d0f39fba0_Blog-Image-3-p-1080.webp 1080w, /assets/cdn/69579f06-695e42a312f86a6d0f39fba0_Blog-Image-3.webp 1160w"
-                            class="insight-image"
-                          />
-                        </div><div class="insight-detail">
-                          <h3 class="insight-name">
-                            Chapter: the five borough sample
-                          </h3><p class="insight-para">
-                            Inspect the 150 fixed records, privacy scan, trace
-                            check, and test limits.
-                          </p>
-                        </div></a>
-                    </div><div
-                      data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9e"
-                      role="listitem"
-                      class="w-dyn-item"
-                    >
-                      <a
-                        data-w-id="7d525d6d-bec1-3cbb-7f49-2e137da90d9f"
-                        href="/vlog/how-we-built-shakti"
-                        class="insight-item w-inline-block"
-                        ><div class="overflow insight">
-                          <img
-                            src="/assets/cdn/69579f06-695e43370c5edcca1ec5d4b6_Blog-Image-4.webp"
-                            loading="lazy"
-                            alt="Insight Image"
-                            sizes="100vw"
-                            srcset="/assets/cdn/69579f06-695e43370c5edcca1ec5d4b6_Blog-Image-4-p-500.webp 500w, /assets/cdn/69579f06-695e43370c5edcca1ec5d4b6_Blog-Image-4-p-800.webp 800w, /assets/cdn/69579f06-695e43370c5edcca1ec5d4b6_Blog-Image-4-p-1080.webp 1080w, /assets/cdn/69579f06-695e43370c5edcca1ec5d4b6_Blog-Image-4.webp 1160w"
-                            class="insight-image"
-                          />
-                        </div><div class="insight-detail">
-                          <h3 class="insight-name">
-                            Chapter: local AI with a clear job
-                          </h3><p class="insight-para">
-                            Use Hermes to inspect tool calls without letting a
-                            model change the public record.
-                          </p>
-                        </div></a>
-                    </div>
-                  </div>
+                        class="dharmic-case-card"
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src={item.image}
+                          loading="lazy"
+                          width="960"
+                          height="720"
+                          alt={`${item.name} case study`}
+                        />
+                        <span class="dharmic-case-copy">
+                          <small>Participant reported</small>
+                          <strong>{item.result}</strong>
+                          <span>{item.title}</span>
+                        </span>
+                      </a>
+                    ))
+                  }
+                </div><div class="dharmic-case-links">
+                  <a
+                    href="https://chaiwithjai.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >See the original reviews and case studies</a
+                  >
+                  <a href="/vlog/how-we-built-shakti"
+                    >Read the technical build record</a
+                  >
                 </div>
               </div>
             </div>
@@ -1050,9 +1098,10 @@ const calendarUrl =
                     data-w-id="55501429-edc0-238e-8edf-e5394b902f2a"
                     class="cta-para"
                   >
-                    Book a 60 minute working session and leave with a clear
-                    project, a 30 day test plan, a subscription recommendation,
-                    and clear data boundaries.
+                    Bring one workflow you want to improve. You leave knowing
+                    what to test first, which tool fits the job, what it can
+                    touch, and what result would make the project worth
+                    continuing.
                   </p><div data-w-id="55501429-edc0-238e-8edf-e5394b902f2c">
                     <a
                       data-wf--primary-button--variant="base"
@@ -1065,13 +1114,14 @@ const calendarUrl =
                         >
                           Book AI guidance
                         </div>
-                      </div></a>
+                      </div></a
+                    >
                   </div><img
-                    src="/assets/cdn/69577d21-695967c41856872ea9abfa64_Star-1.webp"
+                    src="/dharmic-assets/jai-studio.jpg"
                     loading="lazy"
                     data-w-id="55501429-edc0-238e-8edf-e5394b902f30"
-                    alt="CTA Image"
-                    class="cta-image"
+                    alt="Jai Bhagat"
+                    class="cta-image dharmic-jai-cta"
                   />
                 </div><div
                   class="footer-rive desk"

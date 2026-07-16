@@ -1,39 +1,87 @@
 ---
-const calendarUrl = import.meta.env.PUBLIC_CALENDAR_URL?.trim() || "https://cal.com/chaiwithjai/ai-guidance-counselor";
+const calendarUrl =
+  import.meta.env.PUBLIC_CALENDAR_URL?.trim() ||
+  "https://cal.com/chaiwithjai/ai-guidance-counselor";
 ---
+
 <!doctype html>
 <html data-wf-domain="dharmicdata.org" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>About Jai Bhagat | Dharmic Data</title>
-    <meta name="description" content="Why Jai Bhagat is turning years of software work and free economic empowerment teaching into a public AI practice and a future collective." />
+    <meta
+      name="description"
+      content="Why Jai Bhagat is turning years of software work and free economic empowerment teaching into a public AI practice and a future collective."
+    />
     <meta property="og:title" content="About Jai Bhagat | Dharmic Data" />
-    <meta property="og:description" content="The work, choices, and June 2027 path behind Dharmic Data." />
+    <meta
+      property="og:description"
+      content="The work, choices, and June 2027 path behind Dharmic Data."
+    />
     <meta property="og:type" content="website" />
     <link href="/assets/webflow-bundle/c36a0562fb6b95e9.css" rel="stylesheet" />
     <script is:inline src="/assets/js/webfont.js"></script>
-    <script is:inline>WebFont.load({google:{families:["Fredoka:300,400,500,600,700","Inter:300,400,500,600,700"]}});</script>
-    <link href="/dharmic-assets/shakti-seva-mark.svg" rel="icon" type="image/svg+xml" />
+    <script is:inline>
+      WebFont.load({
+        google: {
+          families: [
+            "Fredoka:300,400,500,600,700",
+            "Inter:300,400,500,600,700",
+          ],
+        },
+      });
+    </script>
+    <link
+      href="/dharmic-assets/shakti-seva-mark.svg"
+      rel="icon"
+      type="image/svg+xml"
+    />
     <link href="/dharmic-treatment.css" rel="stylesheet" />
     <link href="/template-about.css" rel="stylesheet" />
   </head>
   <body class="dharmic-about">
     <a class="dharmic-skip" href="#main">Skip to main content</a>
     <div class="page-wrapper">
-      <header class="navbar w-nav" data-collapse="medium" data-duration="400" role="banner">
+      <header
+        class="navbar w-nav"
+        data-collapse="medium"
+        data-duration="400"
+        role="banner"
+      >
         <div class="navbar-wrapper">
-          <a href="/" class="navbar-brand w-nav-brand"><img src="/dharmic-assets/dharmic-data-logo.svg" alt="Dharmic Data" class="nav-logo black" /></a>
+          <a href="/" class="navbar-brand w-nav-brand"
+            ><img
+              src="/dharmic-assets/dharmic-data-logo.svg"
+              alt="Dharmic Data"
+              class="nav-logo black"
+            /></a
+          >
           <nav class="menu-wrapper w-nav-menu" role="navigation">
             <div class="menu-items">
               <a href="/" class="nav-link">Home</a>
-              <a href="/about" aria-current="page" class="nav-link w--current">About</a>
+              <a href="/about" aria-current="page" class="nav-link w--current"
+                >About</a
+              >
               <a href="/#projects" class="nav-link">Projects</a>
               <a href="/vlog" class="nav-link">Technical vlog</a>
             </div>
           </nav>
-          <div class="nav-buttons desk"><a href={calendarUrl} class="primary-button w-inline-block"><div class="button-texts"><div class="button-text _01">Book AI guidance</div><div class="button-text _02">Book AI guidance</div></div></a></div>
-          <div class="menu-button w-nav-button"><div class="menu-text _01">Menu</div><div class="menu-text _02">Cancel</div></div>
+          <div class="nav-buttons desk">
+            <a href={calendarUrl} class="primary-button w-inline-block"
+              ><div class="button-texts">
+                <div class="button-text _01">Book AI guidance</div><div
+                  class="button-text _02"
+                >
+                  Book AI guidance
+                </div>
+              </div></a>
+          </div>
+          <div class="menu-button w-nav-button">
+            <div class="menu-text _01">Menu</div><div class="menu-text _02">
+              Cancel
+            </div>
+          </div>
         </div>
       </header>
 
@@ -41,87 +89,295 @@ const calendarUrl = import.meta.env.PUBLIC_CALENDAR_URL?.trim() || "https://cal.
         <section class="about-template-hero">
           <div class="about-template-copy">
             <p class="subtitle">The person behind the public work</p>
-            <h1><span>Software</span> <span class="sticker green">Teacher</span> <span>Public</span> <span class="sticker coral">Builder</span></h1>
-            <p class="about-template-lead">Hi, I'm Jai Bhagat. I help people find one useful AI project, test it against real work, and learn enough to make the next decision for themselves.</p>
-            <div class="about-template-actions"><a href={calendarUrl} class="primary-button about-primary">Book AI guidance · $125</a><a href="#story" class="about-text-link">Why I am building this</a></div>
+            <h1>
+              <span>Software</span>
+              <span class="sticker green">Teacher</span>
+              <span>Public</span>
+              <span class="sticker coral">Builder</span>
+            </h1>
+            <p class="about-template-lead">
+              Hi, I'm Jai Bhagat. I help people choose the first AI project that
+              fits their work, test it, and make the next decision without
+              depending on me.
+            </p>
+            <div class="about-template-actions">
+              <a href={calendarUrl} class="primary-button about-primary"
+                >Book AI guidance · $125</a
+              ><a href="#story" class="about-text-link"
+                >Why I am building this</a>
+            </div>
           </div>
           <div class="about-character-stage">
-            <div class="about-character-rive" data-rive-url="/assets/cdn/69577d21-6995b79cfaa7bf474085d59c_home_page_character_1-1-.riv" data-rive-state-machine="State Machine 1" data-rive-artboard="Artboard" data-rive-autoplay="true" data-rive-fit="cover" data-rive-alignment="center" data-animation-type="rive"><canvas></canvas></div>
+            <div
+              class="about-character-rive"
+              data-rive-url="/assets/cdn/69577d21-6995b79cfaa7bf474085d59c_home_page_character_1-1-.riv"
+              data-rive-state-machine="State Machine 1"
+              data-rive-artboard="Artboard"
+              data-rive-autoplay="true"
+              data-rive-fit="cover"
+              data-rive-alignment="center"
+              data-animation-type="rive"
+            >
+              <canvas></canvas>
+            </div>
             <span class="about-note note-top">Start with the person</span>
             <span class="about-note note-bottom">Show the proof</span>
           </div>
         </section>
 
-        <section class="about-proof-rail" aria-label="Experience and teaching proof">
-          <div class="proof-pill pink"><strong>10+ years</strong><span>software and teaching</span></div>
-          <div class="proof-pill blue"><strong>4.9 / 5.0</strong><span>instructor rating</span></div>
-          <div class="proof-pill orange"><strong>HashiCorp</strong><span>production engineering</span></div>
-          <div class="proof-pill green"><strong>Parsons</strong><span>adult instruction</span></div>
+        <section
+          class="about-proof-rail"
+          aria-label="Experience and teaching proof"
+        >
+          <div class="proof-pill pink">
+            <strong>10+ years</strong><span>software and teaching</span>
+          </div>
+          <div class="proof-pill blue">
+            <strong>4.9 / 5.0</strong><span>instructor rating</span>
+          </div>
+          <div class="proof-pill orange">
+            <strong>HashiCorp</strong><span>production engineering</span>
+          </div>
+          <div class="proof-pill green">
+            <strong>Parsons</strong><span>adult instruction</span>
+          </div>
         </section>
 
         <section id="story" class="about-story">
           <div class="about-story-heading">
             <p class="subtitle white">The honest version</p>
-            <h2>This is the<br><span class="sticker yellow">in-between</span><br>period.</h2>
+            <h2>
+              This is the<br /><span class="sticker yellow">in-between</span><br
+              />period.
+            </h2>
           </div>
           <div class="about-story-copy">
-            <p class="story-big">For years, I taught economic empowerment work for free. I am now turning that practice into a public effort that can last beyond my calendar.</p>
-            <p>Dharmic Data is not a nonprofit today. Between now and June 2027, paid sessions support the time to publish working demos, document what succeeds and fails, and learn what a future collective should become.</p>
-            <p>I have spent more than ten years moving between software and teaching. I shipped production software at HashiCorp, taught JavaScript at Parsons, and helped Queens founders and operators use AI in work they already care about.</p>
+            <p class="story-big">
+              For years, I taught economic empowerment work for free. I am now
+              building a public effort that can support more people without
+              depending only on one to one sessions.
+            </p>
+            <p>
+              Dharmic Data is not a nonprofit today. Between now and June 2027,
+              paid sessions support the time to publish working demos, document
+              what succeeds and fails, and learn what a future collective should
+              become.
+            </p>
+            <p>
+              I have spent more than ten years moving between software and
+              teaching. I shipped production software at HashiCorp, taught
+              JavaScript at Parsons, and helped Queens founders and operators
+              use AI in work they already care about.
+            </p>
           </div>
-          <div class="about-photo-stack" aria-label="Photos of Jai teaching and building">
-            <img class="photo-main" src="/dharmic-assets/jai-studio.jpg" alt="Jai speaking about making a useful project with AI" />
-            <img class="photo-card" src="/dharmic-assets/jai-dogged-pursuits.jpg" alt="Dogged Pursuits photo strip showing Jai teaching and breathing" />
+          <div
+            class="about-photo-stack"
+            aria-label="Photos of Jai teaching and building"
+          >
+            <img
+              class="photo-main"
+              src="/dharmic-assets/jai-studio.jpg"
+              alt="Jai speaking about making a useful project with AI"
+            />
+            <img
+              class="photo-card"
+              src="/dharmic-assets/jai-dogged-pursuits.jpg"
+              alt="Dogged Pursuits photo strip showing Jai teaching and breathing"
+            />
           </div>
         </section>
 
         <section class="about-choices">
           <header class="about-section-heading">
             <p class="subtitle">What makes the work different</p>
-            <h2>Choose the <span class="sticker blue">job</span><br>before the <span class="sticker green">tool</span>.</h2>
-            <p>I pursue AI when it gives a person more control over useful work. I pass when a simpler system is safer or clearer.</p>
+            <h2>
+              Choose the <span class="sticker blue">job</span><br />before the <span
+                class="sticker green">tool</span
+              >.
+            </h2>
+            <p>
+              I pursue AI when it gives a person more control over useful work.
+              I pass when a simpler system is safer or clearer.
+            </p>
           </header>
           <ol class="choice-grid">
-            <li class="pink"><span>01</span><h3>Start with real work</h3><p>Name the recurring problem before choosing a model.</p></li>
-            <li class="blue"><span>02</span><h3>Use real constraints</h3><p>Test against the files, repository, data, time, and machine that actually matter.</p></li>
-            <li class="orange"><span>03</span><h3>Set the boundary</h3><p>Decide what the model may read and which choices always need review.</p></li>
-            <li class="green"><span>04</span><h3>Make one small test</h3><p>Measure one useful task before expanding the system.</p></li>
-            <li class="coral"><span>05</span><h3>Publish the proof</h3><p>Show sources, traces, evaluations, limits, and failed attempts.</p></li>
-            <li class="yellow"><span>06</span><h3>Know when to pass</h3><p>Use ordinary code or a person when AI is not the right tool.</p></li>
+            <li class="pink">
+              <span>01</span><h3>Start with real work</h3><p>
+                Name the recurring problem before choosing a model.
+              </p>
+            </li>
+            <li class="blue">
+              <span>02</span><h3>Use real constraints</h3><p>
+                Test against the files, repository, data, time, and machine that
+                actually matter.
+              </p>
+            </li>
+            <li class="orange">
+              <span>03</span><h3>Set the boundary</h3><p>
+                Decide what the model may read and which choices always need
+                review.
+              </p>
+            </li>
+            <li class="green">
+              <span>04</span><h3>Make one small test</h3><p>
+                Measure one useful task before expanding the system.
+              </p>
+            </li>
+            <li class="coral">
+              <span>05</span><h3>Publish the proof</h3><p>
+                Show sources, traces, evaluations, limits, and failed attempts.
+              </p>
+            </li>
+            <li class="yellow">
+              <span>06</span><h3>Know when to pass</h3><p>
+                Use ordinary code or a person when AI is not the right tool.
+              </p>
+            </li>
           </ol>
         </section>
 
         <section class="about-shakti">
-          <div class="shakti-window"><img src="/dharmic-assets/shakti-live-result.png" alt="Shakti showing a New York City building record" /><span>LIVE PUBLIC CASE STUDY</span></div>
-          <div class="shakti-copy"><p class="subtitle white">Proof, not a promise</p><h2>Shakti shows the method in public.</h2><p>Its public housing lookup uses ordinary code, not AI. It shows City sources, protects unit details, and makes the address match visible. The optional local AI explains a treated packet but cannot change the record or next step.</p><div class="about-template-actions"><a href="https://shakti.dharmicdata.org" class="primary-button about-light">Try Shakti</a><a href="https://github.com/ChaiWithJai/shakti-seva-studio" class="about-text-link light">Inspect the evidence</a></div></div>
+          <div class="shakti-window">
+            <img
+              src="/dharmic-assets/shakti-live-result.png"
+              alt="Shakti showing a New York City building record"
+            /><span>LIVE PUBLIC CASE STUDY</span>
+          </div>
+          <div class="shakti-copy">
+            <p class="subtitle white">Proof, not a promise</p><h2>
+              Shakti shows the method in public.
+            </h2><p>
+              Its public housing lookup uses ordinary code, not AI. It shows
+              City sources, protects unit details, and makes the address match
+              visible. The optional local AI explains a treated packet but
+              cannot change the record or next step.
+            </p><div class="about-template-actions">
+              <a
+                href="https://shakti.dharmicdata.org"
+                class="primary-button about-light">Try Shakti</a
+              ><a
+                href="https://github.com/ChaiWithJai/shakti-seva-studio"
+                class="about-text-link light">Inspect the evidence</a>
+            </div>
+          </div>
         </section>
 
         <section class="about-roadmap">
-          <div class="roadmap-intro"><p class="subtitle">Now through June 2027</p><h2>Paid guidance<br><span class="sticker coral">seeds</span> the<br>public work.</h2><p>The goal is a model where useful teaching and open projects support each other.</p></div>
+          <div class="roadmap-intro">
+            <p class="subtitle">Now through June 2027</p><h2>
+              Paid guidance<br /><span class="sticker coral">funds</span> the<br
+              />public work.
+            </h2><p>
+              Paid sessions fund the time to teach, build, publish, and test
+              what a future collective should offer.
+            </p>
+          </div>
           <ol class="roadmap-list">
-            <li><span>Now</span><strong>Rent the calendar</strong><p>One-to-one guidance pays for time to teach, build, and publish.</p></li>
-            <li><span>Next</span><strong>Test small learning rooms</strong><p>Private cohorts, short courses, and a Dogged Pursuits practice room may run with clear, modest promises. They are not for sale yet.</p></li>
-            <li><span>June 2027</span><strong>Seed the collective</strong><p>Use the evidence from this period to shape a nonprofit collective for public demos, practical teaching, and shared methods.</p></li>
+            <li>
+              <span>Now</span><strong>Rent the calendar</strong><p>
+                One-to-one guidance pays for time to teach, build, and publish.
+              </p>
+            </li>
+            <li>
+              <span>Next</span><strong>Test small learning rooms</strong><p>
+                Private cohorts, short courses, and a Dogged Pursuits practice
+                room may run with clear, modest promises. They are not for sale
+                yet.
+              </p>
+            </li>
+            <li>
+              <span>June 2027</span><strong>Seed the collective</strong><p>
+                Use the evidence from this period to shape a nonprofit
+                collective for public demos, practical teaching, and shared
+                methods.
+              </p>
+            </li>
           </ol>
-          <div class="roadmap-rive" data-rive-url="/assets/cdn/69577d21-6995b79cd68776d3c9ca5a07_home-page-bowl-charater-2-1-.riv" data-rive-state-machine="State Machine 1" data-rive-artboard="Artboard" data-rive-autoplay="true" data-rive-fit="cover" data-rive-alignment="center" data-animation-type="rive"><canvas></canvas></div>
+          <div
+            class="roadmap-rive"
+            data-rive-url="/assets/cdn/69577d21-6995b79cd68776d3c9ca5a07_home-page-bowl-charater-2-1-.riv"
+            data-rive-state-machine="State Machine 1"
+            data-rive-artboard="Artboard"
+            data-rive-autoplay="true"
+            data-rive-fit="cover"
+            data-rive-alignment="center"
+            data-animation-type="rive"
+          >
+            <canvas></canvas>
+          </div>
         </section>
 
         <section class="about-offer">
-          <div><p class="subtitle">The offer today</p><h2>Bring one real problem.<br>Leave with a <span class="sticker blue">test</span> you can run.</h2><p>In 60 minutes, we define a use case, choose a tool, set data boundaries, and write a 30 day test plan.</p><a href={calendarUrl} class="primary-button about-primary">Book AI guidance · $125</a></div>
-          <aside><p class="subtitle">AI Guidance Counselor</p><strong>$125</strong><span>60 minutes</span><ul><li>A defined first use case</li><li>A tool or subscription choice</li><li>Clear data and action boundaries</li><li>A written 30 day test</li></ul><p class="offer-limit">Guidance and project definition. This is not a promise of a finished software build.</p></aside>
+          <div>
+            <p class="subtitle">The offer today</p><h2>
+              Bring one real problem.<br />Leave with a <span
+                class="sticker blue">test</span
+              > you can run.
+            </h2><p>
+              In 60 minutes, we define a use case, choose a tool, set data
+              boundaries, and write a 30 day test plan.
+            </p><a href={calendarUrl} class="primary-button about-primary"
+              >Book AI guidance · $125</a>
+          </div>
+          <aside>
+            <p class="subtitle">AI Guidance Counselor</p><strong>$125</strong
+            ><span>60 minutes</span><ul>
+              <li>A defined first use case</li><li>
+                A tool or subscription choice
+              </li><li>Clear data and action boundaries</li><li>
+                A written 30 day test
+              </li>
+            </ul><p class="offer-limit">
+              Guidance and project definition. This is not a promise of a
+              finished software build.
+            </p>
+          </aside>
         </section>
 
         <section class="about-final">
-          <div class="about-final-copy"><p class="subtitle">Keep exploring</p><h2>See the <span class="sticker yellow">work</span>,<br>then decide.</h2><div class="about-template-actions"><a href="/" class="primary-button about-primary">Back to the homepage</a><a href="/vlog" class="about-text-link">Read the build stories</a></div></div>
-          <div class="footer-rive desk" data-rive-url="/assets/cdn/69577d21-6995b79cb5c877d98300cec7_footer-bowl-character-animation-3.riv" data-rive-state-machine="State Machine 1" data-rive-artboard="Artboard" data-rive-autoplay="true" data-rive-fit="contain" data-rive-alignment="center" data-animation-type="rive"><canvas></canvas></div>
+          <div class="about-final-copy">
+            <p class="subtitle">Keep exploring</p><h2>
+              See the <span class="sticker yellow">work</span>,<br />then
+              decide.
+            </h2><div class="about-template-actions">
+              <a href="/" class="primary-button about-primary"
+                >Back to the homepage</a
+              ><a href="/vlog" class="about-text-link"
+                >Read the build stories</a>
+            </div>
+          </div>
+          <div
+            class="footer-rive desk"
+            data-rive-url="/assets/cdn/69577d21-6995b79cb5c877d98300cec7_footer-bowl-character-animation-3.riv"
+            data-rive-state-machine="State Machine 1"
+            data-rive-artboard="Artboard"
+            data-rive-autoplay="true"
+            data-rive-fit="contain"
+            data-rive-alignment="center"
+            data-animation-type="rive"
+          >
+            <canvas></canvas>
+          </div>
         </section>
       </main>
 
-      <footer class="about-footer"><img src="/dharmic-assets/dharmic-data-logo.svg" alt="Dharmic Data" /><p>Independent project. Working toward a nonprofit collective. Not a registered nonprofit today.</p><nav><a href="/">Home</a><a href="/vlog">Technical vlog</a><a href="https://github.com/ChaiWithJai/dharmic-data">Source</a></nav></footer>
+      <footer class="about-footer">
+        <img src="/dharmic-assets/dharmic-data-logo.svg" alt="Dharmic Data" /><p
+        >
+          Independent project. Working toward a nonprofit collective. Not a
+          registered nonprofit today.
+        </p><nav>
+          <a href="/">Home</a><a href="/vlog">Technical vlog</a><a
+            href="https://github.com/ChaiWithJai/dharmic-data">Source</a>
+        </nav>
+      </footer>
     </div>
     <script is:inline src="/assets/js/jquery-3.5.1.min.dc5e7f18c8.js"></script>
-    <script is:inline src="/assets/js/webflow.schunk.7a4a7f019cc01602.js"></script>
-    <script is:inline src="/assets/js/webflow.schunk.90febbc43c629f61.js"></script>
-    <script is:inline src="/assets/js/webflow.73431be6.2c71108c00d371a3.js"></script>
+    <script is:inline src="/assets/js/webflow.schunk.7a4a7f019cc01602.js"
+    ></script>
+    <script is:inline src="/assets/js/webflow.schunk.90febbc43c629f61.js"
+    ></script>
+    <script is:inline src="/assets/js/webflow.73431be6.2c71108c00d371a3.js"
+    ></script>
   </body>
 </html>
