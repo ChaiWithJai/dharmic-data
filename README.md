@@ -8,9 +8,10 @@ The first project is [Shakti](https://shakti.dharmicdata.org). Shakti lets a per
 
 ## What is in this repo
 
-The site has four routes:
+The site has five routes:
 
-- `/` explains the project and links to the working demo.
+- `/` keeps the original animated template homepage and introduces the working method and demo.
+- `/about` carries Jai's full story, the transition through June 2027, the differentiated method, and the current guidance offer without replacing the homepage hero.
 - `/vlog` lists the technical build stories.
 - `/vlog/how-we-built-shakti` includes a one minute video, captions, a transcript, and source links.
 - `/404` returns people to the working demo.

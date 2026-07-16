@@ -59,7 +59,7 @@ scanHtml('dist');
 
 const renderedRoutes = fs.readdirSync('dist', { recursive: true })
   .filter((file) => String(file).endsWith('.html'));
-if (renderedRoutes.length !== 4) failures.push(`expected 4 rendered routes, found ${renderedRoutes.length}`);
+if (renderedRoutes.length !== 5) failures.push(`expected 5 rendered routes, found ${renderedRoutes.length}`);
 
 async function verify(path, heading, width, height, name, reducedMotion = 'no-preference') {
   const context = await browser.newContext({ viewport: { width, height }, reducedMotion });
@@ -78,6 +78,10 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   if (overflow) failures.push(`${path}: horizontal overflow at ${width}px`);
   if (path === '/' && width === 1440) {
+    const coreTemplateSections = await page.locator('.section.home-hero, .section.about, .section.solutions, .section.ideas, .section.home-blog, .section.faq, .section.blogs, .footer-bg').count();
+    if (coreTemplateSections !== 8) failures.push(`${path}: original template structure changed; expected 8 core sections, found ${coreTemplateSections}`);
+    const aboutLinks = await page.locator('a[href="/about"]:visible').count();
+    if (aboutLinks < 1) failures.push(`${path}: restored template does not link to the About extension`);
     const riveState = await page.locator('.home-rive, .idea-rive, .footer-rive.desk').evaluateAll((nodes) => nodes.map((node) => ({
       url: node.getAttribute('data-rive-url'),
       type: node.getAttribute('data-animation-type'),
@@ -90,8 +94,13 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   if (path === '/' && width === 390) {
     const menu = page.getByRole('button', { name: /menu/i });
     await menu.click();
+    await page.waitForFunction(
+      () => document.querySelector('.w-nav-button')?.getAttribute('aria-expanded') === 'true',
+      null,
+      { timeout: 1500 },
+    ).catch(() => {});
     const expanded = await menu.getAttribute('aria-expanded');
-    const vlogLink = page.locator('#site-nav[data-open] a[href="/vlog"]');
+    const vlogLink = page.locator('nav[data-nav-menu-open] a[href="/vlog"]');
     const menuLinks = await vlogLink.count();
     const menuLinkVisible = menuLinks === 1 && await vlogLink.isVisible();
     if (expanded !== 'true' || !menuLinkVisible) failures.push(`${path}: mobile menu did not expose the primary links (expanded=${expanded}, links=${menuLinks}, visible=${menuLinkVisible})`);
@@ -99,6 +108,8 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
     if (await menu.getAttribute('aria-expanded') !== 'false' || await vlogLink.isVisible()) failures.push(`${path}: mobile menu did not close on second click`);
     await menu.press('Enter');
     if (await menu.getAttribute('aria-expanded') !== 'true' || !await vlogLink.isVisible()) failures.push(`${path}: mobile menu did not open with Enter`);
+    await page.keyboard.press('Escape');
+    if (await menu.getAttribute('aria-expanded') !== 'false' || await vlogLink.isVisible()) failures.push(`${path}: mobile menu did not close on Escape`);
   }
   const fragmentedHeadings = await page.locator('h2').evaluateAll((nodes) => nodes.filter((node) => node.textContent?.trim().split(/\s+/).length === 1 && !node.classList.contains('sr-only')).map((node) => node.textContent?.trim()));
   if (fragmentedHeadings.length > 3) failures.push(`${path}: fragmented heading outline: ${fragmentedHeadings.join(', ')}`);
@@ -110,8 +121,10 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   await context.close();
 }
 
-await verify('/', 'AI should leave people with more agency', 1440, 1000, 'home-desktop.png');
-await verify('/', 'AI should leave people with more agency', 390, 844, 'home-mobile.png', 'reduce');
+await verify('/', 'Find The AI Project Worth Building', 1440, 1000, 'home-desktop.png');
+await verify('/', 'Find The AI Project Worth Building', 390, 844, 'home-mobile.png', 'reduce');
+await verify('/about', 'Software Teacher Public Builder', 1440, 1000, 'about-desktop.png');
+await verify('/about', 'Software Teacher Public Builder', 390, 844, 'about-mobile.png', 'reduce');
 await verify('/vlog', 'Build Stories', 1440, 1000, 'vlog-desktop.png');
 await verify('/vlog/how-we-built-shakti', 'How we built Shakti', 390, 844, 'episode-mobile.png');
 
