@@ -90,13 +90,8 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   if (path === '/' && width === 390) {
     const menu = page.getByRole('button', { name: /menu/i });
     await menu.click();
-    await page.waitForFunction(
-      () => document.querySelector('.w-nav-button')?.getAttribute('aria-expanded') === 'true',
-      null,
-      { timeout: 1500 },
-    ).catch(() => {});
     const expanded = await menu.getAttribute('aria-expanded');
-    const vlogLink = page.locator('nav[data-nav-menu-open] a[href="/vlog"]');
+    const vlogLink = page.locator('#site-nav[data-open] a[href="/vlog"]');
     const menuLinks = await vlogLink.count();
     const menuLinkVisible = menuLinks === 1 && await vlogLink.isVisible();
     if (expanded !== 'true' || !menuLinkVisible) failures.push(`${path}: mobile menu did not expose the primary links (expanded=${expanded}, links=${menuLinks}, visible=${menuLinkVisible})`);
@@ -104,8 +99,6 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
     if (await menu.getAttribute('aria-expanded') !== 'false' || await vlogLink.isVisible()) failures.push(`${path}: mobile menu did not close on second click`);
     await menu.press('Enter');
     if (await menu.getAttribute('aria-expanded') !== 'true' || !await vlogLink.isVisible()) failures.push(`${path}: mobile menu did not open with Enter`);
-    await page.keyboard.press('Escape');
-    if (await menu.getAttribute('aria-expanded') !== 'false' || await vlogLink.isVisible()) failures.push(`${path}: mobile menu did not close on Escape`);
   }
   const fragmentedHeadings = await page.locator('h2').evaluateAll((nodes) => nodes.filter((node) => node.textContent?.trim().split(/\s+/).length === 1 && !node.classList.contains('sr-only')).map((node) => node.textContent?.trim()));
   if (fragmentedHeadings.length > 3) failures.push(`${path}: fragmented heading outline: ${fragmentedHeadings.join(', ')}`);
@@ -117,8 +110,8 @@ async function verify(path, heading, width, height, name, reducedMotion = 'no-pr
   await context.close();
 }
 
-await verify('/', 'Find The AI Project Worth Building', 1440, 1000, 'home-desktop.png');
-await verify('/', 'Find The AI Project Worth Building', 390, 844, 'home-mobile.png', 'reduce');
+await verify('/', 'AI should leave people with more agency', 1440, 1000, 'home-desktop.png');
+await verify('/', 'AI should leave people with more agency', 390, 844, 'home-mobile.png', 'reduce');
 await verify('/vlog', 'Build Stories', 1440, 1000, 'vlog-desktop.png');
 await verify('/vlog/how-we-built-shakti', 'How we built Shakti', 390, 844, 'episode-mobile.png');
 

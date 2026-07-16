@@ -1,6 +1,8 @@
 # Dharmic Data
 
-Dharmic Data is Jai Bhagat's AI guidance practice and public lab. Jai helps people choose a useful AI project, test it against their work, and decide what is worth building next. The lab publishes working projects and evidence that other people can inspect.
+Dharmic Data is Jai Bhagat's AI guidance practice and public record of a transition. Jai has spent more than ten years across software and teaching, including production engineering at HashiCorp and instruction at Parsons. He helps people choose a useful AI project, test it against their work, and decide what is worth doing next.
+
+For years, much of Jai's economic empowerment teaching was free. Paid one-to-one sessions now support the time to publish working projects, document what succeeds and fails, and learn what a future nonprofit collective should become by June 2027. Dharmic Data is not a nonprofit entity today.
 
 The first project is [Shakti](https://shakti.dharmicdata.org). Shakti lets a person enter a New York City building address and inspect public housing records. The public result uses ordinary code and City data. It does not use AI.
 
@@ -14,6 +16,8 @@ The site has four routes:
 - `/404` returns people to the working demo.
 
 The site is static. Netlify can host it without a Python server, a model server, or API keys.
+
+The [messaging architecture](docs/messaging-architecture.md) records the audience, customer problems, differentiated method, current offer, planned tests, and copy boundaries used on the site.
 
 ## Try it
 
@@ -57,4 +61,4 @@ Repository editions are not for sale. A supported repository edition is a possib
 
 ## Public status
 
-Dharmic Data is an independent project. It is not a New York City service. The Shakti result links to the City sources that support it.
+Dharmic Data is an independent project working toward a nonprofit collective by June 2027. It is not a registered nonprofit today, and it is not a New York City service. The Shakti result links to the City sources that support it.
