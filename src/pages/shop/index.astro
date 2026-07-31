@@ -2,6 +2,8 @@
 import DataShopLayout from '../../layouts/DataShopLayout.astro';
 const productUrl = import.meta.env.PUBLIC_DATA_PRODUCT_URL || 'mailto:hello@dharmicdata.org?subject=Pied-%C3%A0-Pierre%20drop%20access';
 const commerceLive = Boolean(import.meta.env.PUBLIC_DATA_PRODUCT_URL);
+const cartBase = import.meta.env.PUBLIC_DATA_SHOPIFY_CART_BASE || '';
+const variants = JSON.parse(import.meta.env.PUBLIC_DATA_VARIANTS_JSON || '{}');
 ---
 <DataShopLayout current="shop" title="Pied-à-Pierre — Dossier 001 | DATA">
   <section class="campaign-hero">
@@ -34,10 +36,27 @@ const commerceLive = Boolean(import.meta.env.PUBLIC_DATA_PRODUCT_URL);
       <fieldset class="sizes">
         <legend>Select size</legend>
         <div>
-          {['S', 'M', 'L', 'XL', '2XL', '3XL'].map((size) => <button type="button">{size}</button>)}
+          {['S', 'M', 'L', 'XL', '2XL', '3XL'].map((size) => (
+            <button
+              type="button"
+              data-size={size}
+              data-variant={variants[size] || ''}
+              aria-pressed="false"
+            >
+              {size}
+            </button>
+          ))}
         </div>
       </fieldset>
-      <a class="buy-button" href={productUrl}>{commerceLive ? 'Preorder Dossier 001' : 'Join the drop notification'} <span>↗</span></a>
+      <a
+        class="buy-button"
+        href={productUrl}
+        data-product-url={productUrl}
+        data-cart-base={cartBase}
+      >
+        <span data-buy-label>{commerceLive ? 'Select a size' : 'Join the drop notification'}</span>
+        <span>↗</span>
+      </a>
       <p class="microcopy">Production begins after the edition closes. Exact delivery window appears before payment.</p>
       <details open>
         <summary>The garment</summary>
@@ -85,4 +104,33 @@ const commerceLive = Boolean(import.meta.env.PUBLIC_DATA_PRODUCT_URL);
       <a class="text-link" href="/shop/atlas/">Follow the image into the atlas →</a>
     </div>
   </section>
+  <script is:inline>
+    const sizeControls = [...document.querySelectorAll('[data-size]')];
+    const buyButton = document.querySelector('.buy-button');
+    const buyLabel = buyButton?.querySelector('[data-buy-label]');
+    sizeControls.forEach((control) => {
+      control.addEventListener('click', () => {
+        sizeControls.forEach((item) => {
+          item.classList.toggle('selected', item === control);
+          item.setAttribute('aria-pressed', String(item === control));
+        });
+        const size = control.dataset.size;
+        const variant = control.dataset.variant;
+        const cartBase = buyButton?.dataset.cartBase?.replace(/\/$/, '');
+        const productUrl = buyButton?.dataset.productUrl;
+        if (cartBase && variant) {
+          buyButton.href = `${cartBase}/cart/${variant}:1`;
+          if (buyLabel) buyLabel.textContent = `Add ${size} to bag`;
+        } else if (variant && productUrl && !productUrl.startsWith('mailto:')) {
+          const url = new URL(productUrl);
+          url.searchParams.set('variant', variant);
+          buyButton.href = url.toString();
+          if (buyLabel) buyLabel.textContent = `Preorder size ${size}`;
+        } else if (productUrl?.startsWith('mailto:')) {
+          buyButton.href = `${productUrl}&body=Preferred%20size%3A%20${encodeURIComponent(size)}`;
+          if (buyLabel) buyLabel.textContent = `Join notification · ${size}`;
+        }
+      });
+    });
+  </script>
 </DataShopLayout>

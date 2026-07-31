@@ -62,6 +62,7 @@ button { font: inherit; }
 .sizes button { min-height: 44px; border: 1px solid var(--line); border-right: 0; background: var(--white); cursor: pointer; font: 500 10px/1 var(--mono); }
 .sizes button:last-child { border-right: 1px solid var(--line); }
 .sizes button:hover, .sizes button:focus { background: var(--ink); color: var(--white); }
+.sizes button.selected { background: var(--ink); color: var(--white); }
 .buy-button, .primary-action { display: flex; align-items: center; justify-content: space-between; min-height: 54px; padding: 0 17px; background: var(--ink); color: var(--white); font: 500 10px/1 var(--mono); text-transform: uppercase; }
 .buy-button:hover, .primary-action:hover { background: var(--red); }
 .microcopy { margin: 10px 0 28px; color: var(--muted); font: 400 8px/1.45 var(--mono); }

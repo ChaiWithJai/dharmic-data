@@ -218,6 +218,19 @@ async function verify(
     )
       failures.push(`${path}: mobile menu did not close on Escape`);
   }
+  if (path === "/shop" && width === 1440) {
+    const medium = page.locator('[data-size="M"]');
+    if ((await medium.count()) !== 1) {
+      failures.push(`${path}: expected one medium size control`);
+    } else {
+      await medium.click();
+      if ((await medium.getAttribute("aria-pressed")) !== "true")
+        failures.push(`${path}: size selection state did not update`);
+      const dropHref = await page.locator(".buy-button").getAttribute("href");
+      if (!dropHref?.includes("Preferred%20size%3A%20M"))
+        failures.push(`${path}: selected size was not carried into drop action`);
+    }
+  }
   const fragmentedHeadings = await page
     .locator("h2")
     .evaluateAll((nodes) =>
