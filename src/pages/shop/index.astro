@@ -4,7 +4,16 @@ const productUrl = import.meta.env.PUBLIC_DATA_PRODUCT_URL || 'mailto:hello@dhar
 const commerceLive = Boolean(import.meta.env.PUBLIC_DATA_PRODUCT_URL);
 ---
 <DataShopLayout current="shop" title="Pied-à-Pierre — Dossier 001 | DATA">
-  <section class="product-hero">
+  <section class="campaign-hero">
+    <img src="/data-shop/data-shirt.png" alt="Pied-à-Pierre Dossier 001 campaign image" />
+    <div class="campaign-label">
+      <p>DATA / DROP 001</p>
+      <h1>Pied-à-Pierre</h1>
+      <a href="#dossier">Shop the dossier</a>
+    </div>
+  </section>
+
+  <section class="product-hero" id="dossier">
     <div class="product-gallery">
       <figure class="product-primary">
         <img src="/data-shop/data-shirt.png" alt="Pied-à-Pierre Dossier 001 black heavyweight T-shirt" />
