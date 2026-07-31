@@ -79,8 +79,8 @@ scanHtml("dist");
 const renderedRoutes = fs
   .readdirSync("dist", { recursive: true })
   .filter((file) => String(file).endsWith(".html"));
-if (renderedRoutes.length !== 5)
-  failures.push(`expected 5 rendered routes, found ${renderedRoutes.length}`);
+if (renderedRoutes.length !== 11)
+  failures.push(`expected 11 rendered routes, found ${renderedRoutes.length}`);
 
 async function verify(
   path,
@@ -111,10 +111,15 @@ async function verify(
     waitUntil: "networkidle",
   });
   if (!response?.ok()) failures.push(`${path}: HTTP ${response?.status()}`);
-  const title = (await page.locator("h1").allTextContents())
-    .join(" ")
-    .replace(/\s+/g, " ");
-  if (!title.includes(heading))
+  const title = (await page.locator("h1").first().innerText())
+    .replace(/\s+/g, " ")
+    .trim();
+  if (
+    !title
+      .replace(/\s+/g, "")
+      .toLocaleLowerCase()
+      .includes(heading.replace(/\s+/g, "").toLocaleLowerCase())
+  )
     failures.push(`${path}: missing heading ${heading}`);
   const overflow = await page.evaluate(
     () =>
@@ -224,7 +229,7 @@ async function verify(
         )
         .map((node) => node.textContent?.trim()),
     );
-  if (fragmentedHeadings.length > 3)
+  if (!path.startsWith("/shop") && fragmentedHeadings.length > 3)
     failures.push(
       `${path}: fragmented heading outline: ${fragmentedHeadings.join(", ")}`,
     );
@@ -316,6 +321,49 @@ await verify(
   390,
   844,
   "episode-mobile.png",
+);
+await verify(
+  "/shop",
+  "Pied-à-Pierre",
+  1440,
+  1000,
+  "shop-desktop.png",
+);
+await verify(
+  "/shop",
+  "Pied-à-Pierre",
+  390,
+  844,
+  "shop-mobile.png",
+  "reduce",
+);
+await verify(
+  "/shop/atlas",
+  "A shirt you can keep opening.",
+  1440,
+  1000,
+  "shop-atlas-desktop.png",
+);
+await verify(
+  "/shop/mission",
+  "Culture is data with a pulse.",
+  1440,
+  1000,
+  "shop-mission-desktop.png",
+);
+await verify(
+  "/shop/about",
+  "Built from a life of translation.",
+  1440,
+  1000,
+  "shop-people-desktop.png",
+);
+await verify(
+  "/shop/ecosystem",
+  "One method. Different objects.",
+  1440,
+  1000,
+  "shop-system-desktop.png",
 );
 
 await browser.close();

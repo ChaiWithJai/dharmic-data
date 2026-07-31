@@ -1,0 +1,75 @@
+---
+const {
+  title = 'DATA — a Dharmic Data imprint',
+  description = 'Limited cultural and political-satire textile editions from Dharmic Data.',
+  current = '',
+} = Astro.props;
+
+const productUrl = import.meta.env.PUBLIC_DATA_PRODUCT_URL || 'mailto:hello@dharmicdata.org?subject=Pied-%C3%A0-Pierre%20drop%20access';
+const commerceLive = Boolean(import.meta.env.PUBLIC_DATA_PRODUCT_URL);
+const nav = [
+  ['shop', '/shop/', 'Dossier 001'],
+  ['atlas', '/shop/atlas/', 'Atlas'],
+  ['mission', '/shop/mission/', 'Mission'],
+  ['about', '/shop/about/', 'People'],
+  ['ecosystem', '/shop/ecosystem/', 'The system'],
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ef3e2f" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/data-shop/data-shop.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="ticker" aria-label="Edition announcement">
+      <div>PIED-À-PIERRE · DOSSIER 001 · POLITICAL SATIRE · THE ATLAS IS LIVE · PIED-À-PIERRE · DOSSIER 001 · POLITICAL SATIRE ·</div>
+    </div>
+    <header class="shop-header">
+      <a class="wordmark" href="/shop/" aria-label="DATA home">
+        <strong>DATA</strong>
+        <span>A Dharmic Data imprint</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="shop-nav">Menu</button>
+      <nav id="shop-nav" aria-label="DATA">
+        {nav.map(([key, href, label]) => (
+          <a href={href} aria-current={current === key ? 'page' : undefined}>{label}</a>
+        ))}
+      </nav>
+      <a class="cart-link" href={productUrl}>{commerceLive ? 'Bag (0)' : 'Drop access'} <span aria-hidden="true">↗</span></a>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="shop-footer">
+      <div>
+        <strong>DATA</strong>
+        <p>Détournement · Archives · Textiles · Agitation</p>
+      </div>
+      <div class="footer-links">
+        <a href="/atlas/">Open the atlas</a>
+        <a href="https://dharmicdata.org/">Dharmic Data</a>
+        <a href="mailto:hello@dharmicdata.org?subject=DATA%20Dossier%20001">Contact</a>
+      </div>
+      <p class="legal">Independent cultural project. Political satire. © {new Date().getFullYear()} Dharmic Data.</p>
+    </footer>
+    <script is:inline>
+      const button = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('#shop-nav');
+      button?.addEventListener('click', () => {
+        const open = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', String(!open));
+        nav?.classList.toggle('open', !open);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+---
+import DataShopLayout from '../../layouts/DataShopLayout.astro';
+const productUrl = import.meta.env.PUBLIC_DATA_PRODUCT_URL || 'mailto:hello@dharmicdata.org?subject=Pied-%C3%A0-Pierre%20drop%20access';
+const commerceLive = Boolean(import.meta.env.PUBLIC_DATA_PRODUCT_URL);
+---
+<DataShopLayout current="shop" title="Pied-à-Pierre — Dossier 001 | DATA">
+  <section class="product-hero">
+    <div class="product-gallery">
+      <figure class="product-primary">
+        <img src="/data-shop/data-shirt.png" alt="Pied-à-Pierre Dossier 001 black heavyweight T-shirt" />
+        <figcaption>Concept garment shown. Final sample photography follows production approval.</figcaption>
+      </figure>
+    </div>
+    <div class="buy-panel" id="drop">
+      <p class="overline">DATA / First textile edition</p>
+      <h1>Pied-à-Pierre</h1>
+      <p class="dossier">Dossier 001</p>
+      <p class="price">$72 USD</p>
+      <p class="lede">A political-satire artifact about recognition, memory, and the stories that survive translation.</p>
+      <div class="edition-facts">
+        <span>Heavyweight cotton</span>
+        <span>Relaxed fit</span>
+        <span>Numbered first edition</span>
+      </div>
+      <fieldset class="sizes">
+        <legend>Select size</legend>
+        <div>
+          {['S', 'M', 'L', 'XL', '2XL', '3XL'].map((size) => <button type="button">{size}</button>)}
+        </div>
+      </fieldset>
+      <a class="buy-button" href={productUrl}>{commerceLive ? 'Preorder Dossier 001' : 'Join the drop notification'} <span>↗</span></a>
+      <p class="microcopy">Production begins after the edition closes. Exact delivery window appears before payment.</p>
+      <details open>
+        <summary>The garment</summary>
+        <p>Washed black, 6–7.5 oz cotton, large-format chest print, woven DATA hem label, printed neck mark, and a bilingual context card.</p>
+      </details>
+      <details>
+        <summary>The image</summary>
+        <p>The work uses exaggeration, collision, and altered political symbols as satire. It is presented as commentary, not endorsement.</p>
+      </details>
+      <details>
+        <summary>Shipping & returns</summary>
+        <p>This is a bounded preorder edition. The production and dispatch dates will be shown at checkout; damaged or incorrect items will be made right.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="product-editorial">
+    <div>
+      <p class="overline">The image / Dossier 001</p>
+      <h2>One joke.<br />A whole map.</h2>
+      <p>The artwork compresses a campaign, a housing debate, and a specifically Québecois visual memory into one loud object. The atlas opens it back up.</p>
+    </div>
+    <figure>
+      <img src="/data-shop/data-artwork-web.png" alt="Isolated Pied-à-Pierre Dossier 001 artwork" />
+      <figcaption>Web artwork study. Production separation pending sample approval.</figcaption>
+    </figure>
+  </section>
+
+  <section class="recognition">
+    <p class="overline">The recognition test</p>
+    <h2>Comprenez-vous la joke?</h2>
+    <div class="recognition-grid">
+      <a href="/shop/atlas/"><span>Oui.</span><small>I recognize the source material.</small></a>
+      <a href="/shop/atlas/"><span>Expliquez-moi.</span><small>Show me the history behind the shirt.</small></a>
+    </div>
+  </section>
+
+  <section class="story-split">
+    <div>
+      <p class="overline">Not merch. A record.</p>
+      <h2>The shirt is the portable layer of a living atlas.</h2>
+    </div>
+    <div>
+      <p>Pied-à-Pierre begins with a hyper-specific visual joke and opens outward into places, people, media, and memory. The garment carries the image. The atlas carries the receipts.</p>
+      <a class="text-link" href="/shop/atlas/">Follow the image into the atlas →</a>
+    </div>
+  </section>
+</DataShopLayout>
