@@ -1,0 +1,43 @@
+---
+interface Props { title: string; description: string; bodyClass?: string; active?: string; }
+const {title, description, bodyClass='dharmic-about', active=''} = Astro.props;
+const navigation = [{id:'home',href:'/',label:'Home'},{id:'school',href:'/school',label:'The school'},{id:'about',href:'/about',label:"Jai's story"},{id:'learn',href:'/learn',label:'Learn'}];
+---
+<!doctype html>
+<html data-wf-domain="dharmicdata.org" data-wf-page="69577d210b4351354040f31d" data-wf-site="69577d210b4351354040f31c" lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{title}</title><meta name="description" content={description}/>
+  <meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://dharmicdata.org/dharmic-assets/jai-portrait-motion.jpg"/>
+  <link rel="icon" type="image/svg+xml" href="/dharmic-assets/shakti-seva-mark.svg"/>
+  <link rel="stylesheet" href="/assets/webflow-bundle/c36a0562fb6b95e9.css"/>
+  <script is:inline src="/assets/js/webfont.js"></script>
+  <script is:inline>WebFont.load({google:{families:["Fredoka:300,400,500,600,700","Inter:300,400,500,600,700"]}});document.documentElement.classList.add('w-mod-js');if('ontouchstart' in window)document.documentElement.classList.add('w-mod-touch');</script>
+  <link rel="stylesheet" href="/dharmic-treatment.css"/>
+  <link rel="stylesheet" href="/template-about.css"/>
+  <link rel="stylesheet" href="/template-school.css"/>
+</head>
+<body class={bodyClass}>
+<a class="dharmic-skip" href="#main">Skip to main content</a>
+<div class="page-wrapper">
+  <header class="navbar w-nav" data-animation="default" data-collapse="medium" data-duration="400" data-w-id="fb272154-f29e-ab34-e878-15c4403e47b0">
+    <div class="navbar-wrapper">
+      <a href="/" class="navbar-brand w-nav-brand"><img src="/dharmic-assets/dharmic-data-logo.svg" alt="Dharmic Data" class="nav-logo black"/></a>
+      <nav class="menu-wrapper w-nav-menu" aria-label="Main navigation"><div class="menu-items">{navigation.map(item=><a href={item.href} class:list={['nav-link',{'w--current':active===item.id}]} aria-current={active===item.id?'page':undefined}>{item.label}</a>)}</div></nav>
+      <div class="nav-buttons desk"><a href="https://maven.com/a-plus/o/585d59" class="primary-button w-inline-block" data-w-id="5e04e5d2-a7d2-705e-d362-7d1873101255"><div class="button-texts"><div class="button-text _01">Free guide</div><div class="button-text _02" aria-hidden="true">Free guide</div></div></a></div>
+      <div class="menu-button w-nav-button"><div class="menu-text _01">Menu</div><div class="menu-text _02">Close</div></div>
+    </div>
+  </header>
+  <main id="main"><slot/></main>
+  {active !== 'about' && <section class="about-final template-final" aria-labelledby="continue-title"><div class="about-final-copy"><p class="subtitle">Keep imagining</p><h2 id="continue-title">A question.<br/>A teacher.<br/><span class="sticker yellow">A beginning.</span></h2><a class="primary-button about-primary" href="/learn">Find your next lesson ↗</a></div><div class="footer-rive desk" data-rive-url="/assets/cdn/69577d21-6995b79cb5c877d98300cec7_footer-bowl-character-animation-3.riv" data-rive-state-machine="State Machine 1" data-rive-artboard="Artboard" data-rive-autoplay="true" data-rive-fit="contain" data-rive-alignment="center" data-animation-type="rive"><canvas></canvas></div></section>}
+  <footer class="about-footer"><img src="/dharmic-assets/dharmic-data-logo.svg" alt="Dharmic Data"/><p>A school in the making. Programs and funded places are being developed.</p><nav aria-label="Footer"><a href="/school">The school</a><a href="/about">Jai's story</a><a href="/learn">Learn</a><a href="/vlog">Build stories</a><a href="/shop">Shop</a><a href="https://literature.dharmicdata.org">The library ↗</a></nav></footer>
+</div>
+<script is:inline src="/template-motion.js"></script>
+<script is:inline src="/assets/js/jquery-3.5.1.min.dc5e7f18c8.js"></script>
+<script is:inline src="/assets/js/webflow.schunk.7a4a7f019cc01602.js"></script>
+<script is:inline src="/assets/js/webflow.schunk.90febbc43c629f61.js"></script>
+<script is:inline src="/assets/js/webflow.73431be6.2c71108c00d371a3.js"></script>
+<script is:inline src="/dharmic-navigation.js"></script>
+</body>
+</html>

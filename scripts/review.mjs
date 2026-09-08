@@ -1,0 +1,11 @@
+import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'node:path';
+import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const film = process.env.FILM_REVIEW_SOURCE || resolve(root,'../outputs/conscious-compute-film-2026-09-07/output/shared-future-campaign/r2/dharmic-data-60-shared-future-r2.mp4');
+if (!existsSync(film)) throw new Error('Set FILM_REVIEW_SOURCE to the approved local review candidate path. No film is downloaded automatically.');
+const child = spawn('npm',['exec','--','astro','dev','--host','127.0.0.1','--port',process.env.DD_REVIEW_PORT || '4327'],{cwd:root,stdio:'inherit',env:{...process.env,FILM_REVIEW_SOURCE:film,FILM_REVIEW_SHA256:'2ec327cf59992f5735df857c8b01db009c6d665fdbfbc2e855fdf963fc5c89d5'}});
+for (const signal of ['SIGINT','SIGTERM']) process.on(signal,()=>child.kill(signal));
+child.on('exit',code=>process.exitCode=code??1);
+child.on('error',()=>process.exitCode=1);

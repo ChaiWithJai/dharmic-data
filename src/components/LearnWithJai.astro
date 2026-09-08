@@ -1,0 +1,169 @@
+---
+import { getFilmGuide, getLessonPresentation, lightningLessons, MAVEN_SCHOOL_URL, MAVEN_FILM_GUIDE_URL } from '../data/learning';
+
+const guide = getFilmGuide(import.meta.env.PUBLIC_MAVEN_FILM_GUIDE_URL ?? MAVEN_FILM_GUIDE_URL);
+---
+
+<section class="learn-jai" id="learn" aria-labelledby="learn-title">
+  <div class="learn-wrap">
+    <header class="learn-intro">
+      <div>
+        <p class="learn-eyebrow"><span aria-hidden="true">✳</span> Learn with Jai</p>
+        <h2 id="learn-title">A good question<br />can open a world.</h2>
+      </div>
+      <p class="learn-invitation">Bring a question from your work. We’ll explore it together, make something useful, and ask who it could help.</p>
+    </header>
+
+    <div class="lessons-heading">
+      <h3>Lightning Lessons on Maven</h3>
+      <a class="school-link" href={MAVEN_SCHOOL_URL}>Visit Jai’s school <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <ol class="lesson-list" aria-label="Maven Lightning Lessons">
+      {lightningLessons.map((lesson) => {
+        const presentation = getLessonPresentation(lesson.endsAt);
+        return (
+          <li class="lesson" data-lesson-ends={lesson.endsAt} data-lesson-phase={presentation.phase}>
+            <a class="lesson-link" href={lesson.url} aria-labelledby={`${lesson.id}-title`} aria-describedby={`${lesson.id}-date ${lesson.id}-status`}>
+              <div class="lesson-calendar" aria-hidden="true">
+                <span>{lesson.month}</span><strong>{lesson.day}</strong><span>2026</span>
+              </div>
+              <div class="lesson-content">
+                <p class="lesson-status" id={`${lesson.id}-status`} data-lesson-status>{presentation.label}</p>
+                <h4 id={`${lesson.id}-title`}>{lesson.title}</h4>
+                <p class="lesson-description">{lesson.description}</p>
+                <time class="lesson-date" id={`${lesson.id}-date`} datetime={lesson.startsAt}>{lesson.dateLabel}</time>
+                <span class="lesson-action" data-lesson-action>{presentation.action}</span>
+              </div>
+              <span class="lesson-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+
+    <aside class="field-notes" id="field-notes" aria-labelledby="field-notes-title">
+      <div class="notes-object" aria-hidden="true">
+        <div class="notes-sheet notes-sheet-back"></div>
+        <div class="notes-sheet notes-cover">
+          <div class="cover-top"><span>Dharmic Data</span><span>A practical guide</span></div>
+          <p class="cover-title">Turn your<br />team's files<br />into <em>gold.</em></p>
+          <div class="cover-rule"><span></span><span></span><span></span></div>
+          <p class="cover-bottom">Your team's digital twin.<br />GPT-6 Astra + local AI.</p>
+        </div>
+      </div>
+      <div class="notes-copy">
+        <p class="notes-status">{guide.status}</p>
+        <h3 id="field-notes-title">{guide.title}<span aria-hidden="true">.</span></h3>
+        <p class="notes-subtitle">{guide.subtitle}</p>
+        <p class="notes-description">{guide.description}</p>
+        <a class="notes-cta" href={guide.url}>{guide.action}<span aria-hidden="true">↗</span></a>
+        <p class="notes-availability">{guide.note}</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  import { getLessonPresentation } from '../data/learning';
+
+  // Static builds may remain online after a lesson ends. Correct the status at
+  // page load without inventing replay access or a fresh enrollment window.
+  document.querySelectorAll<HTMLElement>('[data-lesson-ends]').forEach((lesson) => {
+    const presentation = getLessonPresentation(lesson.dataset.lessonEnds ?? '');
+    lesson.dataset.lessonPhase = presentation.phase;
+    const status = lesson.querySelector<HTMLElement>('[data-lesson-status]');
+    const action = lesson.querySelector<HTMLElement>('[data-lesson-action]');
+    if (status) status.textContent = presentation.label;
+    if (action) action.textContent = presentation.action;
+  });
+</script>
+
+<style>
+  .learn-jai {
+    --learn-cream: #f4efe5;
+    --learn-forest: #151515;
+    --learn-orange: #b73c22;
+    --learn-muted: #4e645a;
+    --learn-rule: #c7cec0;
+    background: var(--learn-cream);
+    color: var(--learn-forest);
+    padding: clamp(4.5rem, 8vw, 8rem) 1.5rem;
+    scroll-margin-top: 6rem;
+    font-family: 'Inter', Arial, sans-serif;
+  }
+  .learn-jai *, .learn-jai *::before, .learn-jai *::after { box-sizing: border-box; }
+  .learn-wrap { max-width: 1160px; margin: 0 auto; }
+  .learn-intro { display: grid; grid-template-columns: 1.45fr 1fr; gap: 3rem; align-items: end; margin-bottom: 4rem; }
+  .learn-eyebrow { display: flex; gap: .7rem; align-items: center; margin: 0 0 1.4rem; color: var(--learn-orange); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .learn-eyebrow span { font-size: 1.6rem; line-height: 1; }
+  .learn-intro h2 { margin: 0; font: 400 clamp(2.6rem, 4.8vw, 4.6rem)/1.07 'Fredoka', Inter, sans-serif; letter-spacing: -.045em; color: var(--learn-forest); }
+  .learn-invitation { max-width: 25rem; margin: 0 0 .35rem; font-size: 1.08rem; line-height: 1.7; color: var(--learn-muted); }
+  .lessons-heading { display: flex; gap: 1.5rem; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid var(--learn-forest); }
+  .lessons-heading h3 { margin: 0; font: 600 1rem/1.4 'Inter', Arial, sans-serif; letter-spacing: -.015em; color: var(--learn-forest); }
+  .school-link { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; color: var(--learn-forest); font-size: .87rem; font-weight: 600; text-underline-offset: .3em; }
+  .lesson-list { list-style: none; padding: 0; margin: 0; }
+  .lesson { margin: 0; padding: 0; border-bottom: 1px solid var(--learn-rule); }
+  .lesson-link { display: grid; grid-template-columns: 88px minmax(0, 1fr) 48px; gap: 2rem; padding: 2rem 0; color: inherit; text-decoration: none; transition: background-color 160ms ease; }
+  .lesson-link:hover { background: #eeeede; }
+  .lesson-calendar { padding-top: .25rem; text-align: center; border-right: 1px solid var(--learn-rule); padding-right: 1rem; }
+  .lesson-calendar span { display: block; font: 500 .75rem/1.4 'Inter', Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .lesson-calendar strong { display: block; padding: .15rem 0; font: 400 2.9rem/1.1 'Fredoka', Inter, sans-serif; letter-spacing: -.045em; }
+  .lesson-status { margin: 0 0 .55rem; font: 600 .72rem/1.5 'Inter', Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--learn-orange); }
+  .lesson h4 { max-width: 47rem; margin: 0 0 .65rem; font: 400 clamp(1.4rem, 2.35vw, 1.9rem)/1.22 'Fredoka', Inter, sans-serif; letter-spacing: -.025em; color: var(--learn-forest); }
+  .lesson-description { max-width: 43rem; margin: 0 0 .7rem; color: var(--learn-muted); font-size: .93rem; line-height: 1.6; }
+  .lesson-date { display: block; font-size: .8rem; line-height: 1.5; color: var(--learn-muted); }
+  .lesson-action { display: inline-block; margin-top: .85rem; font-size: .82rem; font-weight: 650; text-decoration: underline; text-underline-offset: .25em; }
+  .lesson-arrow { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--learn-rule); border-radius: 50%; font: 400 1.4rem/1 Arial, sans-serif; }
+  .lesson[data-lesson-phase='past'] .lesson-status { color: var(--learn-muted); }
+  .field-notes { display: grid; grid-template-columns: .85fr 1.3fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; margin-top: 4rem; padding: clamp(2rem, 5vw, 4rem); background: var(--learn-forest); color: var(--learn-cream); border-radius: 2rem; overflow: hidden; }
+  .notes-object { width: min(100%, 278px); aspect-ratio: .75; position: relative; justify-self: center; margin: 1rem; }
+  .notes-sheet { position: absolute; inset: 0; background: var(--learn-cream); }
+  .notes-sheet-back { background: #e5d8bb; transform: translate(8px, 8px) rotate(3deg); }
+  .notes-cover { display: flex; flex-direction: column; padding: 1.4rem; color: var(--learn-forest); transform: rotate(-3deg); box-shadow: 0 14px 24px #071e1b40; border-left: 3px solid #e5d8bb; }
+  .cover-top { display: flex; justify-content: space-between; gap: .75rem; padding-bottom: .8rem; border-bottom: 1px solid #a9b5a3; font-size: .58rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .cover-title { margin: 1.5rem 0 1rem; font: 400 clamp(1.65rem, 2.5vw, 2.15rem)/1.05 'Fredoka', Inter, sans-serif; letter-spacing: -.045em; }
+  .cover-title em { color: var(--learn-orange); font-weight: 400; }
+  .cover-rule { display: flex; align-items: center; gap: .55rem; margin-top: auto; margin-bottom: 1rem; }
+  .cover-rule span { width: 19px; height: 19px; border: 1px solid var(--learn-forest); border-radius: 50%; }
+  .cover-rule span:nth-child(2) { border-radius: 0; transform: rotate(45deg); width: 14px; height: 14px; margin: 0 .15rem; }
+  .cover-rule span:last-child { border-color: var(--learn-orange); background: var(--learn-orange); }
+  .cover-bottom { border-top: 1px solid #a9b5a3; padding-top: .65rem; margin: 0; font-size: .62rem; line-height: 1.5; }
+  .notes-status { margin: 0 0 1rem; color: #f5b899; font-size: .74rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; }
+  .notes-copy h3 { margin: 0 0 .85rem; color: var(--learn-cream); font: 400 clamp(1.9rem, 3vw, 2.75rem)/1.13 'Fredoka', Inter, sans-serif; letter-spacing: -.035em; }
+  .notes-subtitle { margin: 0 0 1.25rem; color: #dce4d4; font-size: .85rem; line-height: 1.5; }
+  .notes-description { max-width: 34rem; margin: 0 0 1.5rem; color: #e3e8db; font-size: 1rem; line-height: 1.65; }
+  .notes-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.2rem; min-height: 50px; padding: .9rem 1.15rem; background: var(--learn-cream); color: var(--learn-forest); border: 1px solid var(--learn-cream); border-radius: 100px; font-size: .9rem; line-height: 1.4; font-weight: 650; text-decoration: none; transition: background-color 160ms ease; }
+  .notes-cta:hover { background: #f5b899; border-color: #f5b899; }
+  .notes-cta span { font-size: 1.3rem; }
+  .notes-availability { max-width: 30rem; margin: .9rem 0 0; color: #d0dccb; font-size: .78rem; line-height: 1.6; }
+  .learn-jai a:focus-visible { outline: 3px solid var(--learn-orange); outline-offset: 5px; border-radius: 2px; }
+  .field-notes a:focus-visible { outline-color: #f5b899; }
+  @media (max-width: 760px) {
+    .learn-intro { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2.75rem; }
+    .learn-invitation { max-width: 35rem; }
+    .lesson-link { grid-template-columns: 65px minmax(0, 1fr); gap: 1.1rem; }
+    .lesson-calendar { padding-right: .65rem; }
+    .lesson-calendar strong { font-size: 2.5rem; }
+    .lesson-arrow { display: none; }
+    .field-notes { gap: 3rem; grid-template-columns: 1fr; margin-top: 3rem; }
+    .notes-object { width: 230px; max-width: calc(100% - 2rem); }
+    .cover-title { font-size: 1.7rem; margin: 1.1rem 0 .75rem; }
+    .notes-copy { max-width: 32rem; }
+  }
+  @media (max-width: 440px) {
+    .learn-jai { padding-inline: 1.1rem; }
+    .lessons-heading { align-items: flex-start; flex-direction: column; gap: .25rem; }
+    .lesson-link { gap: .9rem; grid-template-columns: 49px minmax(0, 1fr); }
+    .lesson-calendar { padding-right: .4rem; }
+    .lesson-calendar strong { font-size: 2.05rem; }
+    .lesson h4 { font-size: 1.35rem; }
+    .field-notes { padding: 1.7rem; }
+    .notes-cover { padding: 1rem; }
+    .cover-title { font-size: 1.5rem; margin: 1rem 0 .75rem; }
+    .notes-cta { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .learn-jai a { transition: none; }
+  }
+</style>

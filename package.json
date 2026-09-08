@@ -8,7 +8,8 @@
     "build": "astro build",
     "test": "npm run build && npm run verify:dharmic",
     "verify:dharmic": "node scripts/verify-dharmic.mjs",
-    "preview": "astro preview --host 0.0.0.0"
+    "preview": "astro preview --host 0.0.0.0",
+    "review": "node scripts/review.mjs"
   },
   "dependencies": {
     "astro": "^7.0.9"
