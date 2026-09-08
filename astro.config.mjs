@@ -1,5 +1,3 @@
 import { defineConfig } from 'astro/config';
-
-export default defineConfig({
-  output: 'static',
-});
+import { filmReviewPlugin } from './scripts/film-review-plugin.mjs';
+export default defineConfig({output:'static', devToolbar:{enabled:false}, vite:{plugins:[filmReviewPlugin()]}});

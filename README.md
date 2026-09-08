@@ -1,65 +1,49 @@
 # Dharmic Data
 
-Dharmic Data is Jai Bhagat's AI guidance practice and public record of a transition. Jai has spent more than ten years across software and teaching, including production engineering at HashiCorp and instruction at Parsons. He helps people choose a useful AI project, test it against their work, and decide what is worth doing next.
+Dharmic Data is the emerging school Jai Bhagat is building. Conscious Compute is its signature workshop series. A good teacher can change the course of someone's life. A great teacher can change the course of an entire civilization.
 
-For years, much of Jai's economic empowerment teaching was free. Paid one-to-one sessions now support the time to publish working projects, document what succeeds and fails, and learn what a future nonprofit collective should become by June 2027. Dharmic Data is not a nonprofit entity today.
+The website connects that belief to Jai's NVIDIA hackathon win with friends, his teaching record, and the proposed paid learning program. The film is supporting material in the founder story. Film production remains paused.
 
-The first project is [Shakti](https://shakti.dharmicdata.org). Shakti lets a person enter a New York City building address and inspect public housing records. The public result uses ordinary code and City data. It does not use AI.
+## Start here
 
-## What is in this repo
+Read [the website objective](GOAL.md) and [the current implementation and release notes](docs/teacher-school-website.md). They supersede the older guidance-practice and booking direction in the historical design documents.
 
-The site has five routes:
+The [free production field notes on Maven](https://maven.com/a-plus/o/585d59) explain what making the film taught us about human judgment. Maven handles the resource signup and its delivery message. The homepage also links to verified Lightning Lessons.
 
-- `/` keeps the original animated template homepage and introduces the working method and demo.
-- `/about` carries Jai's full story, the transition through June 2027, the differentiated method, and the current guidance offer without replacing the homepage hero.
-- `/vlog` lists the technical build stories.
-- `/vlog/how-we-built-shakti` includes a one minute video, captions, a transcript, and source links.
-- `/404` returns people to the working demo.
+## Run from any directory
 
-The site is static. Netlify can host it without a Python server, a model server, or API keys.
-
-The [messaging architecture](docs/messaging-architecture.md) records the audience, customer problems, differentiated method, current offer, planned tests, and copy boundaries used on the site.
-
-## Try it
-
-1. Open [Shakti](https://shakti.dharmicdata.org).
-2. Search one New York City building address.
-3. Check the City building name, the BIN, and the source dates.
-4. Open the [Shakti source](https://github.com/ChaiWithJai/shakti-seva-studio) and find the source list.
-
-## Run this site
+Set a variable to this checkout's absolute path. Do not run commands against the surrounding `qedc` repository.
 
 ```sh
-npm install
-npm run dev
+DD_SITE=/Users/jaybhagat/Documents/qedc/dharmic-data-teacher-school
+node "$DD_SITE/scripts/dd.mjs" status
+node "$DD_SITE/scripts/dd.mjs" build
+node "$DD_SITE/scripts/dd.mjs" test
+node "$DD_SITE/scripts/dd.mjs" dev
 ```
 
-Open `http://localhost:4321`.
-
-## Check a release
+`dev` opens the normal site on port 4321. `review` starts a loopback-only preview on port 4327 with the existing private 60-second film. The review script validates the current candidate's SHA-256 hash. It does not generate or copy film media.
 
 ```sh
-npm run build
-npm run preview -- --port 4325
-npm run verify:dharmic
+node "$DD_SITE/scripts/dd.mjs" review
 ```
 
-The check opens the built site at mobile and desktop widths. It also fails if old template sales pages, carts, social links, or placeholder values return.
+On another checkout, set `FILM_REVIEW_SOURCE` to the same reviewed file. A production build always excludes the private film. An approved public film can later be configured with `PUBLIC_FOUNDER_FILM_URL` and a matching media-host Content Security Policy.
 
-## Where AI fits
+## Site routes
 
-The public Shakti path does not use AI. The Shakti repo has an optional local research path for Hermes. That path can explain a treated data packet and record tool calls. A model cannot change the public source record or choose the public next step.
+The homepage and About page describe the school. The existing vlog, Shakti article and shop remain available. Nine learner accounts and four case studies remain on the homepage. The site is static and does not need a model server or an API key.
 
-## Work with Jai
+## Verification
 
-The [AI Guidance Counselor session](https://cal.com/chaiwithjai/ai-guidance-counselor) is 60 minutes and costs $125. Bring one workflow, folder, repository, or decision. You leave with a clear project, a 30 day test plan, a subscription recommendation, and clear data boundaries.
+`test` builds the site and runs browser checks at 320, 390, 768 and 1440 pixels. It checks the story hierarchy, keyboard access, media boundaries, Maven destinations and the existing shop and vlog behavior. Screenshots are written to `output/browser-qa`.
 
-The [Codex and Claude Code Personal Training session](https://cal.com/chaiwithjai/codex-claude-code-training) is 45 minutes and costs $85. You need an active paid ChatGPT or Claude subscription by the time of the session.
+A private film check can use a running review server:
 
-The homepage uses the guidance session as its default booking link. Set `PUBLIC_CALENDAR_URL` if you need to point a preview or deployment at a different event.
-
-Repository editions are not for sale. A supported repository edition is a possible next product. We will add it only after there is a clear license, support policy, checkout, and delivery process.
+```sh
+BASE_URL=http://127.0.0.1:4327 REVIEW_FILM_EXPECTED=1 node "$DD_SITE/scripts/verify-dharmic.mjs"
+```
 
 ## Public status
 
-Dharmic Data is an independent project working toward a nonprofit collective by June 2027. It is not a registered nonprofit today, and it is not a New York City service. The Shakti result links to the City sources that support it.
+The school, funded learner places and licensed facilitator program are being developed. Three pilots and a desired larger launch in June 2027 depend on funding and hosts. The website does not claim an operating paid cohort or a completed clinical outcome.
