@@ -1,0 +1,14 @@
+{
+  "website": "https://dharmicdata.org",
+  "netlify_deploy": "6a9f895fe5e9719b7c9f99dc",
+  "code_commit": "5f87010",
+  "source_pr": "https://github.com/ChaiWithJai/dharmic-data/pull/4",
+  "maven_resource": "https://maven.com/a-plus/o/585d59",
+  "film_production": "paused",
+  "public_film": "poster only",
+  "clean_artifact_files": 435,
+  "preserved_html_routes": 11,
+  "verified_live_routes_or_assets": 12,
+  "data_helper_checks": "29/29",
+  "real_inbox_delivery_tested": false
+}

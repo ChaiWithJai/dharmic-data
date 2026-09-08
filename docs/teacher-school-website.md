@@ -59,3 +59,11 @@ The app would not replace the unfinished film goal. It was left stalled, with th
 The school calendar still needs to be reconciled with the grant application. The site gives a desired June 2027 larger launch and conditional pilots, without publishing enrollment dates. The film's creative acceptance and public release belong to its paused workstream. The subscriber test remains in #3.
 
 A short writing comparison is available locally at `/tmp/revision-dharmicdata-teacher.html`.
+
+## Published release
+
+The website is live at https://dharmicdata.org. Netlify production deploy `6a9f895fe5e9719b7c9f99dc` publishes the clean artifact from code commit `5f87010`. The [source PR is #4](https://github.com/ChaiWithJai/dharmic-data/pull/4). Production was updated directly; the PR has not been merged into the configured `main` branch. Review and merge that source update before another deployment from `main`, which still contains the earlier site.
+
+The clean build has 435 files and 11 HTML routes, without the generated duplicate copies found in the working `dist`. The live domain returned byte-identical HTML/assets for twelve checked destinations. Its private film endpoint returned 404. Browser checks on the same deployed artifact found no errors on phone or desktop. The URL/date/path-helper checks passed 29 of 29 cases. The private review decoded the 60-second video and sought to 45 seconds successfully.
+
+Verification receipts and screenshots are in `output/release`. Acceptance checks cover the reader and navigation flows. Integration checks cover Maven destinations, production headers and media boundaries. Data/helper checks cover invalid inputs, dates and repository resolution. The remaining email inbox test is documented in issue #3; the film goal stays paused.

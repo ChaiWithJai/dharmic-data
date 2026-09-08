@@ -20,3 +20,7 @@ The proposed school has not yet opened its paid cohort. Three pilots and a desir
 ## Resume here
 
 Read `docs/teacher-school-website.md` for the current branch, Maven resource, verification evidence and remaining release decisions. Run `node /absolute/path/to/this/checkout/scripts/dd.mjs status` first.
+
+## Current status
+
+The website and free Maven field notes are published. Source is on PR #4, with production verified against the clean release. Remaining work is the real subscriber test and source review/merge. Film production remains paused. See the published-release section of `docs/teacher-school-website.md` before the next deployment.
