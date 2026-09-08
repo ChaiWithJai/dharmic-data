@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process';
 
 // Default: built production site. Private review:
 // BASE_URL=http://127.0.0.1:4327 REVIEW_FILM_EXPECTED=1 npm run verify:dharmic
-// Pin a separately approved field-notes URL with MAVEN_GUIDE_EXPECTED_URL.
+// Pin a separately approved guide URL with MAVEN_GUIDE_EXPECTED_URL.
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:4325';
 const filmExpected = process.env.REVIEW_FILM_EXPECTED === '1';
 const output = filmExpected ? 'output/template-restoration/qa/private-review' : 'output/template-restoration/qa';
@@ -225,7 +225,7 @@ async function checkAbout(page, label, inspectMedia) {
 async function checkLearn(page, label) {
   const actualLessons = await page.locator('.lesson-link').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
   check(JSON.stringify(actualLessons) === JSON.stringify(lessonURLs), `${label}: Lightning Lessons must use the two verified Maven pages`);
-  check(await page.locator('.notes-cta').getAttribute('href') === guideURL, `${label}: field-notes destination differs from the pinned Maven destination`);
+  check(await page.locator('.notes-cta').getAttribute('href') === guideURL, `${label}: guide destination differs from the pinned Maven destination`);
   const mavenLinks = await page.locator('a[href*="maven"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
   const allowedMaven = new Set([schoolURL, ...lessonURLs, guideURL]);
   for (const href of mavenLinks) {

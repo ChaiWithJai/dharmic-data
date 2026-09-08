@@ -74,13 +74,13 @@ export function getLessonPresentation(endsAt: string, nowMs = Date.now()) {
 export function getFilmGuide(value: unknown) {
   const url = validateMavenUrl(value);
   return {
-    title: 'A film is not finished when it renders',
-    subtitle: 'Behind the scenes of Conscious Compute',
-    description: 'See what we made, where AI lost the story, and how to keep human judgment in charge of your next project.',
+    title: "Turn your team's files into gold",
+    subtitle: "Build your team's digital twin with GPT-6 Astra + local AI",
+    description: 'Turn meeting notes, briefs and spreadsheets into shared context your team can trust. Follow a worked example, use the prompts and starter kit, and measure whether you reduce repeated explanation and rework.',
     available: url !== null,
     url: url ?? MAVEN_SCHOOL_URL,
-    action: url ? 'Get the field notes on Maven' : 'Get updates on Maven',
-    status: url ? 'Field notes · PDF' : 'Coming next · field notes',
+    action: url ? 'Get the free guide on Maven' : 'Get updates on Maven',
+    status: url ? 'Free guide + starter kit' : 'Coming next · free guide',
     note: url
       ? 'Continue to Maven for the guide and its signup details.'
       : 'The guide is being prepared. Visit Jai’s Maven school and choose “Get updates” to join his mailing list.',
