@@ -14,4 +14,6 @@ The school and teaching promise lead the website. The film supports the founder 
 
 Maven owns enrollment and the resource signup and delivery flow. Do not add an inactive email form or claim that an email was delivered without testing it. Do not send a broadcast to subscribers as part of a website update.
 
+The primary lead magnet is now **Turn your team's files into gold**, a practical guide to shared team context using GPT-6 Astra and local AI. Read `docs/team-digital-twin-guide.md` before changing it. Preserve the same Maven resource URL. Clearly label the worked example as synthetic and distinguish integrity checks from model performance or workplace results. Do not turn the guide back into a film retrospective or treat the Codex subscription as an application API.
+
 Check the site identity and production deploy before publishing. Keep credentials out of source, screenshots, logs and issue bodies.
