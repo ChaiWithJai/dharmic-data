@@ -1,30 +1,17 @@
 # Current website objective
 
-Build Dharmic Data around the belief that a good teacher can change a person's life and a great teacher can change an entire civilization. Connect Jai's NVIDIA hackathon story to the school, use Homer to introduce the Civilizational Shelf, and give visitors a useful next step through Maven lessons and the film field notes.
+Preserve Dharmic Data's original animated visual template and organize the school story across four pages. Home introduces the teacher promise, `/school` explains Conscious Compute and the Homer connection, `/about` holds Jai's founder story and the supporting film, and `/learn` connects Maven and the field notes.
 
-The film-production goal remains stalled. The app rejected replacing its unfinished goal with this objective. It has not been marked complete, restarted or budgeted again. This document and GitHub issue #2 preserve the website objective for the next work session.
-
-## Deliverables
-
-- A working homepage and About page with the teacher promise first, founder evidence next, and a supporting 60-second film section.
-- A Maven lesson section and a published six-page PDF resource, with a real signup destination.
-- Browser verification, preserved storefront and vlog behavior, and commands that work from outside this repository.
-- Updated parent and child issues, plus a reviewable Git branch.
-
-## Keep the scope clear
-
-The film's concept, inspiration and significance belong on the page around the existing cut. Editing the film itself is deferred. Local review uses the current unaccepted cut. The public build does not contain that private video.
-
-The proposed school has not yet opened its paid cohort. Three pilots and a desired larger launch in June 2027 depend on funding and hosts. A $100,000 request is a proposal, not secured funding. The exact pilot calendar still needs reconciliation with the application before dates are advertised.
-
-## Resume here
-
-Read `docs/teacher-school-website.md` for the current branch, Maven resource, verification evidence and remaining release decisions. Run `node /absolute/path/to/this/checkout/scripts/dd.mjs status` first.
+Jai explicitly rejected the replacement editorial design. A request to change the story does not imply replacing the visual identity. Read `AGENTS.md` and `docs/template-restoration.md` before continuing.
 
 ## Current status
 
-The website and free Maven field notes are published. Source is on PR #4, with production verified against the clean release. Remaining work is the real subscriber test and source review/merge. Film production remains paused. See the published-release section of `docs/teacher-school-website.md` before the next deployment.
+The restored multi-page site is live at https://dharmicdata.org. Netlify deploy `6a9f8fe9816f13ec6968c253` uses code `50cee4d`. The free Maven resource remains published at https://maven.com/a-plus/o/585d59. Browser and live-domain checks pass. Existing shop, vlog and atlas routes remain.
 
-## Template correction
+The film-production goal stays stalled. The app refused to replace its unfinished goal; it has not been falsely marked complete or restarted. Local review serves the same existing 60-second cut at `/about#film`; production uses its holding poster.
 
-Jai rejected the replacement visual design and asked to keep the original template as a multi-page website. This supersedes the prior single-page presentation. Home introduces the promise, `/school` explains Conscious Compute and Homer, `/about` carries the founder story and supporting film, and `/learn` owns Maven and the guide. Preserve the template in future changes.
+## Resume here
+
+Review source PR #4 before another deployment from the older `main` branch. Complete the real Maven inbox/subscriber test tracked in issue #3. Reconcile the application calendar before publishing dated enrollment promises. Film acceptance belongs to the stalled film workstream.
+
+Use `node /absolute/path/to/this/checkout/scripts/dd.mjs status` first. The surrounding `qedc` folder is a different repository. Source, page ownership and verification receipts are described in `docs/template-restoration.md`.

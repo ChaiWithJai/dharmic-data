@@ -8,7 +8,7 @@ The original animated template now connects four pages. Home introduces the beli
 
 Read [the template restoration](docs/template-restoration.md), [the website objective](GOAL.md) and [the current implementation and release notes](docs/teacher-school-website.md). They supersede the older guidance-practice and booking direction in the historical design documents.
 
-The [free production field notes on Maven](https://maven.com/a-plus/o/585d59) explain what making the film taught us about human judgment. Maven handles the resource signup and its delivery message. The homepage also links to verified Lightning Lessons.
+The [free production field notes on Maven](https://maven.com/a-plus/o/585d59) explain what making the film taught us about human judgment. Maven handles the resource signup and its delivery message. The Learn page lists verified Lightning Lessons.
 
 ## Run from any directory
 
@@ -32,7 +32,7 @@ On another checkout, set `FILM_REVIEW_SOURCE` to the same reviewed file. A produ
 
 ## Site routes
 
-Home, The School, Jai's Story and Learn use the original template. The existing vlog, Shakti article and shop remain available. Nine learner accounts and four case studies remain on the homepage. The site is static and does not need a model server or an API key.
+Home, The School, Jai's Story and Learn use the original template. The existing vlog, Shakti article and shop remain available. Nine learner accounts and four case studies remain in the expandable archive on Learn. The site is static and does not need a model server or an API key.
 
 ## Verification
 

@@ -28,3 +28,9 @@ The private review is still at `http://127.0.0.1:4327/about#film`. It does not r
 ## Continue without losing the direction
 
 Read `AGENTS.md` first. Preserve the visual template when moving or editing content. A change in the story does not imply replacing the template. Keep source commands tied to this checkout through `scripts/dd.mjs`. The app's unfinished film goal stays stalled; the website work remains documented in parent issue #2 and PR #4.
+
+## Published correction
+
+The restored site is live at https://dharmicdata.org. Production deploy `6a9f8fe9816f13ec6968c253` uses code `50cee4d`. Ten live destinations matched the isolated build byte for byte, including all four main pages and the PDF. The private film endpoint returned 404. The same artifact passed browser checks on Netlify at 390 and 1440 pixels, after local checks at all four widths. Receipts are in `output/template-restoration`.
+
+PR #4 holds the current source update and has not been merged into the configured `main` branch. The preceding editorial release is historical evidence, not the current design direction.
