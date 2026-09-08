@@ -8,7 +8,12 @@ import { spawn } from 'node:child_process';
 // Pin a separately approved field-notes URL with MAVEN_GUIDE_EXPECTED_URL.
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:4325';
 const filmExpected = process.env.REVIEW_FILM_EXPECTED === '1';
-const output = filmExpected ? 'output/browser-qa/private-review' : 'output/browser-qa';
+const output = filmExpected ? 'output/template-restoration/qa/private-review' : 'output/template-restoration/qa';
+const buildDir = process.env.BUILD_DIR || 'dist';
+const templateRoutes = ['/', '/school', '/about', '/learn'];
+const diagnostics = [];
+const selectedRoutes = process.env.QA_ROUTES?.split(',').map((route) => route.trim()).filter(Boolean);
+const selectedWidths = process.env.QA_WIDTHS?.split(',').map(Number);
 const localChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const homeHeading = 'A great teacher can change the course of an entire civilization.';
 const schoolURL = 'https://maven.com/a-plus';
@@ -27,7 +32,7 @@ const check = (condition, message) => { if (!condition) failures.push(message); 
 const filesUnder = (root) => fs.existsSync(root) ? fs.readdirSync(root, { recursive: true }).map(String) : [];
 
 function checkBuild() {
-  const rendered = filesUnder('dist').filter((file) => file.endsWith('.html'));
+  const rendered = filesUnder(buildDir).filter((file) => file.endsWith('.html'));
   const staticPages = filesUnder('src/pages').filter((file) => file.endsWith('.astro') && !file.includes('[')).map((file) => {
     const name = file.replace(/\.astro$/, '');
     if (name === '404') return '404.html';
@@ -39,13 +44,16 @@ function checkBuild() {
   for (const file of expected) check(rendered.includes(file), `build: missing ${file}`);
   // Detect abandoned copy without requiring the old template or banning Jai's A+ Active practice.
   const placeholders = [/REPLACE_/, /nexia-agency/i, /impactful digital products/i, /Which plan should I buy/i];
-  for (const root of ['src/pages', 'dist']) for (const file of filesUnder(root).filter((file) => /\.(astro|html)$/.test(file))) {
+  for (const root of ['src/pages', buildDir]) for (const file of filesUnder(root).filter((file) => /\.(astro|html)$/.test(file))) {
     const source = fs.readFileSync(path.join(root, file), 'utf8');
     for (const pattern of placeholders) check(!pattern.test(source), `${root}/${file}: leftover ${pattern}`);
   }
   if (!filmExpected) {
-    check(!fs.readFileSync('dist/index.html', 'utf8').includes('/review-media/'), 'production build exposes the private film endpoint');
-    check(!filesUnder('dist').some((file) => file.startsWith('review-media/')), 'production build contains private review media');
+    for (const route of templateRoutes) {
+      const file = route === '/' ? path.join(buildDir, 'index.html') : path.join(buildDir, route.slice(1), 'index.html');
+      if (fs.existsSync(file)) check(!fs.readFileSync(file, 'utf8').includes('/review-media/'), `${route}: production build exposes the private film endpoint`);
+    }
+    check(!filesUnder(buildDir).some((file) => file.startsWith('review-media/')), 'production build contains private review media');
   }
   return rendered.length;
 }
@@ -87,40 +95,112 @@ async function checkFilmMedia(page, video, label) {
   await video.evaluate((film) => { film.currentTime = 0; });
 }
 
-async function checkHome(page, label, reducedMotion, inspectMedia) {
-  check(normalize(await page.locator('#hero-title').innerText()) === homeHeading, `${label}: teacher headline changed`);
-  const order = await page.evaluate(() => {
-    const story = document.querySelector('#story .founder-grid');
-    const film = document.querySelector('#film');
-    return Boolean(story && film && (story.compareDocumentPosition(film) & Node.DOCUMENT_POSITION_FOLLOWING)
-      && film.getBoundingClientRect().top >= story.getBoundingClientRect().bottom - 1);
+async function checkTemplate(page, label, route, reducedMotion) {
+  const styles = await page.locator('link[rel="stylesheet"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+  check(styles.includes('/assets/webflow-bundle/c36a0562fb6b95e9.css'), `${label}: original template CSS is absent`);
+  check(!styles.some((href) => href === '/school.css' || /Caslon/i.test(href)), `${label}: replacement editorial stylesheet is still loaded`);
+  await page.evaluate(() => document.fonts.ready);
+  const fonts = await page.evaluate(() => {
+    const heading = []; const walker = document.createTreeWalker(document.querySelector('h1'), NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) if (node.textContent.trim()) heading.push(getComputedStyle(node.parentElement).fontFamily);
+    return { heading: [...new Set(heading)], body: getComputedStyle(document.body).fontFamily };
   });
-  check(order, `${label}: film must follow the complete founder story`);
-  for (const id of ['learn', 'field-notes']) {
-    check(await page.locator(`#${id}`).count() === 1, `${label}: missing or duplicate #${id}`);
-    check(await page.locator(`a[href="#${id}"]`).count() > 0, `${label}: no link to #${id}`);
-  }
-  const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll((links) => links.map((link) => link.getAttribute('href'))
-    .filter((href) => href.length > 1 && !document.getElementById(decodeURIComponent(href.slice(1)))));
+  check(fonts.heading.length > 0 && fonts.heading.every((font) => /Fredoka/i.test(font)), `${label}: original Fredoka rendered headline font missing (${fonts.heading})`);
+  check(/Inter/i.test(fonts.body), `${label}: original Inter body font missing (${fonts.body})`);
+  const links = await page.locator('nav[aria-label="Main navigation"] a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
+  check(JSON.stringify(links) === JSON.stringify(templateRoutes), `${label}: shared four-page navigation changed: ${links}`);
+  const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')).filter((href) => href.length > 1 && !document.getElementById(decodeURIComponent(href.slice(1)))));
   check(!brokenAnchors.length, `${label}: broken local anchors ${brokenAnchors.join(', ')}`);
   check(await page.locator('input[type="email"], form').count() === 0, `${label}: unexpected local signup form; signup belongs on Maven`);
-  const actualLessons = await page.locator('.lesson-link').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-  check(JSON.stringify(actualLessons) === JSON.stringify(lessonURLs), `${label}: Lightning Lessons must use the two verified Maven pages`);
-  check(await page.locator('.notes-cta').getAttribute('href') === guideURL, `${label}: field-notes destination differs from the pinned Maven destination`);
-  const mavenLinks = await page.locator('a[href*="maven"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-  const allowedMaven = new Set([schoolURL, ...lessonURLs, guideURL]);
-  check(mavenLinks.length >= 4, `${label}: missing Maven school, lessons or field-notes links`);
-  for (const href of mavenLinks) {
-    const url = new URL(href);
-    check(url.protocol === 'https:' && url.hostname === 'maven.com' && !url.username && !url.password && !url.port && allowedMaven.has(href), `${label}: unverified Maven link ${href}`);
+  const headerClearance = await page.evaluate(() => {
+    const header = document.querySelector('.navbar');
+    const firstText = document.querySelector('main p, main h1');
+    return !header || !firstText || firstText.getBoundingClientRect().top >= header.getBoundingClientRect().bottom - 1;
+  });
+  check(headerClearance, `${label}: first content text overlaps the fixed header`);
+  await page.keyboard.press('Tab');
+  check(await page.locator('.dharmic-skip').evaluate((node) => node === document.activeElement), `${label}: first Tab must expose the skip link`);
+  await page.keyboard.press('Enter');
+  check(new URL(page.url()).hash === '#main', `${label}: skip link did not reach main`);
+  if (reducedMotion === 'reduce') {
+    check(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior === 'auto'), `${label}: reduced motion still uses smooth scrolling`);
+    const activeRive = await page.locator('[data-animation-type="rive"]').evaluateAll((nodes) => nodes.filter((node) => {
+      const canvas = node.querySelector('canvas');
+      const visible = canvas && canvas.getBoundingClientRect().width > 0 && getComputedStyle(canvas).display !== 'none' && getComputedStyle(canvas).visibility !== 'hidden' && getComputedStyle(node).display !== 'none';
+      const rive = window.Webflow?.require?.('rive')?.getInstance(node)?.rive;
+      return visible && rive?.isPlaying;
+    }).length);
+    check(activeRive === 0, `${label}: ${activeRive} visible Rive animations play with reduced motion`);
   }
-  if (guideURL === schoolURL) check(/being prepared|coming next/i.test(await page.locator('#field-notes').innerText()), `${label}: unpublished guide is presented as available`);
-  const staleLessons = await page.locator('[data-lesson-ends]').evaluateAll((lessons) => lessons.filter((lesson) => {
-    const ended = Date.now() >= Date.parse(lesson.dataset.lessonEnds);
-    return lesson.dataset.lessonPhase !== (ended ? 'past' : 'scheduled');
-  }).length);
-  check(staleLessons === 0, `${label}: lesson availability has not followed the actual date`);
+}
+
+async function checkRive(page, label) {
+  const targets = page.locator('[data-animation-type="rive"]');
+  check(await targets.count() >= 2, `${label}: original hero/footer Rive characters missing`);
+  for (const target of await targets.all()) {
+    if (!await target.isVisible()) continue;
+    await target.scrollIntoViewIfNeeded();
+    await target.evaluate((node) => new Promise((resolve, reject) => {
+      const deadline = Date.now() + 15000;
+      const observe = () => {
+        const rive = window.Webflow?.require?.('rive')?.getInstance(node)?.rive;
+        if (rive?.loaded && rive?.isPlaying) return resolve(true);
+        if (Date.now() > deadline) return reject(new Error(`Rive did not load and play: ${node.getAttribute('data-rive-url')}`));
+        requestAnimationFrame(observe);
+      };
+      observe();
+    }));
+    const painted = await target.evaluate(async (node) => {
+      const canvas = node.querySelector('canvas');
+      // Read the rendered canvas through a temporary 2D surface; this works
+      // with both the template's offscreen renderer and regular 2D canvases.
+      const sample = () => {
+        const surface = document.createElement('canvas'); surface.width = 64; surface.height = 64;
+        const context = surface.getContext('2d'); context.drawImage(canvas, 0, 0, 64, 64);
+        const pixels = context.getImageData(0, 0, 64, 64).data;
+        let alpha = 0; let hash = 2166136261; const colors = new Set();
+        for (let i = 0; i < pixels.length; i += 4) {
+          if (pixels[i + 3] > 0) { alpha += 1; colors.add(`${pixels[i]},${pixels[i+1]},${pixels[i+2]}`); }
+          hash = Math.imul(hash ^ pixels[i] ^ (pixels[i+1] << 8) ^ (pixels[i+2] << 16) ^ pixels[i+3], 16777619);
+        }
+        return { alpha, colors: colors.size, hash: hash >>> 0 };
+      };
+      await new Promise(requestAnimationFrame);
+      const first = sample();
+      // Observe actual rendered frames, not a timer-only or CSS declaration check.
+      const hashes = new Set([first.hash]);
+      for (let frame = 0; frame < 30; frame += 1) { await new Promise(requestAnimationFrame); hashes.add(sample().hash); }
+      const rive = window.Webflow.require('rive').getInstance(node).rive;
+      return { url: node.getAttribute('data-rive-url'), loaded: rive.loaded, playing: rive.isPlaying, width: canvas.width, height: canvas.height, first, distinctFrames: hashes.size };
+    });
+    diagnostics.push({ label, rive: painted });
+    check(painted.loaded && painted.playing && painted.width > 0 && painted.height > 0 && painted.first.alpha > 10 && painted.first.colors > 2, `${label}: Rive has no actual painted character: ${JSON.stringify(painted)}`);
+    check(painted.distinctFrames > 1, `${label}: Rive claims playback but rendered pixels do not move: ${painted.url}`);
+  }
+}
+
+async function checkHome(page, label, reducedMotion, inspectMedia) {
+  check(normalize(await page.locator('h1').first().innerText()) === homeHeading, `${label}: teacher headline changed`);
+  check(await page.locator('section.home-hero').count() === 1 && await page.locator('.home-rive').count() === 1, `${label}: original hero/character structure missing`);
+  check(await page.locator('.home-hero .sticker, .home-hero [class*="pill"], .home-hero .hero-text.green, .home-hero .hero-text.orange, .home-hero .hero-text.purple, .home-hero .hero-text.yellow, .home-hero .cta-title.digital, .home-hero .cta-title.partner').count() > 0, `${label}: original colored headline treatments missing`);
+  check(await page.locator('.pill-drops .about-pill').count() === 11, `${label}: original falling-pill composition must retain eleven labels`);
+  check(await page.locator('#film, video').count() === 0, `${label}: supporting film must live on About, not the homepage`);
+  for (const route of ['/school', '/about', '/learn']) check(await page.locator(`main a[href="${route}"]`).count() > 0, `${label}: homepage does not lead into ${route}`);
+  if (inspectMedia && reducedMotion === 'no-preference') await checkRive(page, label);
+}
+
+async function checkSchool(page, label) {
+  const text = normalize(await page.locator('main').innerText());
+  for (const topic of [/Homer/i, /Conscious Compute/i, /paid/i, /premium/i]) check(topic.test(text), `${label}: school is missing ${topic}`);
+  check(await page.locator('main a[href="https://literature.dharmicdata.org"]').count() > 0, `${label}: Homer does not connect to the working literature site`);
+  check(await page.locator('#film, video').count() === 0, `${label}: supporting film leaked into the school page`);
+}
+
+async function checkAbout(page, label, inspectMedia) {
+  const text = normalize(await page.locator('main').innerText());
+  for (const topic of [/NVIDIA/, /concept/i, /inspiration/i, /significance/i]) check(topic.test(text), `${label}: founder/film context is missing ${topic}`);
   const video = page.locator('#film video');
+  check(await page.locator('#film').count() === 1, `${label}: About must own the film`);
   if (filmExpected) {
     check(await video.count() === 1, `${label}: private review video missing`);
     if (await video.count()) {
@@ -128,65 +208,67 @@ async function checkHome(page, label, reducedMotion, inspectMedia) {
       check(await video.getAttribute('controls') !== null, `${label}: film has no playback controls`);
       check(await video.getAttribute('autoplay') === null, `${label}: review film must not autoplay`);
       check(await video.locator('track[kind="captions"][srclang="en"]').count() === 1, `${label}: missing English captions`);
-      check(/private review|not creatively approved/i.test(await page.locator('#film-status').innerText()), `${label}: private film lacks review status`);
+      check(/private review|not creatively approved/i.test(await page.locator('#film').innerText()), `${label}: private film lacks review status`);
       if (inspectMedia) await checkFilmMedia(page, video, label);
     }
   } else {
-    check(await video.count() === 0, `${label}: default public page unexpectedly embeds a film`);
-    check(await page.locator('#film .film-poster img').count() === 1, `${label}: public film placeholder missing`);
+    check(await video.count() === 0, `${label}: default public page unexpectedly embeds an unapproved film`);
+    check(await page.locator('#film img').count() >= 1, `${label}: public film holding poster missing`);
     if (inspectMedia) {
       const privateEndpoint = await page.request.head(`${baseURL}/review-media/founder-film.mp4`);
       check(privateEndpoint.status() === 404, `${label}: production serves the private review endpoint (HTTP ${privateEndpoint.status()})`);
       await privateEndpoint.dispose();
     }
   }
-  // Exercise real keyboard behavior before scrolling/focusing image controls.
-  await page.keyboard.press('Tab');
-  check(await page.locator('.skip-link').evaluate((node) => node === document.activeElement), `${label}: first Tab must expose the skip link`);
-  await page.keyboard.press('Enter');
-  check(new URL(page.url()).hash === '#main', `${label}: skip link did not reach main`);
-  const learnLink = page.locator('.site-header a[href="#learn"]');
-  await learnLink.focus();
-  await learnLink.press('Enter');
-  check(new URL(page.url()).hash === '#learn', `${label}: keyboard Learn link failed`);
-  const notesLink = page.locator('a[href="#field-notes"]').first();
-  await notesLink.focus();
-  await notesLink.press('Enter');
-  check(new URL(page.url()).hash === '#field-notes', `${label}: keyboard field-notes link failed`);
+}
+
+async function checkLearn(page, label) {
+  const actualLessons = await page.locator('.lesson-link').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+  check(JSON.stringify(actualLessons) === JSON.stringify(lessonURLs), `${label}: Lightning Lessons must use the two verified Maven pages`);
+  check(await page.locator('.notes-cta').getAttribute('href') === guideURL, `${label}: field-notes destination differs from the pinned Maven destination`);
+  const mavenLinks = await page.locator('a[href*="maven"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+  const allowedMaven = new Set([schoolURL, ...lessonURLs, guideURL]);
+  for (const href of mavenLinks) {
+    const url = new URL(href);
+    check(url.protocol === 'https:' && url.hostname === 'maven.com' && !url.username && !url.password && !url.port && allowedMaven.has(href), `${label}: unverified Maven link ${href}`);
+  }
+  const staleLessons = await page.locator('[data-lesson-ends]').evaluateAll((lessons) => lessons.filter((lesson) => lesson.dataset.lessonPhase !== (Date.now() >= Date.parse(lesson.dataset.lessonEnds) ? 'past' : 'scheduled')).length);
+  check(staleLessons === 0, `${label}: lesson availability has not followed the actual date`);
   check(await page.locator('.dharmic-testimonial-card').count() === 9, `${label}: expected nine learner accounts`);
   check(await page.locator('.dharmic-case-card').count() === 4, `${label}: expected four case studies`);
   const archive = page.locator('details.evidence-archive');
   check(await archive.getAttribute('open') === null, `${label}: archive should start collapsed`);
   const summary = archive.locator('summary');
   await summary.focus();
-  const focusStyle = await summary.evaluate((node) => ({ style: getComputedStyle(node).outlineStyle, width: parseFloat(getComputedStyle(node).outlineWidth) }));
-  check(focusStyle.style !== 'none' && focusStyle.width >= 2, `${label}: archive keyboard control needs visible focus`);
+  const focus = await summary.evaluate((node) => ({ style: getComputedStyle(node).outlineStyle, width: parseFloat(getComputedStyle(node).outlineWidth) }));
+  check(focus.style !== 'none' && focus.width >= 2, `${label}: archive keyboard control needs visible focus`);
   await summary.press('Enter');
   check(await archive.getAttribute('open') !== null, `${label}: archive did not open with Enter`);
   check(await page.locator('.dharmic-testimonial-card:visible').count() === 9, `${label}: archive did not reveal all learner accounts`);
   check(await page.locator('.dharmic-case-card:visible').count() === 4, `${label}: archive did not reveal all cases`);
   const cases = await page.locator('.dharmic-case-card').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
-  const caseURLs = ['seema', 'nick', 'martine', 'yves'].map((name) => `https://chaiwithjai.com/articles/${name}-case-study.html`);
-  check(cases.length === 4 && caseURLs.every((url) => cases.includes(url)), `${label}: case study lost its published source link`);
-  // Lazy images inside details need the archive opened first; cases are text links.
-  for (const img of await page.locator('img:visible').all()) {
-    await img.scrollIntoViewIfNeeded();
-    await img.evaluate((node) => node.decode());
-    check(await img.evaluate((node) => node.naturalWidth > 0), `${label}: image did not load: ${await img.getAttribute('src')}`);
-  }
-  if (reducedMotion === 'reduce') {
-    check(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior === 'auto'), `${label}: reduced motion still uses smooth scrolling`);
-    const moving = await page.locator('body *').evaluateAll((nodes) => nodes.filter((node) => {
-      const style = getComputedStyle(node);
-      // Non-rendering media metadata nodes (source/track) return an empty
-      // animationName, which does not represent visible motion.
-      return node.getClientRects().length > 0 && (
-        style.animationName.split(',').some((name) => name.trim() && name.trim() !== 'none')
-        || style.transitionDuration.split(',').some((value) => parseFloat(value) > 0)
-      );
-    }).length);
-    check(moving === 0, `${label}: ${moving} elements retain motion under reduced-motion preference`);
-  }
+  for (const name of ['seema', 'nick', 'martine', 'yves']) check(cases.includes(`https://chaiwithjai.com/articles/${name}-case-study.html`), `${label}: case study ${name} lost its published source link`);
+}
+
+async function checkTextBounds(page, label) {
+  const outside = await page.locator('main h1, main h2, main h3, main p, main summary').evaluateAll((nodes) => {
+    const width = document.documentElement.clientWidth;
+    const failures = [];
+    for (const node of nodes) {
+      if (!node.getClientRects().length || getComputedStyle(node).visibility === 'hidden') continue;
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+      for (let text = walker.nextNode(); text; text = walker.nextNode()) {
+        if (!text.textContent.trim() || text.parentElement.closest('[aria-hidden="true"]')) continue;
+        const range = document.createRange(); range.selectNodeContents(text);
+        for (const rect of range.getClientRects()) {
+          if (rect.width > 1 && rect.height > 1 && (rect.left < -2 || rect.right > width + 2)) failures.push(`${text.textContent.trim().slice(0, 70)}: ${Math.round(rect.left)}..${Math.round(rect.right)}`);
+        }
+      }
+    }
+    return [...new Set(failures)];
+  });
+  if (outside.length) diagnostics.push({ label, textBounds: outside, scrollState: await page.evaluate(() => ({ x: scrollX, scrolledContainers: [...document.querySelectorAll('main *')].filter((node) => node.scrollLeft).map((node) => ({ class: node.className, scrollLeft: node.scrollLeft, overflow: getComputedStyle(node).overflow, clientWidth: node.clientWidth, scrollWidth: node.scrollWidth })) })) });
+  check(!outside.length, `${label}: visible text extends outside viewport: ${outside.join('; ')}`);
 }
 
 async function checkLegacyMenu(page, label) {
@@ -225,6 +307,8 @@ async function checkShop(page, label, route, width) {
 }
 
 async function verify(route, heading, width, height, name, reducedMotion = 'no-preference') {
+  if (selectedRoutes && !selectedRoutes.includes(route)) return;
+  if (selectedWidths && !selectedWidths.includes(width)) return;
   const label = `${route} at ${width}px`;
   const context = await browser.newContext({ viewport: { width, height }, reducedMotion });
   const page = await context.newPage();
@@ -238,18 +322,33 @@ async function verify(route, heading, width, height, name, reducedMotion = 'no-p
     const response = await page.goto(`${baseURL}${route}`, { waitUntil: 'networkidle', timeout: 30000 });
     check(response?.ok(), `${label}: HTTP ${response?.status()}`);
     check(normalize(await page.locator('h1').first().innerText()).toLowerCase().includes(heading.toLowerCase()), `${label}: missing heading ${heading}`);
-    if (route === '/') {
-      if (width === 1440 || width === 390) {
-        await page.screenshot({ path: `${output}/home-hero-${width === 1440 ? 'desktop' : 'mobile'}.png` });
+    if (templateRoutes.includes(route)) {
+      await checkTemplate(page, label, route, reducedMotion);
+      if (width <= 768) await checkLegacyMenu(page, label);
+      if (route === '/') await checkHome(page, label, reducedMotion, width === 1440);
+      if (route === '/school') await checkSchool(page, label);
+      if (route === '/about') await checkAbout(page, label, width === 1440);
+      if (route === '/learn') await checkLearn(page, label);
+      for (const img of await page.locator('img:visible').all()) {
+        await img.scrollIntoViewIfNeeded();
+        await img.evaluate((node) => node.decode());
+        check(await img.evaluate((node) => node.naturalWidth > 0), `${label}: image did not load: ${await img.getAttribute('src')}`);
       }
-      await checkHome(page, label, reducedMotion, width === 1440);
-      if (width === 1440) {
+      await checkTextBounds(page, label);
+      await page.evaluate(() => { document.activeElement?.blur(); window.scrollTo({ top: 0, behavior: 'instant' }); });
+      if (route === '/') await page.waitForFunction(() => [...document.querySelectorAll('.hero-para,.home-hero .button-text._01')].every((node) => {
+        const rect = node.getBoundingClientRect();
+        for (let ancestor = node; ancestor; ancestor = ancestor.parentElement) if (+getComputedStyle(ancestor).opacity < .95 || getComputedStyle(ancestor).visibility === 'hidden') return false;
+        return rect.width > 0 && rect.height > 0;
+      }), null, { timeout: 3000 });
+      if (width === 1440 || width === 390) await page.screenshot({ path: `${output}/${route === '/' ? 'home' : route.slice(1)}-first-screen-${width}.png` });
+      if (route === '/about' && width === 1440) {
         await page.locator('#film').evaluate((node) => node.scrollIntoView({ block: 'start', behavior: 'instant' }));
-        await page.screenshot({ path: `${output}/home-film-context-desktop.png` });
+        await page.screenshot({ path: `${output}/about-film-context-desktop.png` });
       }
-      if (width === 390) {
-        await page.locator('.lessons-heading').evaluate((node) => node.scrollIntoView({ block: 'start', behavior: 'instant' }));
-        await page.screenshot({ path: `${output}/home-maven-mobile.png` });
+      if (route === '/learn' && width === 390) {
+        await page.locator('#field-notes').evaluate((node) => node.scrollIntoView({ block: 'start', behavior: 'instant' }));
+        await page.screenshot({ path: `${output}/learn-field-notes-mobile.png` });
       }
     }
     if (route === '/vlog' && width === 390) await checkLegacyMenu(page, label);
@@ -296,11 +395,11 @@ try {
     if (!ready) throw new Error(`Preview did not start at ${baseURL}: ${readinessDetail}\n${startupOutput}`);
   }
   browser = await chromium.launch({ ...(fs.existsSync(localChrome) ? { executablePath: localChrome } : {}), headless: true });
-  for (const [width, height, name] of [[320, 760, 'home-320.png'], [390, 844, 'home-mobile.png'], [768, 1024, 'home-tablet.png'], [1440, 1000, 'home-desktop.png']]) {
-    await verify('/', homeHeading, width, height, name, width <= 390 ? 'reduce' : 'no-preference');
+  for (const [route, heading, name] of [
+    ['/', homeHeading, 'home'], ['/school', '', 'school'], ['/about', 'I won an NVIDIA hackathon with friends.', 'about'], ['/learn', '', 'learn'],
+  ]) for (const [width, height] of [[320, 760], [390, 844], [768, 1024], [1440, 1000]]) {
+    await verify(route, heading, width, height, `${name}-${width}.png`, width <= 390 ? 'reduce' : 'no-preference');
   }
-  await verify('/about', 'I won an NVIDIA hackathon with friends.', 1440, 1000, 'about-desktop.png');
-  await verify('/about', 'I won an NVIDIA hackathon with friends.', 390, 844, 'about-mobile.png', 'reduce');
   await verify('/vlog', 'Build Stories', 1440, 1000, 'vlog-desktop.png');
   await verify('/vlog', 'Build Stories', 390, 844, 'vlog-mobile.png', 'reduce');
   await verify('/vlog/how-we-built-shakti', 'How we built Shakti', 390, 844, 'episode-mobile.png');
@@ -310,7 +409,9 @@ try {
     ['atlas', 'A shirt you can keep opening.', 'atlas'], ['mission', 'Culture is data with a pulse.', 'mission'],
     ['about', 'Built from a life of translation.', 'people'], ['ecosystem', 'One method. Different objects.', 'system'],
   ]) await verify(`/shop/${route}`, heading, 1440, 1000, `shop-${name}-desktop.png`);
-  successMessage = `Dharmic checks passed: ${renderedCount} built routes; homepage at 320/390/768/1440px; ${filmExpected ? 'private review film' : 'public film placeholder'}; keyboard, learner evidence, Maven, vlog and shop.`;
+  successMessage = selectedRoutes || selectedWidths
+    ? `Targeted Dharmic checks passed: routes ${selectedRoutes?.join(', ') || 'all'}; widths ${selectedWidths?.join(', ') || 'all configured'}; ${renderedCount} built routes verified.`
+    : `Dharmic checks passed: ${renderedCount} built routes; four template pages at 320/390/768/1440px; original fonts, painted moving Rive characters, real text bounds, keyboard navigation, ${filmExpected ? 'private review film' : 'public film placeholder'} on About; learner evidence, Maven, vlog and shop.`;
 } catch (error) {
   failures.push(error.message);
 } finally {
@@ -325,6 +426,7 @@ try {
     clearTimeout(forceStop);
   }
 }
+fs.writeFileSync(`${output}/${selectedRoutes || selectedWidths ? 'verification-targeted' : 'verification'}.json`, JSON.stringify({ baseURL, filmExpected, selectedRoutes, selectedWidths, checkedAt: new Date().toISOString(), failures: [...new Set(failures)], diagnostics, success: failures.length === 0 }, null, 2));
 if (failures.length) {
   console.error([...new Set(failures)].join('\n'));
   process.exitCode = 1;

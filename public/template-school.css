@@ -1,0 +1,96 @@
+/* Extend the existing Webflow/Fredoka template. Do not replace its design system. */
+.w-webflow-badge{display:none!important}
+body{font-family:Inter,Arial,sans-serif}
+.template-wrap{max-width:1236px;margin-inline:auto;padding:clamp(4rem,7vw,7rem) 2rem}
+.template-wrap h1,.template-wrap h2,.template-wrap h3,.template-mission h2{font-family:Fredoka,Inter,sans-serif;font-weight:600;line-height:1.04;letter-spacing:-.035em}
+.template-wrap p{font-size:1.05rem;line-height:1.65}
+.template-wrap h2{font-size:clamp(2.5rem,4.6vw,4.5rem)}
+.template-wrap h3{font-size:1.6rem}
+.template-wrap .subtitle,.template-mission .subtitle{font-size:.85rem;font-family:Inter,Arial,sans-serif;letter-spacing:.02em}
+.template-wrap .primary-button,.template-mission .primary-button,.template-final .primary-button{display:inline-flex;min-height:48px;width:fit-content}
+.school-home .home-hero .wrapper{padding-top:6rem;padding-bottom:26rem}
+.school-home .hero-contents.home{max-width:1200px;width:100%}
+.school-home .hero-flex{max-width:100%;width:100%;flex-wrap:wrap;gap:.55rem 1rem}
+.school-home .hero-flex .hero-title,.school-home .hero-flex .cta-title{font-family:Fredoka,Inter,sans-serif;font-size:clamp(2.25rem,4.8vw,4.7rem);line-height:1.12;letter-spacing:-.04em}
+.school-home .hero-flex .cta-title{padding:.1em .22em .16em;border-radius:.15em;max-width:100%}
+.school-home .home-hero .subtitle{text-transform:none;font-size:clamp(1rem,1.8vw,1.35rem);max-width:49rem;margin:0 auto 1.25rem;line-height:1.5}
+.school-home .hero-para{max-width:47rem;margin-inline:auto;line-height:1.6}
+.school-home .hero-star{width:4.5rem;left:-2rem;top:1rem}
+.school-home .hero-icon.left,.school-home .hero-icon.right{width:4rem}
+.school-home .home-rive{height:42rem;pointer-events:none}
+.template-mission-inner{max-width:1050px;margin:auto;padding:5.5rem 0}
+.template-mission h2{font-size:clamp(2.4rem,4.4vw,4.5rem);color:white;margin:1.5rem 0}
+.template-mission p:not(.subtitle){max-width:43rem;color:#d9d5cf;font-size:1.15rem;line-height:1.6;margin-bottom:1.5rem}
+.template-values{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:3rem;font:600 clamp(1.4rem,3vw,2.6rem)/1.2 Fredoka,Inter,sans-serif}
+.template-values .sticker:nth-child(odd){transform:rotate(-3deg)}
+.template-founder{display:grid;grid-template-columns:1.3fr .7fr;gap:6rem;align-items:center}
+.template-founder figure{margin:0;transform:rotate(3deg);padding:.7rem;background:#fff;box-shadow:.7rem .7rem 0 var(--about-green);border:2px solid #151515}
+.template-founder img{width:100%;height:400px;object-fit:cover;object-position:50% 40%}
+.template-founder figcaption{font-size:.75rem;padding:.6rem .2rem;line-height:1.5}
+.template-paths{padding-top:1rem}
+.template-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin:1.5rem 0}
+.template-path{display:flex;flex-direction:column;border:2px solid #151515;border-radius:1.5rem;padding:2rem;color:#151515;text-decoration:none;box-shadow:.25rem .25rem 0 #151515;min-width:0;transition:transform .18s}
+.template-path:hover{transform:translateY(-5px)}
+.template-path>span{font-size:.8rem;font-weight:700;margin-bottom:2.5rem}
+.template-path h2{font-size:2.4rem;line-height:1.05}
+.template-path p{font-size:.95rem}
+.template-path strong{margin-top:auto;padding-top:1rem;font-size:.9rem}
+.template-final .about-final-copy{max-width:44rem}
+.about-final-copy>p:not(.subtitle){font-size:1.05rem;line-height:1.65;max-width:40rem}
+.about-footer{gap:1rem;grid-template-columns:auto 1fr auto}
+.about-footer nav{max-width:28rem;justify-content:flex-end}
+.about-footer a{font-size:.8rem;min-height:44px}
+.about-template-copy h1{font-size:clamp(3.8rem,6.2vw,6.5rem);line-height:1.02}
+.about-story{gap:3rem;grid-template-columns:.8fr 1.15fr .7fr}
+.about-story h2{font-size:clamp(3rem,4.8vw,5rem)}
+.about-story-copy .story-big{font-size:clamp(1.6rem,2.2vw,2.1rem)}
+.template-page-hero{padding-bottom:3rem}
+.template-page-hero h1{font-size:clamp(3rem,7vw,6.5rem);line-height:1.05;margin:1.5rem 0 2rem}
+.template-page-hero>p:not(.subtitle){max-width:43rem;font-size:1.2rem}
+.template-school-experience{padding-top:3rem}
+.template-civilization{background:#151515;color:white}
+.template-civilization p{color:#e4ded6}
+.template-civilization h2{color:white}
+.epic-titles{display:flex;gap:1rem;flex-wrap:wrap;margin-top:3rem;font:600 2rem Fredoka,Inter,sans-serif}
+.template-two-column{display:grid;grid-template-columns:1fr 1fr;gap:5rem}
+.template-note{font-size:.8rem!important;line-height:1.6!important}
+.template-note a{color:inherit;text-decoration:underline}
+.template-school-model>.template-lead{max-width:47rem;font-size:1.4rem;margin:1.5rem 0 3rem}
+.template-funding{padding:2rem;border:2px solid #151515;border-radius:1.5rem;background:#fff;box-shadow:.5rem .5rem 0 var(--about-coral)}
+.template-funding>.sticker{display:inline-block;font-size:.8rem;font-weight:700;margin-bottom:1.2rem}
+.template-learning .learn-jai{padding-top:2rem}
+.template-film{border-top:1px solid #bbb3a8}
+.film-intro{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem}
+.film-intro h3{font-size:clamp(1.6rem,3vw,2.7rem);margin:.7rem 0 0}
+.film-duration{white-space:nowrap;border:2px solid #151515;border-radius:100px;padding:.6rem 1rem;font-size:.8rem}
+.eyebrow{font:700 .75rem/1.3 Inter,Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.founder-film,.film-poster{width:100%;aspect-ratio:16/9;border-radius:1.2rem;background:#151515;overflow:hidden;display:block;border:2px solid #151515}
+.film-poster{position:relative}
+.film-poster img{width:100%;height:100%;object-fit:contain}
+.film-pending{position:absolute;bottom:1rem;left:1rem;background:#f4efe5;padding:.5rem 1rem;border-radius:100px;font-size:.75rem;max-width:calc(100% - 2rem)}
+.film-context{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin:2rem 0}
+.film-context p{font-size:.95rem;margin:.7rem 0}
+.source-note{font-size:.8rem!important;line-height:1.6!important;color:#514742}
+.text-link{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;font-weight:600}
+.film-transcript{margin-top:1rem;max-width:53rem}
+.film-transcript summary{cursor:pointer;min-height:44px;align-content:center}
+.template-evidence{padding-bottom:2rem}
+.evidence-archive>summary,.evidence-context{max-width:1160px;margin:1rem auto;padding:1rem 1.5rem;font-size:1rem;line-height:1.6}
+.evidence-archive>summary{cursor:pointer;border:2px solid #151515;border-radius:1rem;font-weight:700;min-height:52px}
+.evidence-archive .solutions-text{font-size:clamp(2rem,4vw,4rem)}
+.evidence-archive .cta-1{flex-wrap:wrap;gap:.7rem}
+@media(max-width:991px){.template-founder,.template-two-column{grid-template-columns:1fr;gap:2.5rem}.template-founder figure{max-width:390px;justify-self:center}.template-path-grid{grid-template-columns:1fr}.template-path h2 br{display:none}.template-path>span{margin-bottom:1.3rem}.about-story{grid-template-columns:1fr}.about-footer{grid-template-columns:1fr}.about-footer nav{justify-content:flex-start}.school-home .home-rive{height:28rem}.school-home .home-hero .wrapper{padding-bottom:18rem}.film-context{grid-template-columns:1fr;gap:1rem}}
+@media(max-width:600px){.template-wrap{padding:3.5rem 1.25rem}.school-home .home-hero .wrapper{padding-top:5.5rem;padding-bottom:10rem}.school-home .hero-flex{gap:.3rem .55rem}.school-home .hero-flex .hero-title,.school-home .hero-flex .cta-title{font-size:clamp(1.6rem,6.7vw,2.5rem);line-height:1.2;letter-spacing:-.035em}.school-home .hero-para{font-size:.95rem}.school-home .hero-flex .cta-title{padding:.12em .25em}.school-home .home-rive{height:16rem}.school-home .hero-star{width:2.4rem;left:-.5rem;top:-1.5rem}.school-home .hero-icon.left,.school-home .hero-icon.right{width:2.3rem}.template-mission-inner{padding:3.5rem 0}.template-mission .container{padding-inline:1.25rem}.template-founder img{height:340px}.template-path{padding:1.5rem}.template-path h2{font-size:2rem}.about-template-copy h1{font-size:clamp(2.9rem,13vw,4rem)}.template-page-hero h1{font-size:clamp(2.6rem,12vw,4rem)}.film-intro{align-items:flex-start}.film-duration{font-size:.65rem;padding:.5rem}.film-pending{left:.5rem;bottom:.5rem;font-size:.6rem;padding:.3rem .5rem}.template-film .source-note{font-size:.72rem!important}.evidence-archive>summary{margin-inline:1.25rem}.template-school-experience{padding-top:1rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.template-path{transition:none}.template-path:hover{transform:none}}
+
+@media(prefers-reduced-motion:reduce){[data-animation-type=rive]{visibility:hidden}.school-home .home-hero .wrapper{padding-bottom:5rem}}
+
+@media(min-width:992px){.school-home .hero-icon.left{left:-3rem!important;right:auto!important;top:80%!important;bottom:auto!important}.school-home .hero-icon.right{right:-2rem!important;left:auto!important;top:-2.5rem!important;bottom:auto!important}}
+
+html{scroll-padding-top:6rem}.about-story{overflow:clip}
+
+@media(max-width:767px){.navbar .nav-logo{width:128px!important;height:40px!important}}
+
+.template-pill-wrapper{padding:0!important;width:100%}.template-mission .pill-drops{width:100%}
+
+.template-school-experience .about-section-heading h2{line-height:1.12;margin-bottom:1.5rem}.template-school-experience .about-section-heading h2 .sticker{display:inline-block;line-height:1.12;margin-top:.12em}.template-page-hero h1 .sticker{display:inline-block;line-height:1.1;margin-top:.12em}

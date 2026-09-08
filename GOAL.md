@@ -24,3 +24,7 @@ Read `docs/teacher-school-website.md` for the current branch, Maven resource, ve
 ## Current status
 
 The website and free Maven field notes are published. Source is on PR #4, with production verified against the clean release. Remaining work is the real subscriber test and source review/merge. Film production remains paused. See the published-release section of `docs/teacher-school-website.md` before the next deployment.
+
+## Template correction
+
+Jai rejected the replacement visual design and asked to keep the original template as a multi-page website. This supersedes the prior single-page presentation. Home introduces the promise, `/school` explains Conscious Compute and Homer, `/about` carries the founder story and supporting film, and `/learn` owns Maven and the guide. Preserve the template in future changes.

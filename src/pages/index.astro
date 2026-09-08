@@ -1,211 +1,98 @@
 ---
-import LearnWithJai from '../components/LearnWithJai.astro';
-import { filmSettings } from '../data/film';
-const film = filmSettings(import.meta.env.PUBLIC_FOUNDER_FILM_URL, import.meta.env.DEV && !!process.env.FILM_REVIEW_SOURCE);
-const testimonials = [
-  {
-    name: "Seema Kothari",
-    role: "Real estate",
-    result: "Built confidence using AI in client work",
-    image: "/dharmic-assets/testimonials/seema.webp",
-    video:
-      "https://stream.mux.com/61lcpxE00HMno8fXW00tbWviZuR0202ZgsFtkQgFrTLelI4/high.mp4",
-  },
-  {
-    name: "Nicholas Stebenne",
-    role: "Founder, Marketito",
-    result: "Found the next move after years of friction",
-    image: "/dharmic-assets/testimonials/nicholas.webp",
-    video:
-      "https://stream.mux.com/rW7nR6LezG82aqtSl7asKMnUOjLy8G4eKp3kRJFHrTw/high.mp4",
-  },
-  {
-    name: "Careen G",
-    role: "Founder, Synergized Strategies",
-    result: "Made her ideas easier to put into action",
-    image: "/dharmic-assets/testimonials/careen.webp",
-    video:
-      "https://stream.mux.com/Nbn1uhOpIOyLPjFSxZN4UntTk3LxOYce4o18F02rWoys/high.mp4",
-  },
-  {
-    name: "Toya",
-    role: "Future entrepreneur",
-    result: "Moved from scattered courses to a useful next step",
-    image: "/dharmic-assets/testimonials/toya.webp",
-    video:
-      "https://stream.mux.com/qENBDHzvsE8z4J54Es8WWNcR4DtXKarB7bmxpBw9Foc/high.mp4",
-  },
-  {
-    name: "Kathy Mills",
-    role: "Principal, kamil graphics",
-    result: "Turned AI curiosity into practical client tools",
-    image: "/dharmic-assets/testimonials/kathy.webp",
-    video:
-      "https://stream.mux.com/4yFelsj3AgymN01eHU6wc8Bjw00A9D02iPgAqC1wGnO6pQ/high.mp4",
-  },
-  {
-    name: "Parul Kumar",
-    role: "Co-founder, The Devi Circle",
-    result: "Clarified how AI can support community building",
-    image: "/dharmic-assets/testimonials/parul.webp",
-    video:
-      "https://stream.mux.com/BDRNoZRPqSUl6TQEFVjJm7Ze3UWu02AJTYBlBCPxvJ34/low.mp4",
-  },
-  {
-    name: "Ngozi Odita",
-    role: "Founder, AFRICANXT",
-    result: "Made the business case for AI more concrete",
-    image: "/dharmic-assets/testimonials/ngozi.webp",
-    video:
-      "https://stream.mux.com/cKYMVXrxmbju4pyrrTgkcnsCGFUNMNanqvHJ5Xq7WMo/high.mp4",
-  },
-  {
-    name: "Anne Flanagan",
-    role: "Owner, Anne Flanagan LLC",
-    result: "Rebuilt planning around her environment and strengths",
-    image: "/dharmic-assets/testimonials/anne.webp",
-    video:
-      "https://stream.mux.com/9AYE75hFzZQaEqDcNlUQEQ86AP81LgOyjnLaGbKV0188/high.mp4",
-  },
-  {
-    name: "Samina Quraishi",
-    role: "Doctor of Acupuncture",
-    result: "Saw what was possible for a health care practice",
-    image: "/dharmic-assets/testimonials/samina.webp",
-    video:
-      "https://stream.mux.com/Qn100ujVBOgVyBzLDD5w011upS9Q7awpwgXwjuKdzlElI/high.mp4",
-  },
-];
-
-const cases = [
-  {
-    name: "Seema",
-    result: "85% less time spent onboarding new hires",
-    title: "How a real estate leader reclaimed more than 15 hours a week",
-    image: "/dharmic-assets/cases/seema.webp",
-    href: "https://chaiwithjai.com/articles/seema-case-study.html",
-  },
-  {
-    name: "Nick",
-    result: "$6,500 in event risk uncovered",
-    title: "How Marketito found the vendor problem worth solving",
-    image: "/dharmic-assets/cases/nick.webp",
-    href: "https://chaiwithjai.com/articles/nick-case-study.html",
-  },
-  {
-    name: "Martine",
-    result: "Thousands saved on copywriting and design",
-    title: "From overwhelm to a complete AI-built business platform",
-    image: "/dharmic-assets/cases/martine.webp",
-    href: "https://chaiwithjai.com/articles/martine-case-study.html",
-  },
-  {
-    name: "Yves",
-    result: "More than $30,000 in traditional build cost avoided",
-    title: "From three months to a global-ready platform in 35 minutes",
-    image: "/dharmic-assets/cases/yves.webp",
-    href: "https://chaiwithjai.com/articles/yves-case-study.html",
-  },
-];
+import TemplateLayout from '../layouts/TemplateLayout.astro';
+import TemplatePills from '../components/TemplatePills.astro';
 ---
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dharmic Data | A school for a future we share</title>
-  <meta name="description" content="A good teacher can change a life. A great teacher can change a civilization. Jai Bhagat is building Dharmic Data through Conscious Compute, paid learning and work our communities can use." />
-  <meta property="og:title" content="A school for a future we share | Dharmic Data" />
-  <meta property="og:description" content="Great teachers. Human imagination. AI in service of a future people have a stake in." />
-  <meta property="og:image" content="https://dharmicdata.org/dharmic-assets/jai-portrait-motion.jpg" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/school.css" />
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header shell">
-    <a class="wordmark" href="/" aria-label="Dharmic Data home"><span aria-hidden="true" class="brand-mark">✳</span> Dharmic Data</a>
-    <nav aria-label="Main navigation">
-      <a href="#school">The school</a><a href="#story">Jai's story</a><a href="https://literature.dharmicdata.org">The library ↗</a><a class="nav-cta" href="#learn">Learn with Jai <span aria-hidden="true">↗</span></a>
-    </nav>
-  </header>
-  <main id="main">
-    <section class="hero shell" aria-labelledby="hero-title">
-      <div class="hero-top"><span class="eyebrow">A school in the making</span><span class="edition">Conscious Compute / 001</span></div>
-      <p class="good-teacher">A good teacher can change the course of someone's life.</p>
-      <h1 id="hero-title">A great teacher can change the course of <em>an entire civilization.</em></h1>
-      <div class="hero-bottom">
-        <p>I'm Jai. I want to pay a generation to become builders, owners and stewards of their communities' AI future. Dharmic Data is the school I'm building to make that possible.</p>
-        <div class="hero-actions"><a class="button" href="#learn">Start learning with me <span aria-hidden="true">↗</span></a><a class="text-link" href="#school">Help imagine the school <span aria-hidden="true">↓</span></a></div>
-      </div>
-      <div class="hero-foot"><span>A belief to put into practice.</span><span>People first. Imagination always.</span></div>
-    </section>
-
-    <section class="lineage" aria-labelledby="lineage-title">
-      <div class="shell lineage-grid">
-        <div class="book-scene" aria-label="Illustrated covers of Homer's Iliad and Odyssey">
-          <div class="book book-iliad"><span>HOMER</span><strong>THE<br />ILIAD</strong><i aria-hidden="true">✳</i><small>A story carried forward</small></div>
-          <div class="book book-odyssey"><span>HOMER</span><strong>THE<br />ODYSSEY</strong><i aria-hidden="true">↗</i><small>A journey shared</small></div>
-        </div>
-        <div class="lineage-copy">
-          <p class="eyebrow">The long view</p>
-          <h2 id="lineage-title">What we teach outlives us.</h2>
-          <p>Homer's epics became part of how ancient Greeks learned and argued about what a good life required. Generations of performers, teachers and readers carried those stories forward.</p>
-          <p>I return to that history because teaching helps people decide what is worth doing with their abilities. AI makes that question more urgent, and our imagination gives us somewhere to begin.</p>
-          <a class="text-link" href="https://literature.dharmicdata.org">Explore the Civilizational Shelf <span aria-hidden="true">↗</span></a>
-          <p class="source-note">My tribute to Jiang Xueqin's Predictive History. <a href="https://classics.mit.edu/Plato/republic.11.x.html">Read the ancient debate about Homer's influence.</a></p>
-        </div>
-      </div>
-    </section>
-
-    <section id="story" class="founder shell" aria-labelledby="founder-title">
-      <div class="founder-grid">
-        <div class="founder-copy">
-          <p class="eyebrow">The person making this bet</p>
-          <h2 id="founder-title">I won an NVIDIA hackathon <em>with friends.</em></h2>
-          <p class="section-lead">We imagined a call from your future self. A small act of care, made possible by people who knew how to build it.</p>
-          <p>At the New York hackathon hosted by NVIDIA, MongoDB and Dell, I joined former Cityblock coworkers to imagine a supportive, clinic-controlled check-in. We called our team American Exceptionalism. The Dell Pro Max with GB10 we won expanded what I could build with my MacBooks.</p>
-          <p>I had been mentoring and teaching since 2022. The win gave that work more room. Now I'm using the same practice to imagine a school with other people, then work through the skills and decisions it takes to make it real.</p>
-          <p class="personal-note">For me, love means taking someone's imagination seriously enough to spend time with it. I bring my Gujarati and Dharmic background. You bring yourself.</p>
-        </div>
-        <figure class="founder-portrait"><img src="/dharmic-assets/jai-portrait-motion.jpg" alt="Jai Bhagat, from his Dogged Pursuits conversation" width="2025" height="3600" loading="lazy" /><figcaption>Jai Bhagat. Educator, engineer and the person at the whiteboard.</figcaption></figure>
-      </div>
-      <div id="film" class="film-block">
-        <div class="film-intro"><div><p class="eyebrow">One expression of the idea</p><h3>A minute about the future we're imagining.</h3></div><span class="film-duration">60 seconds</span></div>
-        {film.url ? <video class="founder-film" controls playsinline preload="metadata" poster="/dharmic-assets/founder-film-poster.svg" aria-label="Conscious Compute founder film, working cut" aria-describedby="film-status"><source src={film.url} type="video/mp4" /><track kind="captions" src="/dharmic-assets/founder-film-en.vtt" srclang="en" label="English draft captions" default />Your browser cannot play this video. Read the story below.</video> : <div class="film-poster"><img src="/dharmic-assets/founder-film-poster.svg" alt="Conscious Compute. A future we have a stake in. A 60-second film in progress." width="1600" height="900" loading="lazy" /><span class="film-pending">The film is being prepared for public viewing.</span></div>}
-        <p id="film-status" class="source-note">{film.review ? 'Private review copy. This working cut is not creatively approved. The film-production goal remains paused.' : 'A film in progress. The school is the larger work.'}</p>
-        <div class="film-context">
-          <article><span class="eyebrow">The concept</span><p>America can build extraordinary AI and still fail to build a future its people have a stake in. The school is my response.</p></article>
-          <article><span class="eyebrow">The inspiration</span><p>A caring idea made with friends, years of teaching, and the stories people have used to imagine a life worth living.</p></article>
-          <article><span class="eyebrow">The significance</span><p>Making the film exposed the same problem we want to teach: AI can produce something faster than we learn to judge it.</p></article>
-        </div>
-        <a class="text-link" href="#field-notes">Go behind the scenes <span aria-hidden="true">↗</span></a>
-        <details class="film-transcript"><summary>Read the film's narration and visual context</summary><p class="source-note">Draft text alternative from the current narration script and edit record. It does not replace the independent sound and picture review.</p><div id="film-transcript-body"><p>Our idea was a call from your future self, helping you keep going. That&#x27;s what I love about teaching and building: imagination becoming useful to someone.</p><p>The prize gave me tools to keep building. America can build extraordinary AI and still fail to build a future its people have a stake in.</p><p>I&#x27;m building Dharmic Data. A school where people get paid to learn by building for their communities. Time to learn. Teachers beside you.</p><p>My bet is that a generation can become builders, owners and stewards of our AI future.</p><p class="source-note">Visual context: historical printing, Jai’s own imagery, a generated future-self call concept, an illustrative community classroom, the literature project and a NASA view of America at night. These images do not document an operating paid cohort or a clinical outcome.</p></div></details>
-      </div>
-    </section>
-
-    <section id="school" class="school-section" aria-labelledby="school-title">
-      <div class="shell">
-        <span id="mission" aria-hidden="true"></span><div class="school-head"><p class="eyebrow">Dharmic Data / The emerging school</p><h2 id="school-title">A future people have<br />a stake in.</h2><p class="section-lead">Conscious Compute is our signature workshop series. Bring an idea, work with people who can help, and learn to carry it forward.</p></div>
-        <div class="experience-grid">
-          <article><span class="step-number">01</span><h3>Imagine with someone.</h3><p>A learner, mentor and community host choose something worth making. Your questions help shape the work.</p><span class="role-note">A purpose you share</span></article>
-          <article><span class="step-number">02</span><h3>Make it. Question it.</h3><p>Build with available AI. Explain your choices, try the result with its intended user, and make time for feedback.</p><span class="role-note">Judgment you practice</span></article>
-          <article><span class="step-number">03</span><h3>Help someone continue.</h3><p>Return to a fresh problem. Give the host what they need to maintain the work. Help another teacher lead the experience.</p><span class="role-note">Capability you pass on</span></article>
-        </div>
-        <p class="school-belief">American Exceptionalism, to me, means taking responsibility for improving the institutions we depend on, through imagination and cooperation. Then sharing the means for others to contribute.</p>
-        <div class="participation"><div><h3>Start learning now.</h3><p>Online workshops and cohorts. In-person workshops with community organizations every two weeks as hosts and funding come together.</p></div><div><h3>Make paid learning possible.</h3><p>Funded learner places are paid. Premium attendees pay separately. Network facilitators can help us repeat the experience through licensed curriculum.</p></div></div>
-        <div class="pilot-bar"><span class="pilot-status">Seeking support</span><p><strong>Three pilots. Then a larger school.</strong> We are seeking $100,000 for the first test, with a desired larger launch in June 2027. Dates depend on funding and host readiness.</p><a href="mailto:jai@aplusactive.com?subject=Helping%20build%20Dharmic%20Data">Help shape the school <span aria-hidden="true">↗</span></a></div>
-      </div>
-    </section>
-
-    <section id="proof" class="proof-section shell" aria-labelledby="proof-title">
-      <span id="projects" aria-hidden="true"></span><div class="section-heading"><div><p class="eyebrow">The work behind the belief</p><h2 id="proof-title">Teaching already<br />changed something.</h2></div><p>These are people's accounts of learning with me through QEDC. They give the school a starting point. The proposed paid cohorts are the next test.</p></div>
-      <div class="featured-reviews">{testimonials.slice(0,3).map(item => <a class="dharmic-testimonial-card" href={item.video}><img src={item.image} alt={item.name} width="400" height="400" loading="lazy" /><div><span class="review-play" aria-hidden="true">↗</span><h3>{item.name}</h3><span>{item.role}</span><p>{item.result}</p><span class="text-link">Watch their account</span></div></a>)}</div>
-      <details class="evidence-archive"><summary>More learner accounts and published work <span aria-hidden="true">+</span></summary><div class="more-reviews">{testimonials.slice(3).map(item => <a class="dharmic-testimonial-card compact-review" href={item.video}><img src={item.image} alt={item.name} width="90" height="90" loading="lazy" /><div><h3>{item.name}</h3><p>{item.result}</p></div></a>)}</div><div class="case-links">{cases.map(item => <a class="dharmic-case-card" href={item.href}><span>{item.name}'s case study</span><strong>{item.title}</strong><span>Read the reported outcome ↗</span></a>)}</div><a class="text-link" href="/vlog">Explore the build stories ↗</a></details>
-    </section>
-
-    <LearnWithJai />
-  </main>
-  <footer class="site-footer shell"><a class="wordmark" href="/">✳ Dharmic Data</a><p>A school imagined with love.<br />Built through the work of learning.</p><div><a href="https://literature.dharmicdata.org">Civilizational Shelf ↗</a><a href="/vlog">Build stories</a><a href="/shop">Culture & objects</a><a href="mailto:jai@aplusactive.com">Say hello</a></div><span class="footer-note">Dharmic Data is an emerging school. Programs and funded places are being developed.</span></footer>
-</body>
-</html>
+<TemplateLayout title="Dharmic Data | Great teachers. A future we share." description="A good teacher can change a life. A great teacher can change a civilization. Explore the school Jai Bhagat is building and start learning through Conscious Compute." bodyClass="dharmic-home school-home" active="home">
+<section
+          data-w-id="653b2948-49c4-c32e-b63a-70f84d615625"
+          class="section home-hero"
+        >
+          <div class="container">
+            <div
+              data-w-id="3c50132f-2a0b-16e8-9125-859e5e677ab5"
+              class="wrapper home-hero"
+            >
+              <div class="hero-contents home">
+                <div data-w-id="6f30d9f5-f993-3688-8721-13a6b94a8ccb">
+                  <p data-wf--subtitle-text--variant="base" class="subtitle">
+                    A good teacher can change the course of someone's life.
+                  </p>
+                </div><div class="div-block">
+                  <div
+                    data-w-id="606f2837-0d5c-a39e-e1b3-943c0ca7dad4"
+                    class="hero-flex"
+                  >
+                    <h1 id="hero-title" class="dharmic-primary-heading"><span class="hero-title">A great teacher</span>{" "}<span class="cta-title digital">can change the course</span>{" "}<span class="hero-title">of an entire</span>{" "}<span class="cta-title partner">civilization.</span></h1><img
+                      src="/assets/cdn/69577d21-695b7bc89eeea7bb104368a2_Frame-40.svg"
+                      loading="lazy"
+                      alt="Hero Star"
+                      class="hero-star"
+                    /><img
+                      src="/assets/cdn/69577d21-695b828603602d5c37661315_Vector.webp"
+                      loading="lazy"
+                      alt="Hero Icon"
+                      class="hero-icon left"
+                    /><img
+                      src="/assets/cdn/69577d21-695b8284add3e48c66f22636_Star-1.webp"
+                      loading="lazy"
+                      alt="Hero Icon"
+                      class="hero-icon right"
+                    />
+                  </div><p
+                    data-w-id="a2d24a18-361b-0a07-2ec0-785044013ee6"
+                    class="hero-para"
+                  >
+                    I'm Jai. I want to pay a generation to become builders, owners and stewards of their communities' AI future. Dharmic Data is the school I'm building to make that possible.
+</p>
+                </div><div data-w-id="6da00be6-c186-04e6-295a-e480e5576993">
+                  <a
+                    data-wf--primary-button--variant="black"
+                    data-w-id="5e04e5d2-a7d2-705e-d362-7d1873101255"
+                    href="/learn"
+                    class="primary-button w-variant-e28ee448-7aef-9746-10fe-f6086371a8a4 w-inline-block"
+                    ><div class="button-texts">
+                      <div class="button-text _01">Learn with Jai</div><div
+                        class="button-text _02"
+                      >
+                        Learn with Jai
+                      </div>
+                    </div></a
+                  >
+                </div>
+              </div>
+            </div>
+          </div><div
+            class="home-rive"
+            data-rive-url="/assets/cdn/69577d21-6995b79cfaa7bf474085d59c_home_page_character_1-1-.riv"
+            data-rive-state-machine="State Machine 1"
+            data-rive-artboard="Artboard"
+            data-rive-autoplay="true"
+            data-rive-is-touch-scroll-enabled="true"
+            data-rive-automatically-handle-events="true"
+            data-rive-fit="cover"
+            data-rive-alignment="center"
+            data-animation-type="rive"
+          >
+            <canvas style="height:100%;width:100%"></canvas>
+          </div>
+        </section>
+<section id="mission" class="section about template-mission">
+  <div class="container"><div class="template-mission-inner">
+    <p class="subtitle white">Dharmic Data / A school in the making</p>
+    <h2>America can build extraordinary AI and still fail to build a future <span class="sticker green">its people have a stake in.</span></h2>
+    <p>My bet is to pay people to learn with great teachers and build for their communities. Conscious Compute is how we begin.</p>
+    <a class="primary-button about-light" href="/school">Imagine the school with us ↗</a>
+  </div><div class="wrapper about template-pill-wrapper"><TemplatePills /></div></div>
+</section>
+<section id="story" class="template-founder template-wrap">
+  <div><p class="subtitle">The person making this bet</p><h2>I won an NVIDIA hackathon <span class="sticker coral">with friends.</span></h2><p>We imagined a call from your future self. A small act of care, made possible by people who knew how to build it.</p><p>The Dell Pro Max with GB10 we won expanded the work I had already begun through teaching. Now I'm using that same practice to imagine a school with other people.</p><a class="about-text-link" href="/about">Meet Jai and explore the 60-second film ↗</a></div>
+  <figure><img src="/dharmic-assets/jai-portrait-motion.jpg" alt="Jai Bhagat in his Dogged Pursuits conversation" width="2025" height="3600" loading="lazy"/><figcaption>Educator, engineer and the person at the whiteboard.</figcaption></figure>
+</section>
+<section id="projects" class="template-paths template-wrap">
+  <p class="subtitle">Where would you like to begin?</p><div class="template-path-grid">
+    <a href="/school" class="template-path green"><span>01 / The school</span><h2>Imagine what<br/>we could become.</h2><p>Meet Conscious Compute, the paid-learning idea and the teachers who could carry it forward.</p><strong>Explore the school ↗</strong></a>
+    <a href="/learn" class="template-path yellow"><span>02 / Learn with Jai</span><h2>Bring a question.<br/>Make something.</h2><p>Join a Maven Lightning Lesson or get the free film field notes and try the worksheet.</p><strong>Find your next lesson ↗</strong></a>
+    <a href="/vlog" class="template-path coral"><span>03 / Work in public</span><h2>See the work.<br/>Question the result.</h2><p>Inspect build stories and the choices behind them. Follow the people already learning with Jai.</p><strong>Explore the build stories ↗</strong></a>
+  </div><a class="about-text-link" href="/learn#proof">Nine learner accounts and four published case studies ↗</a><br/><a class="about-text-link" href="https://shakti.dharmicdata.org">Try the Shakti demo ↗</a>
+</section>
+</TemplateLayout>

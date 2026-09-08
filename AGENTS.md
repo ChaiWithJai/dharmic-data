@@ -8,6 +8,8 @@ Read `GOAL.md` and `docs/teacher-school-website.md` before continuing this websi
 
 The working film is available only in the local review server. Do not copy it into `public`, commit it, or set a public film URL until the release status is resolved. The production site uses an original poster in the meantime.
 
+Preserve the original visual template. Jai explicitly rejected replacing it with a new editorial design. Use the existing Webflow bundle, Fredoka/Inter type, bright sticker and pill treatments, illustrated characters and Rive animations. Spread richer content across pages. A request to change the story does not imply a request to replace the visual identity.
+
 The school and teaching promise lead the website. The film supports the founder story. Preserve the existing shop, vlog, learner accounts and published case studies when changing the homepage.
 
 Maven owns enrollment and the resource signup and delivery flow. Do not add an inactive email form or claim that an email was delivered without testing it. Do not send a broadcast to subscribers as part of a website update.

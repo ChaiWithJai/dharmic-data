@@ -1,0 +1,123 @@
+---
+import { testimonials, cases } from '../data/evidence';
+---
+<details class="evidence-archive" id="evidence-archive">
+  <summary>Explore nine learner stories and four case studies</summary>
+  <p class="evidence-context">This is the teaching work the school grows from. These are accounts from Jai's existing learners, not results from the proposed paid cohorts.</p>
+<section
+          id="proof-stories"
+          aria-labelledby="proof-heading"
+          class="section faq"
+        >
+          <div class="container">
+            <div class="wrapper faq">
+              <div class="solutions-top faq">
+                <h2 id="proof-heading" class="cta-1 _01">
+                  <span class="solutions-text">Hear From</span><span
+                    class="solutions-text digital">People Like You</span>
+                </h2><p class="solution-para faq">
+                  These nine video reviews come from Jai's teaching with QEDC in
+                  Queens. Each person brought different work, but they all
+                  needed a first step they could use.
+                </p>
+              </div><div
+                class="dharmic-testimonial-rail"
+                aria-label="Video reviews"
+              >
+                {
+                  testimonials.map((item) => (
+                    <a
+                      class="dharmic-testimonial-card"
+                      href={item.video}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span class="dharmic-testimonial-image">
+                        <img
+                          src={item.image}
+                          loading="lazy"
+                          width="480"
+                          height="640"
+                          alt={`Video review from ${item.name}`}
+                        />
+                        <span class="dharmic-play" aria-hidden="true">
+                          ▶
+                        </span>
+                      </span>
+                      <span class="dharmic-testimonial-copy">
+                        <strong>{item.result}</strong>
+                        <span>{item.name}</span>
+                        <small>{item.role}</small>
+                      </span>
+                    </a>
+                  ))
+                }
+              </div><div class="dharmic-proof-action">
+                <p>
+                  Nine published video reviews. No names or outcomes were added
+                  for this page.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section><div class="blog-bg">
+          <section data-wf--blog-section--variant="base" class="section blogs">
+            <div class="container">
+              <div class="wrapper blogs">
+                <div class="solutions-top pricing">
+                  <div
+                    class="cta-1 _01"
+                  >
+                    <span class="solutions-text">What People</span><span
+                      class="solutions-text digital">Built Next</span
+                    >
+                  </div><p
+                    class="solution-para blogs"
+                  >
+                    These case studies show what people worked on with Jai and
+                    what they reported after the work changed.
+                  </p>
+                </div><h2
+                  class="related-blogs"
+                >
+                  Selected case studies
+                </h2><div class="dharmic-case-grid">
+                  {
+                    cases.map((item) => (
+                      <a
+                        class="dharmic-case-card"
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src={item.image}
+                          loading="lazy"
+                          width="960"
+                          height="720"
+                          alt={`${item.name} case study`}
+                        />
+                        <span class="dharmic-case-copy">
+                          <small>Participant reported</small>
+                          <strong>{item.result}</strong>
+                          <span>{item.title}</span>
+                        </span>
+                      </a>
+                    ))
+                  }
+                </div><div class="dharmic-case-links">
+                  <a
+                    href="https://chaiwithjai.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    >See the original reviews and case studies</a
+                  >
+                  <a href="/vlog/how-we-built-shakti"
+                    >Read the technical build record</a
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+</details>

@@ -1,5 +1,7 @@
 # Teacher-led website
 
+The single-page visual treatment described below was superseded by Jai's template correction. Read [the multi-page template restoration](template-restoration.md) for the current layout and page ownership. The mission, Maven resource and paused-film boundaries remain.
+
 This direction supersedes the older guidance-practice and four-span hero plans in this repository. Read [parent issue #2](https://github.com/ChaiWithJai/dharmic-data/issues/2), [the opening issue #1](https://github.com/ChaiWithJai/dharmic-data/issues/1), and [the Maven issue #3](https://github.com/ChaiWithJai/dharmic-data/issues/3).
 
 ## What the visitor should understand
