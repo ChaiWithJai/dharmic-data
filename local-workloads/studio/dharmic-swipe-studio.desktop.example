@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Dharmic Swipe Studio
+Comment=Your local source library and lecture canvas
+Exec=/home/chaiwithjai/Documents/code/dharmic-data/local-workloads/studio/launch.sh
+Icon=accessories-text-editor
+Terminal=false
+Categories=Education;Office;
+StartupNotify=true

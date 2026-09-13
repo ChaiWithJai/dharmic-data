@@ -1,0 +1,13 @@
+[Unit]
+Description=Dharmic Swipe Studio api
+
+[Service]
+Type=simple
+WorkingDirectory=/home/chaiwithjai/Documents/code/dharmic-data/local-workloads/studio
+ExecStart=/home/chaiwithjai/Documents/code/ale/experiments/gb10/.tracking-venv/bin/python -m uvicorn api:app --host 127.0.0.1 --port 8781
+Environment=MLFLOW_TRACKING_URI=http://127.0.0.1:5001
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

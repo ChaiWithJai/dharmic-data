@@ -1,0 +1,122 @@
+[
+  {
+    "path": "studio/README.md",
+    "sha256": "31e3382ac13a481234a7ced1b913e8d798cce328efa4afb030908fc5f9a9eac5"
+  },
+  {
+    "path": "studio/dharmic-swipe-studio.desktop.example",
+    "sha256": "19e9fd56c2041db880e5524811b4fa47fab8455768ce11644849e5a748fb7984"
+  },
+  {
+    "path": "studio/SUCCESS-v2.md",
+    "sha256": "f3458536cbf230e99ef23939d15b8be2f257ef15be1cf1b443bf9dbcdcec60ae"
+  },
+  {
+    "path": "studio/dharmic-studio-web.service.example",
+    "sha256": "6031e4bc4b6c45976f171714f442c0eb28c4c42aa900e2583bcbf135b19b3535"
+  },
+  {
+    "path": "studio/launch.sh",
+    "sha256": "79e032e801648180a2ab60e2291d8f893fa68050be7caf1a4721c99fb110e68b"
+  },
+  {
+    "path": "studio/test_api.py",
+    "sha256": "92534a17b16f82b460e1a48fd105adf16cb558ea13da2762880c7e1d0641b53b"
+  },
+  {
+    "path": "studio/dharmic-studio-api.service.example",
+    "sha256": "2cda674de9c8d6898e7f018f3bbe04329ae92b77fd724409ad4498c49eb5c1b6"
+  },
+  {
+    "path": "studio/api.py",
+    "sha256": "e4ad104bcfafcfbaeab0772d2bb3cc64b18c2e08f7d0b836a889a90c9637c9ed"
+  },
+  {
+    "path": "studio/.gitignore",
+    "sha256": "a5e5bf8df2c5c962c7285b723d564a158aca0e77cdcd410207aec796258982da"
+  },
+  {
+    "path": "studio-web/verify-browser.mjs",
+    "sha256": "2dcbfa92a736ea999ae59c496551132634878b973a736b48194d11e4249c203b"
+  },
+  {
+    "path": "studio-web/README.md",
+    "sha256": "434047fb191f4286e86ae68601dadb1970c93078ad1c016e1add9c32123542d1"
+  },
+  {
+    "path": "studio-web/package-lock.json",
+    "sha256": "43d882c660a5762bbceed35fde54d5f32dd19d5a0168f6f1faa26b7ec754505b"
+  },
+  {
+    "path": "studio-web/tsconfig.json",
+    "sha256": "fec29a62bcd3bdad932d6f899b48c588440c4b30b5f224390b2099274c764aa0"
+  },
+  {
+    "path": "studio-web/verify-real.mjs",
+    "sha256": "0809b0eff2eee87450bcd34a312ce14dd7c0ea91d5d55a7eaaf9dd05e43efe5f"
+  },
+  {
+    "path": "studio-web/package.json",
+    "sha256": "e9f1219396130bd19d3a54523263c571353691663b8f8f42f83aca0ff216a4be"
+  },
+  {
+    "path": "studio-web/vite.config.ts",
+    "sha256": "f3bba07647db400fa8dd6b90456272f197382489a0f2ffb75ab5988409c91767"
+  },
+  {
+    "path": "studio-web/.gitignore",
+    "sha256": "7996b3d8e75bb9344c788deb5ab0c26ebdb5872fe0fc518f23aaf1b9b234988e"
+  },
+  {
+    "path": "studio-web/index.html",
+    "sha256": "6a8f35890f67601e34b5e7b94599a31ca807fbb1bd5d33cdf93760a03e6781de"
+  },
+  {
+    "path": "studio-web/src/main.tsx",
+    "sha256": "66b13a05278f63bed198dea75bb54b40da58be51ddd3b04e412d91ce464e6555"
+  },
+  {
+    "path": "studio-web/src/api.ts",
+    "sha256": "0e991d28e01008cdc4d857d3e399733ab9492379fb040d83df03d97c01f9768f"
+  },
+  {
+    "path": "studio-web/src/Board.tsx",
+    "sha256": "331cb5fdaa97f1242d5461e054b940482c4e14333e8da24a40d2692ea1c443ef"
+  },
+  {
+    "path": "studio-web/src/App.tsx",
+    "sha256": "45d2c8a149b5104a2d6aaa0d92f2b49870cc5d875fb9d524146b110851c6b168"
+  },
+  {
+    "path": "studio-web/src/style.css",
+    "sha256": "3c3d5bd9b68acc2d2abf854df2069771327349c11b8306d997a3fc17595b0f79"
+  },
+  {
+    "path": "pyproject.toml",
+    "sha256": "ccc8656ebcddff2b43b7c2672a8a7873217b806e179de0ff4f5bc40793e65969"
+  },
+  {
+    "path": "uv.lock",
+    "sha256": "29b10886d0c04f9ec2b6b9acc31885103cfefd6767ceed1e1cab0e265b04a24d"
+  },
+  {
+    "path": "research/recipient-cards.json",
+    "sha256": "2d7971167383e9ea532f236353f13d97f7c55c3db6075a1f754b5e924f39c491"
+  },
+  {
+    "path": "research/recipients.json",
+    "sha256": "a49ea8584aac6b907017c55ae3ece09e8e045ed59c5fc6347c717d05c068f9d9"
+  },
+  {
+    "path": "research/recipients.csv",
+    "sha256": "9de160a2bd8b4020d2122aa03e5b2c7a3dc3657b28943609be61eb0d37a30efe"
+  },
+  {
+    "path": "research/recipient-study.md",
+    "sha256": "fd109c7a199547c6444a4234f8f75516d9a9514b5582edfe418041e161550eb3"
+  },
+  {
+    "path": "research/sources.json",
+    "sha256": "f192770fe909280c25bad51692356f9b108ad1f89d2131e673c4a8de897b0c17"
+  }
+]

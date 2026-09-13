@@ -1,0 +1,13 @@
+# Dharmic Studio frontend
+
+Local single-user React/Vite workspace with the real tldraw SDK. Run `npm ci`, then `npm run dev`; open http://127.0.0.1:8780. `/api` proxies to the local Python service at port 8781. `npm run build` checks TypeScript and produces a build artifact.
+
+Capture, edit, search and remove your own source cards. Select cards for an optional Bonsai request; its suggestion appears separately, with an explicit append-to-note control. Applying a suggestion preserves the source quotation and uses the card revision captured when the request began. Canvas cards are editable copies with source-card ID/revision metadata. Editing a canvas copy does not rewrite the library source. Board saves serialize optimistic revisions; a conflict pauses saving and offers a download before reloading.
+
+Recent suggestions reopen durable backend jobs and recover after reload without making another model request. Changed source-card revisions prevent applying an old suggestion automatically. Useful/Not useful feedback is an explicit, separate action that the backend attaches to MLflow; keeping text in a note does not imply usefulness approval. Grant research is imported through an optional merge button and remains labeled as research, separate from personal source captures.
+
+Export downloads the saved cards and board together; restore explicitly replaces the workspace through the backend, which retains a pre-restore backup. The local app works manually when inference is unavailable. No invented personal notes are seeded.
+
+The tldraw 5.4.2 SDK is used in local development mode with its own attribution intact. Production distribution requires the appropriate tldraw license. This repository does not claim a production license. Official guidance: https://tldraw.dev/quick-start, https://tldraw.dev/sdk-features/persistence, https://tldraw.dev/community/license. Assets are imported from the locally installed matching assets package rather than the tldraw CDN; no demo synchronization service is used.
+
+Verification: `node verify-browser.mjs` exercises the frontend against in-memory API fixtures, including explicit suggestion feedback/application, interrupted jobs, malformed tldraw backup rejection, restore, and save conflict behavior. `verify-real.mjs` is a deliberately guarded, destructive integration check for an agreed **empty** local workspace; it creates a clearly labeled fixture, exercises real canvas editing/storage/export/restore, and restores the original empty workspace. Do not run that script against real user content. Its successful run recorded no model calls or human feedback. Evidence and screenshots are under `verification/` locally.
