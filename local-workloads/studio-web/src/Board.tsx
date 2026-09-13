@@ -228,7 +228,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
       ) : null}
       <div className="canvas-body">
         {initial ? (
-          <Tldraw assetUrls={assets} onMount={mount} />
+          <Tldraw assetUrls={assets} onMount={mount} licenseKey={import.meta.env.VITE_TLDRAW_LICENSE_KEY} />
         ) : (
           <div className="canvas-loading">
             {error
