@@ -1,5 +1,11 @@
-# Decision records
+# Decisions that produced the accepted app
 
-The accepted personal source is preserved on `studio/personal-v1`. The collaboration edition starts from this point on `studio/imagine-together`.
+Read [product memory](../PRODUCT-MEMORY.md) for Jai’s explicit feedback. These are retrospective implementation decisions, distinct from the proposed collaboration architecture.
 
-Decision records distinguish decisions already implemented in the personal edition from proposed or pilot decisions for collaboration. Read [product memory](../PRODUCT-MEMORY.md) first; it preserves the user's explicit intent and feedback.
+- [Build A Workspace](001-build-a-workspace.md)
+- [Separate Sources And Suggestions](002-separate-sources-and-suggestions.md)
+- [Use A Real Canvas](003-use-a-real-canvas.md)
+- [Observe Execution And Human Judgment](004-observe-execution-and-human-judgment.md)
+- [Preserve Before Expanding](005-preserve-before-expanding.md)
+
+The [collaboration architecture](../collaboration/README.md) describes the next edition and its production gates.
