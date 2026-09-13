@@ -67,7 +67,8 @@ function Board({ user, workspace }) {
   const [editor, setEditor] = useState(null),
     [proposals, setProposals] = useState([]),
     [error, setError] = useState(""),
-    [text, setText] = useState("");
+    [text, setText] = useState(""),
+    [buzz, setBuzz] = useState("not_connected");
   const users = useMemo(() => {
     const current = atom("authenticated user", {
       id: "user:" + user.id,
@@ -107,9 +108,9 @@ function Board({ user, workspace }) {
   });
   async function refresh() {
     try {
-      setProposals(
-        (await request(`rooms/${workspace.id}/proposals`)).proposals,
-      );
+      const result = await request(`rooms/${workspace.id}/proposals`);
+      setProposals(result.proposals);
+      setBuzz(result.buzz || "not_connected");
     } catch (e) {
       setError(e.message);
     }
@@ -140,8 +141,10 @@ function Board({ user, workspace }) {
         </span>
       </header>
       <div className="notice">
-        Separate live board · Existing sources and canvas are preserved · Buzz
-        is not connected yet
+        Separate live board · Existing sources and canvas are preserved ·{" "}
+        {buzz === "connected"
+          ? "Buzz proposal connection active"
+          : "Buzz proposal connection unavailable for this workspace"}
       </div>
       {editor && <Presence editor={editor} />}
       <main>
@@ -218,8 +221,8 @@ function Board({ user, workspace }) {
             </article>
           ))}
           <p>
-            Comments and mentions will use Buzz once its server connection is
-            qualified. These proposal records remain local.
+            Buzz can request a proposed note in its bound channel. Pinned
+            comments and two-way conversation are not enabled in this proof.
           </p>
           <a href="https://maven.com/a-plus" target="_blank" rel="noreferrer">
             Imagine together in Jai’s workshops
@@ -238,6 +241,14 @@ function App() {
       .then(setSession)
       .catch(() => {});
   }, []);
+  useEffect(() => {
+    const requested = new URLSearchParams(location.search).get("workspace");
+    if (session && requested) {
+      const found = session.workspaces.find((w) => w.id === requested);
+      if (found) setWorkspace(found);
+      else setError("You do not have access to the linked workspace.");
+    }
+  }, [session]);
   if (session && workspace)
     return <Board user={session.user} workspace={workspace} />;
   return (

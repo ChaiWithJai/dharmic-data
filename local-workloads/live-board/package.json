@@ -13,6 +13,7 @@
     "@tldraw/assets": "5.4.2",
     "@tldraw/sync": "5.4.2",
     "@tldraw/sync-core": "5.4.2",
+    "nostr-tools": "2.25.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "tldraw": "5.4.2",

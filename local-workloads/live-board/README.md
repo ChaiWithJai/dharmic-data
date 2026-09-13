@@ -2,7 +2,7 @@
 
 Open **http://127.0.0.1:8892** on Jai's GB10. Sign in using the existing **local** Imagine Together account. Select **Shared Intelligence — Architecture & Funding** to review the first real Bonsai proposal. It remains pending for Jai; no human usefulness rating has been invented.
 
-This is a working local multiplayer proof, not a deployment of Buzz or a replacement for the existing canvas. Every existing workspace has a **separate, initially empty live board**. Existing sources, snapshots, canonical briefs and approvals remain in the original application. The hosted Netlify grants beta has not changed.
+This is a working local multiplayer proof with an isolated local Buzz relay and a bounded command adapter. It does not replace the existing canvas or connect to Jai’s existing community. Every existing workspace has a **separate, initially empty live board**. Existing sources, snapshots, canonical briefs and approvals remain in the original application. The hosted Netlify grants beta has not changed.
 
 ## What runs where
 
@@ -15,7 +15,9 @@ flowchart LR
   Agent[Local Bonsai proposal command] --> Model[Bonsai: 8001]
   Agent -->|workspace-bound token; propose only| Node
   Agent --> MLflow[Private MLflow: 5001]
-  Buzz[Future Buzz adapter] -. verified identity and channel mapping needed .-> Agent
+  Buzz[Isolated local Buzz relay: 18900] -->|signed owner command| Bridge[Durable command adapter]
+  Bridge --> Agent
+  Bridge -->|acknowledged reply with review link| Buzz
 ```
 
 The JavaScript backend manages one `TLSocketRoom` per workspace, `SQLiteSyncStorage` with `NodeSqliteWrapper`, and authenticated WebSockets. It runs on CPU; collaborators do not download model weights. Bonsai inference remains a separate process. This does not establish performance on the teammates' actual laptops or eight-node capacity.
@@ -68,7 +70,7 @@ systemctl --user restart imagine-live-board-api imagine-live-board-web
 journalctl --user -u imagine-live-board-api -n 50
 ```
 
-The installer starts user services with restrictive file creation permissions and restart-on-failure. It **does not enable boot startup, user lingering or network access**. After a reboot, start the existing auth API and both live-board services. A GB10 outage disconnects collaboration; saved documents remain on disk. Unacknowledged client edits are not guaranteed after closing or reloading an offline tab. Read the connection state before leaving; do not advertise offline-first editing.
+The installer starts user services with restrictive file creation permissions and restart-on-failure, including the Buzz adapter when its protected configuration exists. The separately namespaced Docker relay stack must be started as documented in buzz-local/README.md. It **does not enable boot startup, user lingering or network access**. After a reboot, start the existing auth API and both live-board services. A GB10 outage disconnects collaboration; saved documents remain on disk. Unacknowledged client edits are not guaranteed after closing or reloading an offline tab. Read the connection state before leaving; do not advertise offline-first editing.
 
 Live documents, proposals and metadata-only events share `data/live.sqlite3`. SQLite uses WAL and synchronous FULL. Board-record event rows are inserted by SQL triggers within document transactions. They are record-level changes, not a ready-made human-readable channel feed, and do not yet carry authenticated per-edit actor attribution. Proposal events have actor IDs. Presence is ephemeral and has no durable trajectory log.
 
@@ -76,11 +78,11 @@ Back up through SQLite's backup API while running, or stop the backend and copy 
 
 ## What Buzz still needs
 
-No Buzz service is running in the inspected user units. The actual server URL/checkout/config, community identity and deployed version remain unavailable. No channel messages or invitations have been sent.
+An isolated local Buzz relay is now running on loopback port 18900, using the pinned upstream ARM64 image. A generated test owner and a separate bot identity belong to a private test channel. Signed commands have triggered real Bonsai proposals and acknowledgments through this relay. No messages or invitations were sent to Jai’s existing community. Its connection details and real participant identities remain unavailable. See [local Buzz operation and verification](buzz-local/README.md).
 
-The next adapter must authenticate Buzz events, map community/channel to exactly one workspace and author to a permitted app principal, deduplicate by upstream event ID, and send bounded instructions to the proposal command. It must publish an acknowledgment and deep link, relay review decisions with the real human actor, and test reconnect/replay. A dedicated scoped bot principal is preferable to the local operator sponsor used for this proof.
+The implemented adapter verifies event signatures, binds one relay/channel/owner to a sponsor-scoped workspace, deduplicates by event ID, calls the proposal command, and returns a signed acknowledgment and permission-checked workspace link. Real-relay authentication, command flow and restart/replay were tested. Multiple participant mappings and relaying review decisions remain future work. A dedicated scoped bot principal is preferable to the local operator sponsor used for this proof.
 
-Comments, mentions, replies, edit/delete semantics and message delivery state belong to Buzz. We disabled tldraw cursor chat and strip its message field server-side so it cannot silently create a second messaging system. The local event ledger is not a connected Buzz outbox: delivery acknowledgment, readable change batching, retries, channel ACL mapping and inbound replay checkpoints remain work to qualify against the actual Buzz protocol. [Inspected Buzz architecture](https://github.com/block/buzz/blob/4cd82f513214aad11c2b742ce7cc7c681e8e32a0/ARCHITECTURE.md).
+Comments, mentions, replies, edit/delete semantics and message delivery state belong to Buzz. We disabled tldraw cursor chat and strip its message field server-side so it cannot silently create a second messaging system. The command adapter has a separate durable inbox and signed-reply outbox with acknowledgment and retry state. The general board-event ledger is not mirrored into Buzz yet: readable change batching, authenticated per-edit attribution, comments, and two-way review status remain future work. [Inspected Buzz architecture](https://github.com/block/buzz/blob/4cd82f513214aad11c2b742ce7cc7c681e8e32a0/ARCHITECTURE.md).
 
 ## Before remote use
 

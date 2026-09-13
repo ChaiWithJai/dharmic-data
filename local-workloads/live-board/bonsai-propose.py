@@ -27,7 +27,7 @@ mlflow.set_experiment("my-experiment")
 cache = root / "data" / ("proposal-" + hashlib.sha256((wid + args.event_id).encode()).hexdigest() + ".json")
 request_hash = hashlib.sha256(text.encode()).hexdigest()
 headers = {"Authorization": "Bearer " + os.environ["LIVE_AGENT_TOKEN"]}
-endpoint = "http://127.0.0.1:8893/agent/rooms/" + wid + "/proposals"
+endpoint = os.environ.get("LIVE_BOARD_API", "http://127.0.0.1:8893") + "/agent/rooms/" + wid + "/proposals"
 if cache.exists():
     saved = json.loads(cache.read_text())
     if saved["request_hash"] != request_hash:
@@ -40,14 +40,16 @@ if cache.exists():
 # requests is used directly; no OpenAI autolog integration or raw prompt capture is enabled.
 with mlflow.start_run(run_name="Bonsai → live whiteboard proposal") as run:
     mlflow.set_tags({"project": "imagine-together", "workload": "whiteboard_note_proposal",
-                     "human_review": "PENDING", "buzz_connection": "NOT_CONNECTED",
+                     "human_review": "PENDING", "buzz_connection": "SIGNED_EVENT_ADAPTER" if os.environ.get("BUZZ_EVENT_ID") else "NOT_CONNECTED",
+                     "initiator_kind": os.environ.get("BUZZ_IDENTITY_KIND", "LOCAL_OPERATOR"),
+                     "sponsor_actor": actor, "buzz_channel": os.environ.get("BUZZ_CHANNEL_ID", ""),
                      "trace_content": "METADATA_ONLY", "checkpoint_parent": "UNVERIFIED"})
     mlflow.log_params({"model": model, "model_endpoint": model_url, "max_tokens": 240,
                        "temperature": 0.3, "reasoning_effort": "none", "workspace_id": wid, "event_id": args.event_id})
     start = time.monotonic()
     with mlflow.start_span(name="propose_whiteboard_note", span_type="AGENT") as span:
         span.set_inputs({"workspace_id": wid, "event_id": args.event_id, "instruction_chars": len(text)})
-        mlflow.update_current_trace(metadata={"mlflow.trace.user": actor, "mlflow.trace.session": wid},
+        mlflow.update_current_trace(metadata={"mlflow.trace.user": os.environ.get("BUZZ_ACTOR_PUBKEY", actor), "mlflow.trace.session": wid},
                                     tags={"human_review": "PENDING", "content_policy": "METADATA_ONLY"})
         with mlflow.start_span(name="Bonsai local generation", span_type="CHAT_MODEL") as llm:
             llm.set_inputs({"model": model, "content_recorded": False})

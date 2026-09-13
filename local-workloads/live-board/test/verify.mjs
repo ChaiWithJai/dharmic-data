@@ -78,8 +78,10 @@ try {
     const page = await context.newPage();
     pages.push(page);
     page.on("pageerror", (e) => errors.push(String(e)));
-    await page.goto("http://127.0.0.1:8892");
-    await page
+    await page.goto(
+      "http://127.0.0.1:8892" + (i === 0 ? "?workspace=" + wid : ""),
+    );
+    if (i !== 0) await page
       .getByRole("button", {
         name: new RegExp("Live board verification fixture"),
       })

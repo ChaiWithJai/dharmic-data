@@ -1,0 +1,4 @@
+.env
+identity.json
+*.log
+bridge.json

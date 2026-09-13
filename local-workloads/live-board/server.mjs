@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { DatabaseSync } from "node:sqlite";
-import { mkdirSync, chmodSync } from "node:fs";
+import { mkdirSync, chmodSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createHash, randomUUID, timingSafeEqual } from "node:crypto";
 import { WebSocketServer } from "ws";
@@ -31,6 +31,19 @@ const rooms = new Map(),
   decisionsInFlight = new Set();
 const loginAttempts = new Map();
 const schema = createTLSchema();
+function buzzState(wid) {
+  try {
+    const s = JSON.parse(
+      readFileSync(resolve(DIR, "buzz-bridge/status.json"), "utf8"),
+    );
+    if (wid && s.workspace !== wid) return "not_bound";
+    return s.connected && Date.now() - s.updated < 10000
+      ? "connected"
+      : "not_connected";
+  } catch {
+    return "not_connected";
+  }
+}
 function fail(status, message) {
   throw Object.assign(new Error(message), { status });
 }
@@ -226,7 +239,7 @@ const server = createServer(async (req, res) => {
       return json(res, 200, {
         status: "ok",
         storage: "SQLite",
-        buzz: "not_connected",
+        buzz: buzzState(),
         board: "separate_live_board",
       });
     const isAgent = url.pathname.startsWith("/agent/");
@@ -303,10 +316,11 @@ const server = createServer(async (req, res) => {
             "SELECT * FROM events WHERE workspace=? ORDER BY created DESC LIMIT 100",
           )
           .all(wid),
-        buzz: "not_connected",
+        buzz: buzzState(wid),
       });
     if (action === "proposals" && req.method === "GET")
       return json(res, 200, {
+        buzz: buzzState(wid),
         proposals: db
           .prepare(
             "SELECT * FROM proposals WHERE workspace=? ORDER BY created DESC LIMIT 50",
@@ -360,7 +374,7 @@ const server = createServer(async (req, res) => {
         id: key,
         state: "pending",
         applied: false,
-        buzz: "not_connected",
+        buzz: buzzState(wid),
       });
     }
     if (action === "proposals" && req.method === "POST" && pid) {

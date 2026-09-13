@@ -12,6 +12,8 @@ commands={
 'imagine-live-board-api':f'{node} --env-file={root}/.env {root}/server.mjs',
 'imagine-live-board-web':f'{node} {root}/node_modules/vite/bin/vite.js --host 127.0.0.1 --port 8892 --strictPort',
 }
+if (root/'buzz-local/bridge.json').exists():
+    commands['imagine-live-board-buzz']=f'{node} {root}/buzz-bridge.mjs'
 for name,command in commands.items():
     (units/(name+'.service')).write_text(f'''[Unit]
 Description=Imagine Together local live board {name.rsplit('-',1)[-1]}
