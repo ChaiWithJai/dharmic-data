@@ -1,0 +1,26 @@
+{
+  "name": "imagine-together-live-board",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "server": "node server.mjs",
+    "dev": "vite --host 127.0.0.1 --port 8892 --strictPort",
+    "build": "vite build",
+    "test": "node --test test/*.test.mjs",
+    "verify": "node test/verify.mjs && npm test"
+  },
+  "dependencies": {
+    "@tldraw/assets": "5.4.2",
+    "@tldraw/sync": "5.4.2",
+    "@tldraw/sync-core": "5.4.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tldraw": "5.4.2",
+    "ws": "8.21.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "5.0.0",
+    "playwright": "1.61.1",
+    "vite": "7.3.6"
+  }
+}
