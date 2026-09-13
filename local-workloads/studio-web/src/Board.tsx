@@ -20,6 +20,7 @@ import type { Card } from "./api";
 import "tldraw/tldraw.css";
 
 const assets = getAssetUrlsByImport();
+const canvasAvailable = import.meta.env.DEV || Boolean(import.meta.env.VITE_TLDRAW_LICENSE_KEY);
 export interface BoardHandle {
   addCard: (card: Card) => void;
   flush: () => Promise<void>;
@@ -47,7 +48,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
         if (active) {
           revision.current = value.revision;
           setInitial(value);
-          setStatus("Saved locally");
+          setStatus("Saved to workspace");
         }
       })
       .catch((e) => {
@@ -76,7 +77,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
             body: JSON.stringify({ snapshot, revision: revision.current }),
           });
           revision.current = result.revision;
-          setStatus(pending.current ? "Saving…" : "Saved locally");
+          setStatus(pending.current ? "Saving…" : "Saved to workspace");
         } catch (e) {
           pending.current = pending.current || snapshot;
           blocked.current = true;
@@ -103,6 +104,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
       flush,
       addCard(card) {
         if (readOnly) return;
+        if (!canvasAvailable) { onMessage("Your source is saved. Open Alignment & decisions to cite it in your grant brief. The visual canvas is available in Jai’s local app."); return; }
         const ed = editor.current;
         if (!ed) {
           onMessage("The canvas is still opening.");
@@ -213,7 +215,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
       <div className="canvas-heading">
         <div>
           <span className="eyebrow">MAKE ROOM FOR CONNECTIONS</span>
-          <h2>Our thinking canvas</h2>
+          <h2>{canvasAvailable ? "Our thinking canvas" : "Build a grant brief together"}</h2>
         </div>
         <span className={"save-state " + (error ? "danger" : "")} role="status">
           {status}
@@ -227,7 +229,15 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
         </div>
       ) : null}
       <div className="canvas-body">
-        {initial ? (
+        {!canvasAvailable ? (
+          <div style={{padding: "2.5rem", maxWidth: "48rem", lineHeight: 1.7}}>
+            <h3>Start with what you want to make possible.</h3>
+            <p>Capture the grant requirements and the words that matter in your source library. Keep quotations separate from your unfinished thoughts.</p>
+            <ol><li>Bring a real grant opportunity and its source link.</li><li>Invite one collaborator from People & workspaces.</li><li>Open Alignment & decisions to draft your purpose, evidence and next step.</li><li>Ask each required reviewer to approve the exact revision—or preserve what still needs work.</li></ol>
+            <p>Select sources and use Ask Bonsai for optional suggestions. Your team decides what to keep.</p>
+            <p>This first web beta supports sources and reviewed briefs. The visual canvas remains available in Jai’s local app.</p>
+          </div>
+        ) : initial ? (
           <Tldraw assetUrls={assets} onMount={mount} licenseKey={import.meta.env.VITE_TLDRAW_LICENSE_KEY} />
         ) : (
           <div className="canvas-loading">
@@ -238,8 +248,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
         )}
       </div>
       <div className="canvas-foot">
-        Drag to arrange · Scroll to zoom · Double-click to edit · Your canvas
-        saves to this workspace. Refresh to see collaborators’ changes.
+        {canvasAvailable ? "Drag to arrange · Scroll to zoom · Double-click to edit · Refresh to see collaborators’ changes." : "Private work · Explicit reviews · Your sources and decisions stay connected"}
       </div>
     </section>
   );

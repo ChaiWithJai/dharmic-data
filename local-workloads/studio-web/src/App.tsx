@@ -387,7 +387,7 @@ export default function App() {
         </a>
         <div className="top-actions">
           <span className="local-badge">
-            <i /> Local collaboration pilot
+            <i /> Private grants beta
           </span>
           <button className="quiet" onClick={exportAll}>
             Export backup
@@ -428,7 +428,7 @@ export default function App() {
           aria-current={tab === "canvas" ? "page" : undefined}
           onClick={() => void changeTab("canvas")}
         >
-          Canvas & sources
+          Sources & workspace
         </button>
         <button
           aria-current={tab === "alignment" ? "page" : undefined}
@@ -579,9 +579,9 @@ export default function App() {
                   <div className="card-actions">
                     <button
                       disabled={!canWrite}
-                      onClick={() => board.current?.addCard(card)}
+                      onClick={() => (import.meta.env.DEV || import.meta.env.VITE_TLDRAW_LICENSE_KEY) ? board.current?.addCard(card) : void changeTab("alignment")}
                     >
-                      ＋ Add to canvas
+                      {(import.meta.env.DEV || import.meta.env.VITE_TLDRAW_LICENSE_KEY) ? "＋ Add to canvas" : "Open grant brief"}
                     </button>
                     <button className="quiet" onClick={() => setEdit(card)}>
                       {canWrite ? "Edit" : "Read"}

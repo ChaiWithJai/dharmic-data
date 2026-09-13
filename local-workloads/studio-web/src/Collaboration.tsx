@@ -135,6 +135,7 @@ function AccountForm({
   const [register, setRegister] = useState(false),
     [name, setName] = useState(""),
     [password, setPassword] = useState(""),
+    [invitation, setInvitation] = useState(""),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   async function submit(e: FormEvent) {
@@ -144,7 +145,7 @@ function AccountForm({
     try {
       await api(register ? "/register" : "/login", {
         method: "POST",
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ name, password, invitation }),
       });
       await onAuthenticated();
     } catch (e) {
@@ -165,7 +166,7 @@ function AccountForm({
         together.
       </p>
       <form className="account-form" onSubmit={submit}>
-        <h2>{register ? "Create your local account" : "Welcome back"}</h2>
+        <h2>{register ? "Create your beta account" : "Welcome back"}</h2>
         <label>
           Name
           <input
@@ -192,6 +193,7 @@ function AccountForm({
             {error}
           </p>
         ) : null}
+        {register ? <label>Beta invitation<input value={invitation} onChange={e => setInvitation(e.target.value)} autoComplete="off" required /></label> : null}
         <button className="primary" disabled={busy}>
           {busy ? "Opening…" : register ? "Create account" : "Sign in"}
         </button>
@@ -205,11 +207,11 @@ function AccountForm({
         >
           {register
             ? "Already have an account? Sign in"
-            : "New here? Create a local account"}
+            : "Have an invitation? Create an account"}
         </button>
       </form>
       <p className="pilot-caption">
-        Local collaboration pilot. Accounts and workspaces live on this machine.
+        Private grants beta. Your work is stored on Jai’s GB10 and is available while it is online. New accounts require an invitation.
       </p>
       <MavenLink />
     </main>

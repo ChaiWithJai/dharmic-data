@@ -4,3 +4,6 @@ dist/
 verification/
 
 netlify.beta.toml
+
+node_modules
+.netlify/

@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select, insert, update, delete, and_, func
 from sqlalchemy.exc import IntegrityError
 from db import *
+import beta
 
 app = FastAPI(title="Imagine Together — grant collaboration pilot")
 ORIGINS = set(
@@ -19,11 +20,12 @@ ORIGINS = set(
 )
 COOKIE = "imagine_session"
 SECURE = os.environ.get("STUDIO_COOKIE_SECURE", "false").lower() == "true"
-# Deliberate pilot gate: this process is not an audited public SaaS service.
-if os.environ.get("STUDIO_ENV", "local") != "local":
-    raise RuntimeError(
-        "Public deployment is gated on docs/studio/PRODUCTION-GATES.md. Run this pilot locally."
-    )
+if os.environ.get("STUDIO_ENV", "local") not in ("local", "private-beta"):
+    raise RuntimeError("Unknown application environment")
+if beta.ENABLED:
+    COOKIE = "__Host-imagine_session"
+    SECURE = True
+_auth_attempts = {}
 
 
 def uid():
@@ -150,13 +152,25 @@ def card_row(ctx, cid):
 
 @app.middleware("http")
 async def protect(request: Request, call_next):
-    if request.url.hostname not in ["127.0.0.1", "localhost", "testserver"]:
+    if beta.ENABLED:
+        if not hmac.compare_digest(request.headers.get("authorization", ""), "Bearer " + beta.TOKEN):
+            return JSONResponse({"detail": "Gateway authentication required."}, status_code=403)
+        if request.url.path in ["/api/register", "/api/login"]:
+            key = request.headers.get("x-studio-client-ip", "unknown")
+            now = time.time()
+            recent = [x for x in _auth_attempts.get(key, []) if x > now - 900]
+            if len(recent) >= 20:
+                return JSONResponse({"detail": "Too many sign-in attempts. Try again in 15 minutes."}, status_code=429)
+            if len(_auth_attempts) > 10000:
+                _auth_attempts.clear()
+            _auth_attempts[key] = recent + [now]
+    elif request.url.hostname not in ["127.0.0.1", "localhost", "testserver"]:
         return JSONResponse(
             {"detail": "This pilot is restricted to localhost."}, status_code=403
         )
     if request.method not in ["GET", "HEAD", "OPTIONS"]:
         origin = request.headers.get("origin")
-        if origin and origin not in ORIGINS:
+        if (beta.ENABLED and origin not in ORIGINS) or (origin and origin not in ORIGINS):
             return JSONResponse(
                 {"detail": "Unrecognized request origin."}, status_code=403
             )
@@ -170,10 +184,14 @@ async def protect(request: Request, call_next):
             return JSONResponse(
                 {"detail": "This request exceeds15 MB."}, status_code=413
             )
-    return await call_next(request)
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "private, no-store"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    return response
 
 
 class Credentials(BaseModel):
+    invitation: str = Field(default="", max_length=200)
     name: str = Field(min_length=3, max_length=60, pattern=r"^[A-Za-z0-9_. -]+$")
     password: str = Field(min_length=12, max_length=256)
 
@@ -264,7 +282,7 @@ def set_session(conn, user_id, response):
 def health():
     return {
         "status": "ok",
-        "edition": "local collaboration pilot",
+        "edition": "private grants beta" if beta.ENABLED else "local collaboration pilot",
         "database": "postgresql" if engine.dialect.name == "postgresql" else "sqlite",
         "maven_url": "https://maven.com/a-plus",
     }
@@ -295,8 +313,10 @@ def register(body: Credentials, response: Response):
                     password_hash=password_hash(body.password),
                 )
             )
+            if beta.ENABLED:
+                beta.enroll(conn, body.invitation, user_id)
             set_session(conn, user_id, response)
-            return {"user": {"id": user_id, "name": name.lower()}, "workspaces": []}
+            return {"user": {"id": user_id, "name": name.lower()}, "workspaces": workspace_list(conn, user_id)}
     except IntegrityError:
         raise HTTPException(409, "That account name is unavailable.")
 
@@ -388,6 +408,8 @@ def invite(wid: str, body: InviteIn, ctx=Depends(context)):
     token = secrets.token_urlsafe(32)
     expiry = time.time() + 86400 * 7
     invite_id = uid()
+    if beta.ENABLED:
+        beta.reserve_guest(ctx, invite_id, expiry)
     ctx["db"].execute(
         insert(invites).values(
             id=invite_id,
@@ -409,6 +431,8 @@ def revoke_invite(wid: str, invite_id: str, ctx=Depends(context)):
     ctx["db"].execute(
         delete(invites).where(scope(invites, ctx), invites.c.id == invite_id)
     )
+    if beta.ENABLED:
+        ctx["db"].execute(delete(beta.slots).where(beta.slots.c.invite_id == invite_id, beta.slots.c.used_by.is_(None)))
     event_log(ctx, "invite_revoked", {"id": invite_id})
     return {"revoked": True}
 
@@ -443,6 +467,8 @@ def redeem(body: RedeemIn, request: Request):
         conn.execute(
             update(invites).where(invites.c.id == row["id"]).values(used_by=user["id"])
         )
+        if beta.ENABLED:
+            conn.execute(update(beta.slots).where(beta.slots.c.invite_id == row["id"]).values(used_by=user["id"]))
         ws = (
             conn.execute(
                 select(workspaces).where(workspaces.c.id == row["workspace_id"])
