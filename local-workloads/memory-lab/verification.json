@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-13",
+  "hardware": "GB10 ARM64",
+  "mongodb_version": "8.0.30",
+  "store_package": "0.4.0",
+  "write_read_filter_delete": "PASS",
+  "container_restart_persistence": "PASS",
+  "other_namespace_empty": "PASS_STORAGE_ONLY_NOT_AUTHORIZATION",
+  "unauthenticated_read_denied": true,
+  "app_user_admin_denied": true,
+  "model_called": false,
+  "app_integrated": false,
+  "vector_search_tested": false,
+  "backup_restore_tested": false,
+  "host_reboot_tested": false
+}

@@ -1,0 +1,16 @@
+services:
+  memory:
+    image: mongo@sha256:4a0f30875898413139bec44c73c02a05fed172578de65b644dcdcee143ae7306
+    container_name: imagine-memory-local
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27019:27017"
+    env_file: .env
+    command: ["mongod", "--wiredTigerCacheSizeGB", "0.25"]
+    mem_limit: 1g
+    cpus: 1
+    volumes:
+      - memory_data:/data/db
+volumes:
+  memory_data:
+    name: imagine-memory-data

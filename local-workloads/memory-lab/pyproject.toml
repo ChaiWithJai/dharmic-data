@@ -1,0 +1,5 @@
+[project]
+name = "imagine-together-memory-lab"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["langgraph-store-mongodb>=0.3,<1", "pymongo>=4.10,<5"]

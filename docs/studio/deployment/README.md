@@ -9,6 +9,7 @@ Start here:
 1. [Product, permissions and Netlify architecture](BETA-PLAN.md)
 2. [GB10/Buzz startup, backup and power-loss runbook](OPERATIONS.md)
 3. [Usage attribution and private daily report](OBSERVABILITY.md)
+4. [MongoDB memory feasibility and live-beta blockers](MEMORY-AND-LAUNCH.md)
 
 The existing personal app is preserved. This plan extends the Imagine Together collaboration branch. The current app already has named local accounts, workspace roles, sources, canvas snapshots, exact-version reviews and tracked inference. It does not yet implement beta enrollment, one-guest entitlements, community publication, interest-room discovery, shared Buzz identity, public hosting or the reports described here.
 
