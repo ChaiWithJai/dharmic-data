@@ -5,6 +5,9 @@ import { createTLStore, defaultShapeUtils, loadSnapshot } from "tldraw";
 import type { BoardHandle } from "./Board";
 import { api, safeLink } from "./api";
 import type { Card } from "./api";
+import { MavenLink, WorkspaceBar, useCollaboration } from "./Collaboration";
+import Alignment from "./Alignment";
+import { workspaceScope } from "./api";
 
 const themes = [
   "Courage",
@@ -27,6 +30,7 @@ type Job = {
   state: string;
   result?: string | { text?: string };
   trace_url?: string;
+  evidence_url?: string;
   error?: string;
   instruction?: string;
   card_ids?: string[];
@@ -34,6 +38,12 @@ type Job = {
   created_at?: string;
 };
 export default function App() {
+  const { workspace, members } = useCollaboration();
+  const canWrite = workspace.role !== "viewer",
+    canOwn = workspace.role === "owner";
+  const [tab, setTab] = useState<"canvas" | "alignment">("canvas"),
+    [alignmentVisited, setAlignmentVisited] = useState(false);
+  const jobStorageKey = "imagine-together.active-job." + workspaceScope;
   const [cards, setCards] = useState<Card[]>([]),
     [loading, setLoading] = useState(true),
     [query, setQuery] = useState(""),
@@ -83,7 +93,7 @@ export default function App() {
       setApplyTargets(fallback);
       setShowAI(true);
       try {
-        localStorage.setItem("dharmic-studio.active-job", jobId);
+        localStorage.setItem(jobStorageKey, jobId);
       } catch {}
       let first = true;
       const check = async () => {
@@ -132,7 +142,7 @@ export default function App() {
       };
       void check();
     },
-    [refreshRecent],
+    [refreshRecent, jobStorageKey],
   );
   useEffect(() => {
     let active = true;
@@ -141,7 +151,7 @@ export default function App() {
         if (!active || !jobs.length) return;
         let saved = "";
         try {
-          saved = localStorage.getItem("dharmic-studio.active-job") || "";
+          saved = localStorage.getItem(jobStorageKey) || "";
         } catch {}
         const target =
           jobs.find((j) => (j.job_id || j.id) === saved) || jobs[0];
@@ -157,7 +167,7 @@ export default function App() {
       pollGeneration.current++;
       if (poll.current) clearTimeout(poll.current);
     };
-  }, [refresh, refreshRecent, openJob]);
+  }, [refresh, refreshRecent, openJob, jobStorageKey]);
   const filtered = cards.filter(
     (card) =>
       (theme === "All" || card.theme === theme) &&
@@ -168,6 +178,39 @@ export default function App() {
   );
   const resultText =
     typeof job?.result === "string" ? job.result : job?.result?.text || "";
+  async function changeTab(next: "canvas" | "alignment") {
+    try {
+      await board.current?.flush();
+      if (next === "alignment") setAlignmentVisited(true);
+      setTab(next);
+    } catch (e) {
+      setError(String(e));
+    }
+  }
+  async function beforeLeave() {
+    if (
+      document.querySelector('[data-brief-dirty="true"]') &&
+      !confirm("Your brief has unsaved changes. Leave without saving?")
+    )
+      throw new Error("Stay on Alignment to save or copy your draft.");
+    await board.current?.flush();
+  }
+  async function downloadEvidence() {
+    try {
+      if (!job?.evidence_url?.startsWith("/api/jobs/")) return;
+      const data = await api(job.evidence_url.slice(4));
+      const url = URL.createObjectURL(
+        new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }),
+      );
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "request-evidence.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError(String(e));
+    }
+  }
   async function saveCard(draft: Draft, original?: Card) {
     const value = await api<Card>(
       original ? "/cards/" + original.id : "/cards",
@@ -252,6 +295,7 @@ export default function App() {
         body: JSON.stringify({
           ...card,
           note: [card.note, resultText].filter(Boolean).join("\n\n"),
+          applied_suggestion_id: activeJobId,
           revision: card.revision,
         }),
       });
@@ -337,18 +381,22 @@ export default function App() {
             ✳
           </span>
           <span>
-            Dharmic <strong>Studio</strong>
-            <small>A place for your unfinished thoughts</small>
+            Imagine <strong>together</strong>
+            <small>A shared place for unfinished thoughts</small>
           </span>
         </a>
         <div className="top-actions">
           <span className="local-badge">
-            <i /> On this machine
+            <i /> Local collaboration pilot
           </span>
           <button className="quiet" onClick={exportAll}>
             Export backup
           </button>
-          <button className="quiet" onClick={() => importFile.current?.click()}>
+          <button
+            className="quiet"
+            disabled={!canOwn}
+            onClick={() => importFile.current?.click()}
+          >
             Restore backup
           </button>
           <input
@@ -361,30 +409,62 @@ export default function App() {
               if (file) void importAll(file);
             }}
           />
+          <MavenLink />
           <button
             className={showAI ? "ai-toggle active" : "ai-toggle"}
             aria-expanded={showAI}
-            onClick={() => setShowAI((v) => !v)}
+            onClick={() => {
+              if (tab === "alignment") { void changeTab("canvas"); setShowAI(true); }
+              else setShowAI((v) => !v);
+            }}
           >
             ✧ Ask Bonsai
           </button>
         </div>
       </header>
-      <div className="workspace">
+      <WorkspaceBar beforeLeave={beforeLeave} />
+      <nav className="studio-tabs" aria-label="Workspace views">
+        <button
+          aria-current={tab === "canvas" ? "page" : undefined}
+          onClick={() => void changeTab("canvas")}
+        >
+          Canvas & sources
+        </button>
+        <button
+          aria-current={tab === "alignment" ? "page" : undefined}
+          onClick={() => void changeTab("alignment")}
+        >
+          Alignment & decisions
+        </button>
+        <span>
+          {workspace.name} ·{" "}
+          {workspace.role === "viewer"
+            ? "Read-only"
+            : "Your team's working space"}
+        </span>
+      </nav>
+      <div
+        className="workspace collaboration-workspace"
+        style={{ display: tab === "canvas" ? "flex" : "none" }}
+      >
         <aside className="library" id="library">
           <div className="library-head">
             <div className="eyebrow">COLLECT WHAT MOVES YOU</div>
             <div className="title-row">
-              <h1>Your swipe file</h1>
+              <h1>Our swipe file</h1>
               <span className="count">{cards.length}</span>
             </div>
             <p>Words, examples, and ideas worth returning to.</p>
-            <button className="primary new-card" onClick={() => setEdit("new")}>
+            <button
+              className="primary new-card"
+              disabled={!canWrite}
+              onClick={() => setEdit("new")}
+            >
               ＋ Capture something
             </button>
             <button
               className="research-import quiet"
-              disabled={importingResearch}
+              disabled={importingResearch || !canWrite}
               onClick={addResearch}
             >
               {importingResearch
@@ -432,6 +512,7 @@ export default function App() {
                     Capture your first card
                   </button>
                 ) : null}
+                <MavenLink />
               </div>
             ) : (
               filtered.map((card) => (
@@ -454,6 +535,7 @@ export default function App() {
                     <label className="select-card">
                       <input
                         type="checkbox"
+                        disabled={!canWrite}
                         checked={selected.includes(card.id)}
                         onChange={(e) =>
                           setSelected((old) =>
@@ -471,6 +553,15 @@ export default function App() {
                   <button className="card-title" onClick={() => setEdit(card)}>
                     {card.title}
                   </button>
+                  {card.created_by ? (
+                    <p className="card-author">
+                      Added by{" "}
+                      {members.find((m) => m.user_id === card.created_by)
+                        ?.name ||
+                        card.author_name ||
+                        card.created_by}
+                    </p>
+                  ) : null}
                   {card.quote ? <blockquote>{card.quote}</blockquote> : null}
                   {card.note ? <p className="card-note">{card.note}</p> : null}
                   {safeLink(card.source_url) ? (
@@ -486,14 +577,18 @@ export default function App() {
                     <span className="source-link">{card.source_url}</span>
                   ) : null}
                   <div className="card-actions">
-                    <button onClick={() => board.current?.addCard(card)}>
+                    <button
+                      disabled={!canWrite}
+                      onClick={() => board.current?.addCard(card)}
+                    >
                       ＋ Add to canvas
                     </button>
                     <button className="quiet" onClick={() => setEdit(card)}>
-                      Edit
+                      {canWrite ? "Edit" : "Read"}
                     </button>
                     <button
                       className="quiet delete"
+                      disabled={!canWrite}
                       aria-label={"Delete " + card.title}
                       onClick={() => remove(card)}
                     >
@@ -511,7 +606,7 @@ export default function App() {
           </div>
         </aside>
         <main className="main-canvas">
-          <Board ref={board} onMessage={notify} />
+          <Board ref={board} onMessage={notify} readOnly={!canWrite} />
         </main>
         {showAI ? (
           <aside className="ai-panel" aria-label="Bonsai suggestions">
@@ -586,7 +681,9 @@ export default function App() {
             </div>
             <button
               className="primary"
-              disabled={busy || !selected.length || !instruction.trim()}
+              disabled={
+                !canWrite || busy || !selected.length || !instruction.trim()
+              }
               onClick={ask}
             >
               {busy ? "Bonsai is thinking…" : "Make a suggestion"}
@@ -603,10 +700,10 @@ export default function App() {
               <div className="suggestion">
                 <span className="eyebrow">BONSAI SUGGESTION</span>
                 <div className="suggestion-text">{resultText}</div>
-                {job?.trace_url && safeLink(job.trace_url) ? (
-                  <a href={job.trace_url} target="_blank" rel="noreferrer">
-                    Inspect this request in MLflow ↗
-                  </a>
+                {job?.evidence_url ? (
+                  <button onClick={downloadEvidence}>
+                    Download scoped request evidence
+                  </button>
                 ) : null}
                 <h3>Did this help?</h3>
                 <label htmlFor="feedback-reason">
@@ -621,14 +718,14 @@ export default function App() {
                 />
                 <div className="feedback-buttons">
                   <button
-                    disabled={feedbackBusy}
+                    disabled={feedbackBusy || !canWrite}
                     aria-pressed={feedbackSaved === true}
                     onClick={() => feedback(true)}
                   >
                     Useful
                   </button>
                   <button
-                    disabled={feedbackBusy}
+                    disabled={feedbackBusy || !canWrite}
                     aria-pressed={feedbackSaved === false}
                     onClick={() => feedback(false)}
                   >
@@ -645,6 +742,7 @@ export default function App() {
                   <button
                     key={card.id}
                     disabled={
+                      !canWrite ||
                       !cards.some(
                         (current) =>
                           current.id === card.id &&
@@ -678,7 +776,7 @@ export default function App() {
                     setApplyTargets([]);
                     setActiveJobId("");
                     try {
-                      localStorage.removeItem("dharmic-studio.active-job");
+                      localStorage.removeItem(jobStorageKey);
                     } catch {}
                   }}
                 >
@@ -689,6 +787,11 @@ export default function App() {
           </aside>
         ) : null}
       </div>
+      {alignmentVisited ? (
+        <div hidden={tab !== "alignment"}>
+          <Alignment />
+        </div>
+      ) : null}
       <div className="announcements" aria-live="polite">
         {message ? (
           <div className="toast">
@@ -710,6 +813,7 @@ export default function App() {
           original={edit === "new" ? undefined : edit}
           onClose={() => setEdit(null)}
           onSave={saveCard}
+          readOnly={!canWrite}
         />
       ) : null}
     </>
@@ -720,8 +824,10 @@ function CardEditor({
   original,
   onClose,
   onSave,
+  readOnly = false,
 }: {
   original?: Card;
+  readOnly?: boolean;
   onClose: () => void;
   onSave: (draft: Draft, original?: Card) => Promise<void>;
 }) {
@@ -763,7 +869,9 @@ function CardEditor({
             <span className="eyebrow">YOUR WORDS. YOUR CONNECTIONS.</span>
             <h2>
               {original
-                ? "Edit source card"
+                ? readOnly
+                  ? "Read source card"
+                  : "Edit source card"
                 : "Capture something worth keeping"}
             </h2>
           </div>
@@ -781,6 +889,7 @@ function CardEditor({
           <input
             aria-label="Title"
             autoFocus
+            readOnly={readOnly}
             required
             maxLength={300}
             value={draft.title}
@@ -793,6 +902,7 @@ function CardEditor({
             Source URL or reference
             <input
               aria-label="Source URL or reference"
+              readOnly={readOnly}
               value={draft.source_url}
               onChange={(e) => field("source_url", e.target.value)}
               placeholder="https://… or book, page 42"
@@ -802,6 +912,7 @@ function CardEditor({
             Theme
             <select
               aria-label="Theme"
+              disabled={readOnly}
               value={draft.theme}
               onChange={(e) => field("theme", e.target.value)}
             >
@@ -815,6 +926,7 @@ function CardEditor({
           Original passage
           <textarea
             aria-label="Original passage"
+            readOnly={readOnly}
             rows={4}
             value={draft.quote}
             onChange={(e) => field("quote", e.target.value)}
@@ -826,9 +938,10 @@ function CardEditor({
           field.
         </p>
         <label>
-          Your note
+          Team note · human interpretation
           <textarea
-            aria-label="Your note"
+            aria-label="Team note"
+            readOnly={readOnly}
             rows={4}
             value={draft.note}
             onChange={(e) => field("note", e.target.value)}
@@ -844,7 +957,11 @@ function CardEditor({
           <button type="button" className="quiet" onClick={onClose}>
             Cancel
           </button>
-          <button type="submit" className="primary" disabled={saving}>
+          <button
+            type="submit"
+            className="primary"
+            disabled={saving || readOnly}
+          >
             {saving ? "Saving…" : "Save to swipe file"}
           </button>
         </div>

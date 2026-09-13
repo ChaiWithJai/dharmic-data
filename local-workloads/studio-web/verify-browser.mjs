@@ -27,12 +27,13 @@ let cards = [],
 page.on("pageerror", (e) => errors.push(e.message));
 page.on("request", (request) => {
   if (
-    !request.url().startsWith("http://127.0.0.1:8780") &&
+    !request.url().startsWith("http://127.0.0.1:8790") &&
     !request.url().startsWith("data:") &&
     !request.url().startsWith("blob:")
   )
     external.push(request.url());
 });
+await page.addInitScript(() => localStorage.setItem("imagine-together.workspace", "mock-workspace"));
 page.on("dialog", (dialog) => dialog.accept());
 await page.route("**/api/**", async (route) => {
   const req = route.request(),
@@ -41,7 +42,12 @@ await page.route("**/api/**", async (route) => {
     body = req.postDataJSON();
   let result = {};
   let status = 200;
-  if (path === "/cards" && method === "GET") result = { cards };
+  assert.equal(req.headers()['x-workspace-id'],'mock-workspace');
+  if(path === '/session') result={user:{id:'mock-user',name:'Mock reviewer'},workspaces:[{id:'mock-workspace',name:'Mock collaboration',role:'owner'}]};
+  else if(path === '/workspaces/mock-workspace/members') result={members:[{user_id:'mock-user',name:'Mock reviewer',role:'owner'}]};
+  else if(path === '/jobs') result={jobs:[]};
+  else if(path === '/jobs/fixture-job/evidence') result={fixture:true};
+  else if (path === "/cards" && method === "GET") result = { cards };
   else if (path === "/cards" && method === "POST") {
     const card = {
       ...body,
@@ -91,7 +97,7 @@ await page.route("**/api/**", async (route) => {
             result: {
               text: "Fixture suggestion: What small step would make this question concrete?",
             },
-            trace_url: "http://127.0.0.1:5001/#/experiments/1",
+            trace_url:null, evidence_url:"/api/jobs/fixture-job/evidence", card_revisions:Object.fromEntries(cards.map(c=>[c.id,c.revision])),
           }
         : {
             state: "interrupted",
@@ -113,8 +119,8 @@ await page.route("**/api/**", async (route) => {
   });
 });
 try {
-  await page.goto("http://127.0.0.1:8780");
-  await page.getByText("Your thinking canvas", { exact: true }).waitFor();
+  await page.goto("http://127.0.0.1:8790");
+  await page.getByText("Our thinking canvas", { exact: true }).waitFor();
   await page.locator(".tl-canvas").waitFor();
   await page
     .getByRole("button", { name: "Add 30 grant examples", exact: false })
@@ -157,7 +163,7 @@ try {
     .getByLabel("Original passage")
     .fill("This is a clearly labeled browser verification fixture.");
   await page
-    .getByLabel("Your note", { exact: true })
+    .getByLabel("Team note", { exact: true })
     .fill("My fixture note stays separate from the quotation.");
   await page.getByLabel("Theme", { exact: true }).selectOption("Courage");
   await page
@@ -206,9 +212,13 @@ try {
   await page.getByRole("button", { name: "Not useful", exact: true }).click();
   await page.getByText("Feedback saved to this request’s trace.").waitFor();
   assert.equal(feedbackRecords[0].value, false);
+  const evidenceDownload=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Download scoped request evidence'}).click();
+  await (await evidenceDownload).saveAs('verification/scoped-mock-evidence.json');
   await page.getByRole("button", { name: "Append to", exact: false }).click();
   await page.waitForTimeout(200);
   assert.ok(cards[0].note.includes("Fixture suggestion"));
+  assert.equal(cards[0].applied_suggestion_id,"fixture-job");
   assert.equal(
     cards[0].quote,
     "This is a clearly labeled browser verification fixture.",
@@ -247,7 +257,7 @@ try {
   );
   await page.getByRole("button", { name: "Edit", exact: true }).click();
   await page
-    .getByLabel("Your note", { exact: true })
+    .getByLabel("Team note", { exact: true })
     .fill("An explicit manual edit.");
   await page.getByRole("button", { name: "Save to swipe file" }).click();
   assert.equal(
@@ -301,7 +311,10 @@ try {
         status: "PASS",
         scope: "mocked API browser contract; no real user cards or inference",
         checks: [
-          "empty workspace",
+          "workspace header on every API request",
+        "scoped job evidence download",
+        "explicit mocked feedback and applied suggestion provenance",
+        "empty workspace",
           "capture",
           "real tldraw note creation",
           "drag persistence",

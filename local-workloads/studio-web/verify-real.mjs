@@ -1,3 +1,4 @@
+throw new Error("Historical personal-app script is disabled in this fork. Use verify-collaboration.mjs on port 8790.");
 // Explicitly authorized local API verification. No AI request or feedback is sent.
 import { chromium } from "playwright";
 import fs from "node:fs/promises";

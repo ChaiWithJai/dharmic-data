@@ -1,12 +1,12 @@
 {
-  "name": "dharmic-local-studio",
+  "name": "dharmic-imagine-together",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 8780 --strictPort",
+    "dev": "vite --host 127.0.0.1 --port 8790 --strictPort",
     "build": "tsc -b && vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 8780 --strictPort"
+    "preview": "vite preview --host 127.0.0.1 --port 8790 --strictPort"
   },
   "dependencies": {
     "@tldraw/assets": "5.4.2",

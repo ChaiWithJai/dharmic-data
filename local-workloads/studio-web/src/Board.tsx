@@ -25,7 +25,7 @@ export interface BoardHandle {
   flush: () => Promise<void>;
 }
 export default forwardRef<BoardHandle, functionProps>(function Board(
-  { onMessage },
+  { onMessage, readOnly = false },
   ref,
 ) {
   const editor = useRef<Editor | null>(null),
@@ -102,6 +102,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
     () => ({
       flush,
       addCard(card) {
+        if (readOnly) return;
         const ed = editor.current;
         if (!ed) {
           onMessage("The canvas is still opening.");
@@ -142,7 +143,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
         );
       },
     }),
-    [flush, onMessage],
+    [flush, onMessage, readOnly],
   );
   useEffect(() => {
     const before = (event: BeforeUnloadEvent) => {
@@ -162,6 +163,11 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
       editor.current = ed;
       if (initial?.snapshot)
         loadSnapshot(ed.store, { document: initial.snapshot });
+      ed.updateInstanceState({ isReadonly: readOnly });
+      if (readOnly)
+        return () => {
+          editor.current = null;
+        };
       const stop = ed.store.listen(
         () => {
           pending.current = getSnapshot(ed.store).document;
@@ -178,7 +184,7 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
         editor.current = null;
       };
     },
-    [initial, flush],
+    [initial, flush, readOnly],
   );
   function downloadBoard() {
     if (!editor.current) return;
@@ -203,11 +209,11 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
     URL.revokeObjectURL(url);
   }
   return (
-    <section className="board-section" aria-label="Freeform lecture canvas">
+    <section className="board-section" aria-label="Shared working canvas">
       <div className="canvas-heading">
         <div>
           <span className="eyebrow">MAKE ROOM FOR CONNECTIONS</span>
-          <h2>Your thinking canvas</h2>
+          <h2>Our thinking canvas</h2>
         </div>
         <span className={"save-state " + (error ? "danger" : "")} role="status">
           {status}
@@ -233,11 +239,12 @@ export default forwardRef<BoardHandle, functionProps>(function Board(
       </div>
       <div className="canvas-foot">
         Drag to arrange · Scroll to zoom · Double-click to edit · Your canvas
-        saves on this machine
+        saves to this workspace. Refresh to see collaborators’ changes.
       </div>
     </section>
   );
 });
 interface functionProps {
   onMessage: (message: string) => void;
+  readOnly?: boolean;
 }
