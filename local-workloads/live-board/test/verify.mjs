@@ -108,6 +108,26 @@ try {
   await pages[0].waitForFunction(
     () => window.__liveEditor.getCollaborators().length >= 2,
   );
+  await pages[0].evaluate(() =>
+    window.__liveEditor.setCamera({ x: 10, y: 30, z: 1.2 }),
+  );
+  await pages[0].mouse.move(500, 400);
+  const point = await pages[0].evaluate(() =>
+    window.__liveEditor.screenToPage({ x: 500, y: 400 }),
+  );
+  await pages[1].waitForFunction(
+    ({ point, id }) => {
+      const p = window.__liveEditor
+        .getCollaborators()
+        .find((p) => p.userId === "user:" + id);
+      return (
+        p?.cursor &&
+        Math.abs(p.cursor.x - point.x) < 1 &&
+        Math.abs(p.cursor.y - point.y) < 1
+      );
+    },
+    { point, id: accounts[0].data.user.id },
+  );
   // Hidden-tab presence is explicitly idle; then restore activity.
   await pages[1].evaluate(() => {
     Object.defineProperty(document, "hidden", {
@@ -187,7 +207,7 @@ try {
     status: "passed",
     checks: [
       "two-account concurrent edits converge",
-      "three-account presence and hidden-tab idle",
+      "three-account presence, cursor coordinates under zoom/pan, hidden-tab idle",
       "proposal accepted and synchronized",
       "viewer cannot bypass read-only UI",
       "network reconnect retains document",
